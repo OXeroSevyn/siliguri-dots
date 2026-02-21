@@ -531,6 +531,195 @@
         </div>
     </div>
 
+    <!-- Subscription Modal -->
+    <div id="subscriptionModal" class="hidden fixed inset-0 z-[110] overflow-y-auto" aria-labelledby="modal-title"
+        role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
+                onclick="closeSubscriptionModal()"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div
+                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-5xl w-full border-2 border-brandYellow relative">
+                <div class="absolute top-0 left-0 w-full h-2 bg-brandYellow"></div>
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-8">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-3xl leading-6 font-serif font-bold text-gray-900" id="sub-modal-title">Upgrade
+                            Your Experience</h3>
+                        <button onclick="closeSubscriptionModal()" class="text-gray-400 hover:text-gray-500">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <p class="text-gray-500 mb-8" id="sub-modal-desc">Choose the plan that fits your needs.</p>
+
+                    <!-- Publisher Pricing -->
+                    <div id="publisherPricing" class="hidden grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Basic -->
+                        <div class="border border-gray-200 rounded-xl p-8 shadow-sm flex flex-col relative">
+                            <h4 class="text-xl font-bold mb-2">Basic Publisher</h4>
+                            <div class="flex items-baseline gap-1 mb-4">
+                                <span class="text-3xl font-bold">₹75</span><span class="text-gray-500">/mo</span>
+                            </div>
+                            <ul class="text-gray-600 mb-8 space-y-3 flex-1">
+                                <li class="flex items-center gap-2"><svg class="w-5 h-5 text-green-500"
+                                        fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>Publish Standard Articles</li>
+                                <li class="flex items-center gap-2"><svg class="w-5 h-5 text-green-500"
+                                        fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>Access to Publisher Dashboard</li>
+                                <li class="flex items-center gap-2 text-gray-400"><svg class="w-5 h-5 text-gray-300"
+                                        fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>Premium Content Tag</li>
+                            </ul>
+                            <div class="flex justify-center flex-col gap-2">
+                                <button onclick="mockPayment('publisher', 'basic', 'monthly')"
+                                    class="w-full bg-white border border-black text-black font-bold py-3 rounded hover:bg-gray-50 transition">Select
+                                    Basic (Monthly)</button>
+                                <button onclick="mockPayment('publisher', 'basic', 'annual')"
+                                    class="w-full bg-white border border-gray-300 text-gray-600 font-bold py-2 rounded text-sm hover:bg-gray-50 transition">Annual
+                                    (₹750/yr - Save 16%)</button>
+                            </div>
+                        </div>
+
+                        <!-- Pro -->
+                        <div
+                            class="border-2 border-brandYellow rounded-xl p-8 shadow-md flex flex-col relative bg-gradient-to-br from-yellow-50 to-white">
+                            <div
+                                class="absolute top-0 right-0 bg-brandYellow text-black font-mono text-xs font-bold px-3 py-1 uppercase rounded-bl-lg rounded-tr-lg">
+                                Recommended</div>
+                            <h4 class="text-xl font-bold mb-2">Pro Publisher</h4>
+                            <div class="flex items-baseline gap-1 mb-4">
+                                <span class="text-3xl font-bold">₹199</span><span class="text-gray-500">/mo</span>
+                            </div>
+                            <ul class="text-gray-900 mb-8 space-y-3 flex-1 font-medium">
+                                <li class="flex items-center gap-2"><svg
+                                        class="w-5 h-5 text-brandYellow bg-black rounded-full" fill="currentColor"
+                                        viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>Everything in Basic</li>
+                                <li class="flex items-center gap-2"><svg
+                                        class="w-5 h-5 text-brandYellow bg-black rounded-full" fill="currentColor"
+                                        viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>Publish Premium Content</li>
+                                <li class="flex items-center gap-2"><svg
+                                        class="w-5 h-5 text-brandYellow bg-black rounded-full" fill="currentColor"
+                                        viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>Priority Support</li>
+                            </ul>
+                            <div class="flex justify-center flex-col gap-2">
+                                <button onclick="mockPayment('publisher', 'pro', 'monthly')"
+                                    class="w-full bg-brandYellow hover:bg-yellow-400 text-black font-bold py-3 rounded transition shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1">Select
+                                    Pro (Monthly)</button>
+                                <button onclick="mockPayment('publisher', 'pro', 'annual')"
+                                    class="w-full bg-transparent text-gray-600 font-bold py-2 rounded text-sm hover:underline transition">Annual
+                                    (₹1990/yr - Save 16%)</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Member Pricing -->
+                    <div id="memberPricing" class="hidden grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Free -->
+                        <div class="border border-gray-200 rounded-xl p-8 shadow-sm flex flex-col relative opacity-60">
+                            <h4 class="text-xl font-bold mb-2">Free Reader</h4>
+                            <div class="flex items-baseline gap-1 mb-4">
+                                <span class="text-3xl font-bold">₹0</span><span class="text-gray-500">/mo</span>
+                            </div>
+                            <ul class="text-gray-600 mb-8 space-y-3 flex-1">
+                                <li class="flex items-center gap-2"><svg class="w-5 h-5 text-gray-500"
+                                        fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>Read Standard News</li>
+                                <li class="flex items-center gap-2 text-gray-400"><svg class="w-5 h-5 text-gray-300"
+                                        fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>Access Premium Content</li>
+                            </ul>
+                            <div class="flex justify-center flex-col gap-2">
+                                <button
+                                    class="w-full bg-gray-200 text-gray-500 font-bold py-3 rounded cursor-not-allowed">Current
+                                    Plan</button>
+                            </div>
+                        </div>
+
+                        <!-- Pro Member -->
+                        <div
+                            class="border-2 border-black rounded-xl p-8 shadow-xl flex flex-col relative bg-black text-white">
+                            <div
+                                class="absolute top-0 right-0 bg-brandYellow text-black font-mono text-xs font-bold px-3 py-1 uppercase rounded-bl-lg rounded-tr-lg">
+                                All Access</div>
+                            <h4 class="text-xl font-bold mb-2">Siliguri Pro</h4>
+                            <div class="flex items-baseline gap-1 mb-4">
+                                <span class="text-3xl font-bold">₹30</span><span class="text-gray-400">/mo</span>
+                            </div>
+                            <ul class="text-gray-300 mb-8 space-y-3 flex-1 font-medium">
+                                <li class="flex items-center gap-2"><svg class="w-5 h-5 text-brandYellow"
+                                        fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>Everything in Free</li>
+                                <li class="flex items-center gap-2 text-white"><svg class="w-5 h-5 text-brandYellow"
+                                        fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>Unlock All Premium Content</li>
+                                <li class="flex items-center gap-2 text-white"><svg class="w-5 h-5 text-brandYellow"
+                                        fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>Ad-Free Experience</li>
+                            </ul>
+                            <div class="flex justify-center flex-col gap-2">
+                                <button onclick="mockPayment('member', 'pro', 'monthly')"
+                                    class="w-full bg-brandYellow hover:bg-yellow-400 text-black font-bold py-3 rounded transition">Subscribe
+                                    Now (Monthly)</button>
+                                <button onclick="mockPayment('member', 'pro', 'annual')"
+                                    class="w-full bg-transparent text-gray-400 font-bold py-2 rounded text-sm hover:text-white transition">Annual
+                                    (₹300/yr - Save 16%)</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Loading Overlay -->
+                    <div id="paymentOverlay"
+                        class="hidden absolute inset-0 bg-white/90 backdrop-blur flex flex-col items-center justify-center z-20">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-4 border-brandYellow mb-4"></div>
+                        <h3 class="text-xl font-bold font-serif mb-2" id="paymentStatusText">Initializing Payment
+                            Gateway...</h3>
+                        <p class="text-sm text-gray-500">(Mock Payment Environment)</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Quill.js -->
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
@@ -809,10 +998,45 @@
         });
 
         // Publisher Dashboard Logic
-        function openPublisherDashboard(articleToEdit = null) {
+        async function openPublisherDashboard(articleToEdit = null) {
             document.getElementById('userDropdown').classList.add('hidden');
             document.getElementById('userDropdown').classList.remove('flex', 'flex-col');
             document.getElementById('publisherModal').classList.remove('hidden');
+
+            // --- Premium Publishing Logic ---
+            const typeSelect = document.getElementById('articleType');
+            const premiumOption = Array.from(typeSelect.options).find(opt => opt.value === 'premium');
+
+            // Default assumes basic until fetched
+            let canPublishPremium = false;
+
+            if (currentUser && currentUser.email === 'subhamdey.one@gmail.com') {
+                canPublishPremium = true; // Super Admin always can
+            } else if (currentUser) {
+                try {
+                    const { data: subData } = await supabaseClient
+                        .from('subscriptions')
+                        .select('plan_tier')
+                        .eq('email', currentUser.email)
+                        .single();
+
+                    if (subData && subData.plan_tier === 'pro') {
+                        canPublishPremium = true;
+                    }
+                } catch (e) {
+                    console.error("Could not fetch subscription data", e);
+                }
+            }
+
+            if (!canPublishPremium) {
+                premiumOption.disabled = true;
+                premiumOption.text = "Premium Article (Requires Pro)";
+                if (typeSelect.value === 'premium') typeSelect.value = 'standard';
+            } else {
+                premiumOption.disabled = false;
+                premiumOption.text = "Premium Article";
+            }
+            // --- End Premium Publishing Logic ---
 
             if (articleToEdit && typeof articleToEdit === 'object' && articleToEdit.id) {
                 document.getElementById('publisher-title').innerText = "Edit Article";
@@ -863,6 +1087,21 @@
                 const content = quill.root.innerHTML;
                 const imageFile = document.getElementById('articleImage').files[0];
                 const editingId = document.getElementById('editingArticleId').value;
+
+                // Double check backend authorization for premium
+                if (type === 'premium') {
+                    if (currentUser.email !== 'subhamdey.one@gmail.com') {
+                        const { data: subCheck } = await supabaseClient
+                            .from('subscriptions')
+                            .select('plan_tier')
+                            .eq('email', currentUser.email)
+                            .single();
+
+                        if (!subCheck || subCheck.plan_tier !== 'pro') {
+                            throw new Error("You need a Pro Subscription to publish Premium content.");
+                        }
+                    }
+                }
 
                 let imageUrl = null;
 
@@ -1429,6 +1668,112 @@
                 container.insertAdjacentHTML('beforeend', msgHtml);
                 container.scrollTop = container.scrollHeight;
             }, 8000); // Every 8 seconds
+        }
+
+        // Subscription Logic
+        function openSubscriptionModal(roleType) {
+            closeAuthModal(); // Close auth modal if open
+            if (!currentUser) {
+                // Must be signed in to subscribe
+                currentTargetRole = roleType;
+                openAuthModal(roleType);
+                return;
+            }
+
+            document.getElementById('subscriptionModal').classList.remove('hidden');
+            document.getElementById('paymentOverlay').classList.add('hidden');
+
+            const pubPricing = document.getElementById('publisherPricing');
+            const memPricing = document.getElementById('memberPricing');
+
+            if (roleType === 'publisher') {
+                document.getElementById('sub-modal-title').innerText = "Publisher Subscriptions";
+                document.getElementById('sub-modal-desc').innerText = "Reach thousands of local readers with our powerful tools.";
+                pubPricing.classList.remove('hidden');
+                pubPricing.classList.add('grid');
+                memPricing.classList.add('hidden');
+                memPricing.classList.remove('grid');
+            } else {
+                document.getElementById('sub-modal-title').innerText = "Siliguri Pro";
+                document.getElementById('sub-modal-desc').innerText = "Unlock exclusive deep-dives and support local journalism.";
+                pubPricing.classList.add('hidden');
+                pubPricing.classList.remove('grid');
+                memPricing.classList.remove('hidden');
+                memPricing.classList.add('grid');
+            }
+        }
+
+        function closeSubscriptionModal() {
+            document.getElementById('subscriptionModal').classList.add('hidden');
+        }
+
+        async function mockPayment(role, tier, cycle) {
+            if (!currentUser) return;
+
+            const overlay = document.getElementById('paymentOverlay');
+            const statusText = document.getElementById('paymentStatusText');
+
+            overlay.classList.remove('hidden');
+
+            // Simulate Payment Flow
+            setTimeout(() => {
+                statusText.innerText = "Processing Payment...";
+                setTimeout(async () => {
+                    statusText.innerText = "Payment Successful! Updating profile...";
+
+                    try {
+                        // Calculate valid_until (now + 1 month or 1 year depending on cycle)
+                        const validUntil = new Date();
+                        if (cycle === 'annual') {
+                            validUntil.setFullYear(validUntil.getFullYear() + 1);
+                        } else {
+                            validUntil.setMonth(validUntil.getMonth() + 1);
+                        }
+
+                        // Upsert Subscription to DB
+                        const { error } = await supabaseClient
+                            .from('subscriptions')
+                            .upsert({
+                                email: currentUser.email,
+                                role: role,
+                                plan_tier: tier,
+                                billing_cycle: cycle,
+                                status: 'active',
+                                valid_until: validUntil.toISOString()
+                            });
+
+                        if (error) throw error;
+
+                        setTimeout(() => {
+                            closeSubscriptionModal();
+                            window.location.reload(); // Reload to refresh permissions & UI everywhere
+                        }, 1000);
+
+                    } catch (e) {
+                        console.error("Subscription Error:", e);
+                        statusText.innerText = "Error updating subscription!";
+                        statusText.classList.add('text-red-500');
+                    }
+                }, 1500);
+            }, 1000);
+        }
+
+        // Handle direct upgrade requests from URL
+        function checkUrlFlags() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('openUpgrade')) {
+                const role = params.get('openUpgrade');
+
+                // wait to ensure auth state is loaded first
+                setTimeout(() => {
+                    openSubscriptionModal(role);
+                    // remove param so it doesn't trigger on fresh reload
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }, 500);
+            }
+            if (params.get('openAuth')) {
+                setTimeout(() => { openAuthModal('member'); }, 500);
+            }
         }
 
         // Header scroll effect

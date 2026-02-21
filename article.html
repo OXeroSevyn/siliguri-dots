@@ -209,6 +209,20 @@
             }
 
             try {
+                // Check current user session and subscription status
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                let userSub = null;
+                const currentUser = session?.user;
+
+                if (currentUser) {
+                    const { data: subData } = await supabaseClient
+                        .from('subscriptions')
+                        .select('*')
+                        .eq('email', currentUser.email)
+                        .single();
+                    userSub = subData;
+                }
+
                 // Try fetching from Supabase
                 const { data, error } = await supabaseClient
                     .from('articles')
@@ -217,7 +231,7 @@
                     .single();
 
                 if (data && !error) {
-                    renderArticle(data);
+                    renderArticle(data, currentUser, userSub);
                 } else {
                     // Fallback to local
                     const fallbackResponse = await fetch('data/data.json');
@@ -231,7 +245,7 @@
                     }
 
                     if (found) {
-                        renderArticle(found);
+                        renderArticle(found, currentUser, userSub);
                     } else {
                         showError();
                     }
@@ -242,12 +256,48 @@
             }
         }
 
-        function renderArticle(article) {
+        function renderArticle(article, currentUser, userSub) {
             document.getElementById('loadingIndicator').classList.add('hidden');
             const container = document.getElementById('articleContent');
             container.classList.remove('hidden');
 
-            const contentHTML = article.content || (article.excerpt ? `<p>${article.excerpt}</p>` : '');
+            let contentHTML = article.content || (article.excerpt ? `<p>${article.excerpt}</p>` : '');
+
+            // --- PAYWALL LOGIC ---
+            if (article.type === 'premium') {
+                const isAuthor = currentUser && currentUser.email === article.author_email;
+                const isSuperAdmin = currentUser && currentUser.email === 'subhamdey.one@gmail.com';
+                const isPro = userSub && userSub.plan_tier === 'pro';
+
+                if (!isAuthor && !isSuperAdmin && !isPro) {
+                    // User needs to pay. Truncate content to first 300 chars roughly.
+                    const plainText = contentHTML.replace(/<[^>]*>?/gm, ''); // strip HTML
+                    const snippet = plainText.substring(0, 300) + '...';
+
+                    contentHTML = `
+                        <p class="mb-4">${snippet}</p>
+                        
+                        <div class="relative w-full my-12 rounded-xl overflow-hidden shadow-2xl border border-gray-200 bg-white">
+                            <!-- Premium Background Pattern -->
+                            <div class="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0wIDBoNDB2NDBIMHoiIGZpbGw9Im5vbmUiLz4KPHBhdGggZD0iTTIwIDIwTDEwIDEwTDIwIDAgbDEwIDEwLDEwIDEwem0wIDIwbC0xMC0xMGwtMTAgMTBMMCA0MGwxMC0xMGwxMCAxMHoiIGZpbGw9IiMwMDAiLz4KPC9zdmc+')]"></div>
+                            
+                            <div class="relative z-10 p-8 md:p-12 text-center flex flex-col items-center justify-center bg-gradient-to-b from-white/90 to-white/100 backdrop-blur-sm">
+                                <span class="bg-black text-brandYellow text-xs font-bold font-mono px-3 py-1 uppercase tracking-widest mb-4 inline-block shadow-sm">Exclusive Content</span>
+                                <h3 class="font-serif font-bold text-3xl md:text-4xl text-black mb-4">Subscribe to keep reading</h3>
+                                <p class="text-gray-600 mb-8 max-w-md mx-auto text-lg leading-relaxed">This deep dive is available exclusively to Siliguri Pro members. Join our community and support local journalism.</p>
+                                
+                                <div class="w-full max-w-sm">
+                                    <button onclick="window.location.href='index.html?openUpgrade=member'" class="w-full bg-brandYellow hover:bg-yellow-400 text-black font-bold py-4 rounded transition text-lg shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1">
+                                        Unlock for ₹30/month
+                                    </button>
+                                    <p class="text-sm font-bold mt-4 text-gray-500">Or <a href="index.html?openAuth=true" class="text-black underline cursor-pointer">Sign In</a> if you're already a member.</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            // --- END PAYWALL LOGIC ---
             const imgSrc = article.image_url || article.image || 'https://images.unsplash.com/photo-1546422904-90eab23c3d7e?q=80&w=800&auto=format&fit=crop';
             const author = article.author_name || article.author || 'Editorial';
             const date = article.created_at ? new Date(article.created_at).toLocaleDateString() : (article.date || 'Today');
