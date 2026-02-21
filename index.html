@@ -56,29 +56,34 @@
                 </a>
             </nav>
 
-            <!-- Right Actions -->
-            <div class="flex items-center gap-4 lg:gap-6 ml-auto">
-                <a href="#"
-                    class="hidden sm:flex items-center gap-2 font-mono text-[11px] font-bold tracking-widest uppercase hover:text-gray-700 transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    Sign In
-                </a>
-                <a href="#"
-                    class="bg-white text-black font-mono text-[11px] font-bold tracking-widest uppercase px-3 py-2 border border-transparent hover:border-black transition whitespace-nowrap">
-                    Become a Member
-                </a>
-                <button
-                    class="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-gray-800 transition shadow-lg shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
-            </div>
+            <button onclick="openAuthModal()" id="signInBtn"
+                class="hidden sm:flex items-center gap-2 font-mono text-[11px] font-bold tracking-widest uppercase hover:text-gray-700 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                        clip-rule="evenodd" />
+                </svg>
+                <span id="signInBtnText">Sign In</span>
+            </button>
+            <button onclick="handleSignOut()" id="signOutBtn"
+                class="hidden sm:flex items-center gap-2 font-mono text-[11px] font-bold tracking-widest uppercase text-red-600 hover:text-red-800 transition">
+                Sign Out
+            </button>
+            <a href="#" id="publisherDashBtn"
+                class="hidden bg-black text-white font-mono text-[11px] font-bold tracking-widest uppercase px-3 py-2 border border-transparent hover:bg-gray-800 transition whitespace-nowrap">
+                Publisher Dashboard
+            </a>
+            <a href="#" id="becomeMemberBtn"
+                class="bg-white text-black font-mono text-[11px] font-bold tracking-widest uppercase px-3 py-2 border border-transparent hover:border-black transition whitespace-nowrap">
+                Become a Member
+            </a>
+            <button
+                class="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-gray-800 transition shadow-lg shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
         </div>
 
         <!-- The Giant Logo Overlapping -->
@@ -204,6 +209,213 @@
             <p class="text-gray-400 text-xs">© 2026 Siliguri News Network. Siliguri, WB.</p>
         </div>
     </footer>
+
+    <!-- Auth Modal (Hidden by Default) -->
+    <div id="authModal" class="hidden fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog"
+        aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <!-- Background overlay -->
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
+                onclick="closeAuthModal()"></div>
+
+            <!-- This element is to trick the browser into centering the modal contents. -->
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <!-- Modal Panel -->
+            <div
+                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md w-full border-2 border-black relative">
+                <!-- decorative bar -->
+                <div class="absolute top-0 left-0 w-full h-2 bg-brandYellow"></div>
+
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <h3 class="text-2xl leading-6 font-extrabold text-gray-900 mb-2" id="modal-title">
+                                Welcome to Sili.
+                            </h3>
+                            <p class="text-sm text-gray-500 mb-6" id="authModeDescription">Sign in to access exclusive
+                                community features.</p>
+
+                            <!-- Auth Form -->
+                            <form id="authForm" class="space-y-4" onsubmit="handleAuthSubmit(event)">
+                                <div>
+                                    <label for="email" class="block text-sm font-bold text-gray-700">Email
+                                        Address</label>
+                                    <input type="email" id="email" required
+                                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-black focus:border-black sm:text-sm">
+                                </div>
+
+                                <div>
+                                    <label for="password" class="block text-sm font-bold text-gray-700">Password</label>
+                                    <input type="password" id="password" required
+                                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-black focus:border-black sm:text-sm">
+                                </div>
+
+                                <div id="authErrorMsg" class="hidden text-red-600 text-sm font-bold"></div>
+                                <div id="authSuccessMsg" class="hidden text-green-600 text-sm font-bold"></div>
+
+                                <button type="submit" id="authSubmitBtn"
+                                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-bold text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black mt-4">
+                                    Sign In
+                                </button>
+                            </form>
+
+                            <div class="mt-4 text-center">
+                                <button onclick="toggleAuthMode()" id="toggleAuthModeBtn"
+                                    class="text-sm font-bold text-gray-600 hover:text-black hover:underline transition">
+                                    Need an account? Sign Up
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-200">
+                    <button type="button" onclick="closeAuthModal()"
+                        class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black sm:ml-3 sm:w-auto sm:text-sm">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Auth State Management -->
+    <script>
+        // Supabase Initialization
+        const supabaseUrl = 'https://dssxoikhszevavriutc.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzc3hvaWtraHN6ZXZhdnJpdXRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2NjA3NDEsImV4cCI6MjA4NzIzNjc0MX0.SJx4tz808lDKuiNE3lXY4kAT_ikwTTxNlacbhYpUvZw';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        let isSignUpMode = false;
+        let currentUser = null;
+
+        function openAuthModal() {
+            document.getElementById('authModal').classList.remove('hidden');
+            document.getElementById('authErrorMsg').classList.add('hidden');
+            document.getElementById('authSuccessMsg').classList.add('hidden');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.add('hidden');
+            document.getElementById('authForm').reset();
+        }
+
+        function toggleAuthMode() {
+            isSignUpMode = !isSignUpMode;
+            const title = document.getElementById('modal-title');
+            const desc = document.getElementById('authModeDescription');
+            const submitBtn = document.getElementById('authSubmitBtn');
+            const toggleBtn = document.getElementById('toggleAuthModeBtn');
+
+            if (isSignUpMode) {
+                title.innerText = "Create an Account";
+                desc.innerText = "Sign up to become a Siliguri active member.";
+                submitBtn.innerText = "Sign Up";
+                toggleBtn.innerText = "Already have an account? Sign In";
+            } else {
+                title.innerText = "Welcome to Sili.";
+                desc.innerText = "Sign in to access exclusive community features.";
+                submitBtn.innerText = "Sign In";
+                toggleBtn.innerText = "Need an account? Sign Up";
+            }
+        }
+
+        async function handleAuthSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('authErrorMsg');
+            const successMsg = document.getElementById('authSuccessMsg');
+            const submitBtn = document.getElementById('authSubmitBtn');
+
+            errorMsg.classList.add('hidden');
+            successMsg.classList.add('hidden');
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Loading...";
+
+            try {
+                let authResponse;
+
+                if (isSignUpMode) {
+                    // Sign Up
+                    authResponse = await supabase.auth.signUp({
+                        email: email,
+                        password: password,
+                    });
+                } else {
+                    // Sign In
+                    authResponse = await supabase.auth.signInWithPassword({
+                        email: email,
+                        password: password,
+                    });
+                }
+
+                if (authResponse.error) throw authResponse.error;
+
+                successMsg.innerText = isSignUpMode ? "Sign up successful! You can now log in." : "Successfully signed in!";
+                successMsg.classList.remove('hidden');
+
+                setTimeout(() => {
+                    closeAuthModal();
+                    checkUserSession();
+                }, 1500);
+
+            } catch (err) {
+                errorMsg.innerText = err.message || "An error occurred during authentication.";
+                errorMsg.classList.remove('hidden');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = isSignUpMode ? "Sign Up" : "Sign In";
+            }
+        }
+
+        async function handleSignOut() {
+            await supabase.auth.signOut();
+            checkUserSession();
+        }
+
+        async function checkUserSession() {
+            const { data: { session } } = await supabase.auth.getSession();
+            currentUser = session?.user;
+
+            const signInBtn = document.getElementById('signInBtn');
+            const signOutBtn = document.getElementById('signOutBtn');
+            const becomeMemberBtn = document.getElementById('becomeMemberBtn');
+            const publisherDashBtn = document.getElementById('publisherDashBtn');
+
+            if (currentUser) {
+                // User is signed in
+                signInBtn.classList.add('hidden');
+                signOutBtn.classList.remove('hidden');
+                becomeMemberBtn.classList.add('hidden');
+
+                // For now, let's treat any logged-in user as publisher for testing
+                // Alternatively you could check: if (currentUser.email === 'your@email.com')
+                publisherDashBtn.classList.remove('hidden');
+                publisherDashBtn.classList.add('inline-block');
+            } else {
+                // User is signed out
+                signInBtn.classList.remove('hidden');
+                signOutBtn.classList.add('hidden');
+                becomeMemberBtn.classList.remove('hidden');
+                publisherDashBtn.classList.add('hidden');
+                publisherDashBtn.classList.remove('inline-block');
+            }
+        }
+
+        // Run session check on load
+        document.addEventListener('DOMContentLoaded', checkUserSession);
+
+        // Listen for auth state changes globally
+        supabase.auth.onAuthStateChange((event, session) => {
+            if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
+                checkUserSession();
+            }
+        });
+    </script>
 
     <!-- Fetch & Render Scripts -->
     <script>
