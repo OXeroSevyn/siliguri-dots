@@ -58,26 +58,14 @@
 
             <!-- Right Actions -->
             <div class="flex items-center gap-4 lg:gap-6 ml-auto z-50">
-                <button onclick="openAuthModal()" id="signInBtn"
-                    class="hidden sm:flex items-center gap-2 font-mono text-[11px] font-bold tracking-widest uppercase hover:text-gray-700 transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    <span id="signInBtnText">Sign In</span>
+                <button onclick="openAuthModal('publisher')" id="becomePublisherBtn"
+                    class="bg-transparent text-black font-mono text-[11px] font-bold tracking-widest uppercase px-3 py-2 border border-black hover:bg-black hover:text-white transition whitespace-nowrap">
+                    Become a Publisher
                 </button>
-                <button onclick="handleSignOut()" id="signOutBtn"
-                    class="hidden sm:flex items-center gap-2 font-mono text-[11px] font-bold tracking-widest uppercase text-red-600 hover:text-red-800 transition">
-                    Sign Out
-                </button>
-                <a href="#" id="publisherDashBtn"
-                    class="hidden bg-black text-white font-mono text-[11px] font-bold tracking-widest uppercase px-3 py-2 border border-transparent hover:bg-gray-800 transition whitespace-nowrap">
-                    Publisher Dashboard
-                </a>
-                <a href="#" id="becomeMemberBtn"
+                <button onclick="openAuthModal('member')" id="becomeMemberBtn"
                     class="bg-white text-black font-mono text-[11px] font-bold tracking-widest uppercase px-3 py-2 border border-transparent hover:border-black transition whitespace-nowrap">
                     Become a Member
-                </a>
+                </button>
                 <button
                     class="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-gray-800 transition shadow-lg shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -304,10 +292,22 @@
         let isSignUpMode = false;
         let currentUser = null;
 
-        function openAuthModal() {
+        function openAuthModal(defaultRole) {
+            isSignUpMode = true; // Auto-open to Sign Up
             document.getElementById('authModal').classList.remove('hidden');
             document.getElementById('authErrorMsg').classList.add('hidden');
             document.getElementById('authSuccessMsg').classList.add('hidden');
+
+            // Set UI to Sign Up initially
+            document.getElementById('modal-title').innerText = "Create an Account";
+            document.getElementById('authModeDescription').innerText = "Sign up to become a Siliguri active member.";
+            document.getElementById('authSubmitBtn').innerText = "Sign Up";
+            document.getElementById('toggleAuthModeBtn').innerText = "Already have an account? Sign In";
+            document.getElementById('roleSelectorDiv').classList.remove('hidden');
+
+            if (defaultRole) {
+                document.getElementById('userRole').value = defaultRole;
+            }
         }
 
         function closeAuthModal() {
@@ -402,14 +402,14 @@
             const { data: { session } } = await supabase.auth.getSession();
             currentUser = session?.user;
 
-            const signInBtn = document.getElementById('signInBtn');
+            const becomePublisherBtn = document.getElementById('becomePublisherBtn');
             const signOutBtn = document.getElementById('signOutBtn');
             const becomeMemberBtn = document.getElementById('becomeMemberBtn');
             const publisherDashBtn = document.getElementById('publisherDashBtn');
 
             if (currentUser) {
                 // User is signed in
-                signInBtn.classList.add('hidden');
+                becomePublisherBtn.classList.add('hidden');
                 signOutBtn.classList.remove('hidden');
                 becomeMemberBtn.classList.add('hidden');
 
@@ -427,7 +427,7 @@
                 }
             } else {
                 // User is signed out
-                signInBtn.classList.remove('hidden');
+                becomePublisherBtn.classList.remove('hidden');
                 signOutBtn.classList.add('hidden');
                 becomeMemberBtn.classList.remove('hidden');
                 publisherDashBtn.classList.add('hidden');
