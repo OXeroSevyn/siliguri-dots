@@ -1171,31 +1171,6 @@
                     const role = currentUser.user_metadata?.role || 'member';
                     const isSuperAdmin = currentUser.email === 'subhamdey.one@gmail.com';
 
-                    // --- 1. Post-Signup Subscription Check ---
-                    if (!isSuperAdmin) {
-                        try {
-                            const { data: subData, error: subError } = await supabaseClient
-                                .from('subscriptions')
-                                .select('*')
-                                .eq('email', currentUser.email)
-                                .maybeSingle();
-
-                            if (!subError && !subData) {
-                                // User has no subscription record yet -> Force them to choose
-                                openSubscriptionModal(role);
-
-                                // Prevent access to rest of UI until they select a plan
-                                publisherDashBtn.style.display = 'none';
-                                manageArtBtn.style.display = 'none';
-                                managePubsBtn.style.display = 'none';
-
-                                // We return early so they don't get the standard dashboard buttons yet
-                                return;
-                            }
-                        } catch (e) {
-                            console.error("Error checking subscription on load:", e);
-                        }
-                    }
                     // --- End Subscription Check ---
 
                     // --- 2. Check Publisher Block Status ---
