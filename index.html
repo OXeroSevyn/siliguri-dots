@@ -9,6 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Custom Tailwind Configuration -->
     <script src="assets/js/tailwind-config.js"></script>
+    <script src="assets/js/theme.js"></script>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,29 +23,39 @@
 
     <!-- Quill.js for Rich Text Editing -->
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+
+    <!-- Dark Mode Initializer (Prevents FOUC) -->
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
 </head>
 
-<body class="bg-white text-gray-900 font-sans antialiased">
+<body
+    class="bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 font-sans antialiased transition-colors duration-300">
 
     <!-- VOX STYLE HEADER -->
     <header id="mainHeader"
-        class="bg-brandYellow sticky top-0 w-full h-[120px] md:h-[180px] flex flex-col justify-start pt-4 md:pt-6 border-b border-black z-[80] transition-all duration-300">
+        class="bg-brandYellow dark:bg-[#1a1a1a] sticky top-0 w-full h-[120px] md:h-[180px] flex flex-col justify-start pt-4 md:pt-6 border-b border-black dark:border-gray-800 z-[80] transition-all duration-300">
         <div class="w-full px-4 md:px-10 flex justify-between items-start z-[90] relative">
 
             <!-- Left Navigation (Vertical lines) -->
-            <nav class="hidden lg:flex items-center text-[15px] font-sans text-black">
+            <nav class="hidden lg:flex items-center text-[15px] font-sans text-black dark:text-gray-200">
                 <a href="#" onclick="filterCategory('City News'); return false;"
-                    class="nav-link px-5 border-l border-black hover:underline decoration-2 underline-offset-4">City
+                    class="nav-link px-5 border-l border-black dark:border-gray-700 hover:underline decoration-2 underline-offset-4">City
                     News</a>
                 <a href="#" onclick="filterCategory('Tea Estates'); return false;"
-                    class="nav-link px-5 border-l border-black hover:underline decoration-2 underline-offset-4">Tea
+                    class="nav-link px-5 border-l border-black dark:border-gray-700 hover:underline decoration-2 underline-offset-4">Tea
                     Estates</a>
                 <a href="#" onclick="filterCategory('Culture'); return false;"
-                    class="nav-link px-5 border-l border-black hover:underline decoration-2 underline-offset-4">Culture</a>
+                    class="nav-link px-5 border-l border-black dark:border-gray-700 hover:underline decoration-2 underline-offset-4">Culture</a>
                 <a href="#" onclick="filterCategory('Food'); return false;"
-                    class="nav-link px-5 border-l border-black hover:underline decoration-2 underline-offset-4">Food</a>
+                    class="nav-link px-5 border-l border-black dark:border-gray-700 hover:underline decoration-2 underline-offset-4">Food</a>
                 <a href="#"
-                    class="px-5 border-l border-black hover:underline decoration-2 underline-offset-4 font-bold flex items-center gap-1">
+                    class="px-5 border-l border-black dark:border-gray-700 hover:underline decoration-2 underline-offset-4 font-bold flex items-center gap-1">
                     Listen
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd"
@@ -53,7 +64,7 @@
                     </svg>
                 </a>
                 <a href="#"
-                    class="px-5 border-l border-black hover:underline decoration-2 underline-offset-4 font-bold flex items-center gap-1">
+                    class="px-5 border-l border-black dark:border-gray-700 hover:underline decoration-2 underline-offset-4 font-bold flex items-center gap-1">
                     Watch
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                         <path
@@ -66,20 +77,35 @@
             <div class="relative flex items-center gap-4 lg:gap-6 ml-auto z-50">
                 <!-- Logged Out State -->
                 <button onclick="openAuthModal('publisher')" id="becomePublisherBtn"
-                    class="bg-transparent text-black font-mono text-[11px] font-bold tracking-widest uppercase px-3 py-2 border border-black hover:bg-black hover:text-white transition whitespace-nowrap">
+                    class="bg-transparent text-black dark:text-gray-300 font-mono text-[11px] font-bold tracking-widest uppercase px-3 py-2 border border-black dark:border-gray-500 hover:bg-black dark:hover:bg-gray-800 hover:text-white dark:hover:text-white transition whitespace-nowrap">
                     Become a Publisher
                 </button>
                 <button onclick="openAuthModal('member')" id="becomeMemberBtn"
-                    class="bg-white text-black font-mono text-[11px] font-bold tracking-widest uppercase px-3 py-2 border border-transparent hover:border-black transition whitespace-nowrap">
+                    class="bg-white dark:bg-brandYellow text-black font-mono text-[11px] font-bold tracking-widest uppercase px-3 py-2 border border-transparent hover:border-black dark:hover:bg-yellow-400 transition whitespace-nowrap shadow-sm dark:shadow-none">
                     Become a Member
                 </button>
 
                 <!-- Logged In State Greeting -->
                 <div id="userGreeting"
-                    class="hidden items-center gap-2 font-mono text-sm font-bold tracking-wide uppercase text-black">
+                    class="hidden items-center gap-2 font-mono text-sm font-bold tracking-wide uppercase text-black dark:text-white">
                     <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                    Welcome, <span id="userNameDisplay" class="text-blue-700">User</span>
+                    Welcome, <span id="userNameDisplay" class="text-blue-700 dark:text-blue-400">User</span>
                 </div>
+
+                <!-- Theme Toggle Button -->
+                <button id="themeToggleBtn" onclick="toggleTheme()"
+                    class="bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 p-2 rounded-full transition shadow-sm w-10 h-10 flex items-center justify-center shrink-0">
+                    <!-- Sun Icon -->
+                    <svg class="w-5 h-5 block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4.22 4.22a1 1 0 011.415 0l.708.707a1 1 0 01-1.414 1.414l-.708-.707a1 1 0 010-1.414zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM15.636 15.636a1 1 0 010 1.415l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 0zM10 16a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zm-4.22-4.22a1 1 0 010 1.415l-.708.707a1 1 0 01-1.414-1.414l.708-.707a1 1 0 011.414 0zM2 10a1 1 0 011-1h1a1 1 0 110 2H3a1 1 0 01-1-1zm2.142-4.22a1 1 0 010-1.415l.707-.707a1 1 0 011.414 1.414l-.707.707a1 1 0 01-1.414 0zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <!-- Moon Icon -->
+                    <svg class="w-5 h-5 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                    </svg>
+                </button>
 
                 <!-- Hamburger Menu Container -->
                 <div class="relative">
@@ -128,8 +154,8 @@
         <!-- The Giant Logo Overlapping -->
         <div class="header-logo-container pointer-events-none">
             <a href="index.html"
-                class="font-serif italic vox-logo text-black inline-block hover:opacity-90 transition-opacity pointer-events-auto">Siliguri<span
-                    class="text-brandYellow mix-blend-difference">.</span></a>
+                class="font-serif italic vox-logo text-black dark:text-white inline-block hover:opacity-90 transition-opacity pointer-events-auto">Siliguri<span
+                    class="text-brandYellow mix-blend-difference dark:mix-blend-normal">.</span></a>
         </div>
     </header>
 
@@ -146,7 +172,7 @@
                     <!-- Loaded via JS -->
                 </article>
 
-                <hr class="border-black border-t-2">
+                <hr class="border-black dark:border-gray-800 border-t-2">
 
                 <!-- Dynamic Sub Stories Grid -->
                 <div id="subStoriesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -155,7 +181,7 @@
 
                 <div id="loadMoreContainer" class="flex justify-center mt-8 hidden">
                     <button onclick="loadContent(true)" id="loadMoreBtn"
-                        class="bg-black text-white px-6 py-3 font-bold text-sm tracking-widest uppercase hover:bg-gray-800 transition flex items-center justify-center gap-2">
+                        class="bg-black text-white dark:bg-gray-800 dark:hover:bg-gray-700 px-6 py-3 font-bold text-sm tracking-widest uppercase hover:bg-gray-800 transition flex items-center justify-center gap-2">
                         <span>Load More Stories</span>
                         <svg id="loadMoreSpinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden"
                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -172,9 +198,11 @@
 
             <!-- RIGHT COLUMN: Community Chats (Sticky) -->
             <div class="lg:col-span-4 relative">
-                <div class="sticky top-6 bg-gray-50 border-2 border-black p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                <div
+                    class="sticky top-6 bg-gray-50 dark:bg-[#1e1e1e] border-2 border-black dark:border-gray-700 p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-none">
 
-                    <div class="flex items-center justify-between border-b-2 border-black pb-4 mb-4">
+                    <div
+                        class="flex items-center justify-between border-b-2 border-black dark:border-gray-700 pb-4 mb-4">
                         <h3 class="text-xl font-extrabold uppercase tracking-tight">Town Square Live</h3>
                         <span
                             class="flex items-center gap-1 text-xs font-bold text-green-600 bg-green-100 px-2 py-1 rounded-full border border-green-200 shadow-sm">
@@ -191,62 +219,72 @@
                         class="flex flex-col gap-4 h-[500px] overflow-y-auto custom-scrollbar pb-4 pr-2">
 
                         <!-- Chat Message -->
-                        <div class="bg-white p-3 border border-gray-200 rounded shadow-sm">
+                        <div
+                            class="bg-white dark:bg-gray-800 p-3 border border-gray-200 dark:border-gray-700 rounded shadow-sm">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="font-bold text-sm">Rohan_SFC</span>
-                                <span class="text-[10px] text-gray-400">Just now</span>
+                                <span class="text-[10px] text-gray-400 dark:text-gray-500">Just now</span>
                             </div>
-                            <p class="text-sm text-gray-700">Anyone know if City Centre mall is open today? Need to grab
+                            <p class="text-sm text-gray-700 dark:text-gray-300">Anyone know if City Centre mall is open
+                                today? Need to grab
                                 something from the HP store.</p>
                         </div>
 
                         <!-- Chat Message (Personalized Easter Egg) -->
-                        <div class="bg-brandYellow/20 p-3 border border-yellow-400 rounded shadow-sm">
+                        <div
+                            class="bg-brandYellow/20 dark:bg-yellow-900/30 p-3 border border-yellow-400 dark:border-yellow-700 rounded shadow-sm">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="font-bold text-sm">Suparna97</span>
                                 <span class="text-[10px] text-gray-500">2 mins ago</span>
                             </div>
-                            <p class="text-sm text-gray-800">Has anyone checked the prices of Khoka Illish at Hong Kong
+                            <p class="text-sm text-gray-800 dark:text-gray-200">Has anyone checked the prices of Khoka
+                                Illish at Hong Kong
                                 market today? Planning a special dinner! 🐟</p>
                         </div>
 
                         <!-- Chat Message -->
-                        <div class="bg-white p-3 border border-gray-200 rounded shadow-sm">
+                        <div
+                            class="bg-white dark:bg-gray-800 p-3 border border-gray-200 dark:border-gray-700 rounded shadow-sm">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="font-bold text-sm">Techie_Nil</span>
-                                <span class="text-[10px] text-gray-400">15 mins ago</span>
+                                <span class="text-[10px] text-gray-400 dark:text-gray-500">15 mins ago</span>
                             </div>
-                            <p class="text-sm text-gray-700">@Rohan_SFC Yeah it's open. I just picked up a cooling pad
+                            <p class="text-sm text-gray-700 dark:text-gray-300">@Rohan_SFC Yeah it's open. I just picked
+                                up a cooling pad
                                 for my HP Victus 15. The 3050 gets toasty in this summer heat!</p>
                         </div>
 
                         <!-- Chat Message -->
-                        <div class="bg-white p-3 border border-gray-200 rounded shadow-sm">
+                        <div
+                            class="bg-white dark:bg-gray-800 p-3 border border-gray-200 dark:border-gray-700 rounded shadow-sm">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="font-bold text-sm">DogLoverSili</span>
-                                <span class="text-[10px] text-gray-400">22 mins ago</span>
+                                <span class="text-[10px] text-gray-400 dark:text-gray-500">22 mins ago</span>
                             </div>
-                            <p class="text-sm text-gray-700">Reminder: POGO's 5th birthday gathering is happening this
+                            <p class="text-sm text-gray-700 dark:text-gray-300">Reminder: POGO's 5th birthday gathering
+                                is happening this
                                 August 12th at the ISKCON temple grounds park! All local pups welcome! 🐕🎉</p>
                         </div>
 
                         <!-- Chat Message -->
-                        <div class="bg-white p-3 border border-gray-200 rounded shadow-sm">
+                        <div
+                            class="bg-white dark:bg-gray-800 p-3 border border-gray-200 dark:border-gray-700 rounded shadow-sm">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="font-bold text-sm">MountainBiker</span>
-                                <span class="text-[10px] text-gray-400">1 hr ago</span>
+                                <span class="text-[10px] text-gray-400 dark:text-gray-500">1 hr ago</span>
                             </div>
-                            <p class="text-sm text-gray-700">Road to Kurseong is completely clear today. Great weather
+                            <p class="text-sm text-gray-700 dark:text-gray-300">Road to Kurseong is completely clear
+                                today. Great weather
                                 for a ride up.</p>
                         </div>
                     </div>
 
                     <!-- Chat Input area -->
-                    <div class="mt-4 pt-4 border-t border-gray-300 flex gap-2">
+                    <div class="mt-4 pt-4 border-t border-gray-300 dark:border-gray-700 flex gap-2">
                         <input type="text" placeholder="Join the conversation..."
-                            class="w-full bg-white border border-black px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brandYellow">
+                            class="w-full bg-white dark:bg-gray-800 border border-black dark:border-gray-600 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brandYellow dark:text-white dark:placeholder-gray-500">
                         <button
-                            class="bg-black text-white px-4 py-2 font-bold text-sm hover:bg-gray-800 transition">Post</button>
+                            class="bg-black text-white dark:bg-gray-700 dark:hover:bg-gray-600 px-4 py-2 font-bold text-sm hover:bg-gray-800 transition">Post</button>
                     </div>
 
                 </div>
@@ -255,16 +293,17 @@
     </main>
 
     <!-- Simple Footer -->
-    <footer class="bg-black text-white py-12 border-t-[16px] border-brandYellow">
+    <footer
+        class="bg-black dark:bg-[#1a1a1a] text-white py-12 border-t-[16px] border-brandYellow dark:border-yellow-600">
         <div
             class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-            <h2 class="font-serif italic text-5xl md:text-6xl text-brandYellow">Siliguri.</h2>
+            <h2 class="font-serif italic text-5xl md:text-6xl text-brandYellow dark:text-yellow-500">Siliguri.</h2>
             <div class="flex gap-6 font-mono text-sm">
-                <a href="#" class="hover:text-brandYellow">About</a>
-                <a href="#" class="hover:text-brandYellow">Contact</a>
-                <a href="#" class="hover:text-brandYellow">Privacy</a>
+                <a href="#" class="hover:text-brandYellow dark:hover:text-yellow-400 transition">About</a>
+                <a href="#" class="hover:text-brandYellow dark:hover:text-yellow-400 transition">Contact</a>
+                <a href="#" class="hover:text-brandYellow dark:hover:text-yellow-400 transition">Privacy</a>
             </div>
-            <p class="text-gray-400 text-xs">© 2026 Siliguri News Network. Siliguri, WB.</p>
+            <p class="text-gray-400 dark:text-gray-500 text-xs">© 2026 Siliguri News Network. Siliguri, WB.</p>
         </div>
     </footer>
 
@@ -273,72 +312,80 @@
         aria-modal="true">
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <!-- Background overlay -->
-            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
-                onclick="closeAuthModal()"></div>
+            <div class="fixed inset-0 bg-gray-500 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-80 transition-opacity"
+                aria-hidden="true" onclick="closeAuthModal()"></div>
 
             <!-- This element is to trick the browser into centering the modal contents. -->
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
             <!-- Modal Panel -->
             <div
-                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md w-full border-2 border-black relative">
+                class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl dark:shadow-none transform transition-all sm:my-8 sm:align-middle sm:max-w-md w-full border-2 border-black dark:border-gray-700 relative">
                 <!-- decorative bar -->
-                <div class="absolute top-0 left-0 w-full h-2 bg-brandYellow"></div>
+                <div class="absolute top-0 left-0 w-full h-2 bg-brandYellow dark:bg-yellow-500"></div>
 
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="sm:flex sm:items-start">
                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                            <h3 class="text-2xl leading-6 font-extrabold text-gray-900 mb-2" id="modal-title">
+                            <h3 class="text-2xl leading-6 font-extrabold text-gray-900 dark:text-white mb-2"
+                                id="modal-title">
                                 Welcome to Sili.
                             </h3>
-                            <p class="text-sm text-gray-500 mb-6" id="authModeDescription">Sign in to access exclusive
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-6" id="authModeDescription">Sign in to
+                                access exclusive
                                 community features.</p>
 
                             <!-- Auth Form -->
                             <form id="authForm" class="space-y-4" onsubmit="handleAuthSubmit(event)">
                                 <div>
-                                    <label for="email" class="block text-sm font-bold text-gray-700">Email
+                                    <label for="email"
+                                        class="block text-sm font-bold text-gray-700 dark:text-gray-300">Email
                                         Address</label>
                                     <input type="email" id="email" required
-                                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-black focus:border-black sm:text-sm">
+                                        class="mt-1 block w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-black focus:border-black dark:text-white sm:text-sm">
                                 </div>
 
                                 <div>
-                                    <label for="password" class="block text-sm font-bold text-gray-700">Password</label>
+                                    <label for="password"
+                                        class="block text-sm font-bold text-gray-700 dark:text-gray-300">Password</label>
                                     <input type="password" id="password" required
-                                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-black focus:border-black sm:text-sm">
+                                        class="mt-1 block w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-black focus:border-black dark:text-white sm:text-sm">
                                 </div>
 
                                 <div id="roleSelectorDiv" class="hidden">
-                                    <label for="userRole" class="block text-sm font-bold text-gray-700">Join As</label>
+                                    <label for="userRole"
+                                        class="block text-sm font-bold text-gray-700 dark:text-gray-300">Join As</label>
                                     <select id="userRole"
-                                        class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-black focus:border-black sm:text-sm">
+                                        class="mt-1 block w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-black focus:border-black dark:text-white sm:text-sm">
                                         <option value="member">Reader / Member</option>
                                         <option value="publisher">Publisher / Writer</option>
                                     </select>
                                 </div>
 
-                                <div id="authErrorMsg" class="hidden text-red-600 text-sm font-bold"></div>
-                                <div id="authSuccessMsg" class="hidden text-green-600 text-sm font-bold"></div>
+                                <div id="authErrorMsg" class="hidden text-red-600 dark:text-red-400 text-sm font-bold">
+                                </div>
+                                <div id="authSuccessMsg"
+                                    class="hidden text-green-600 dark:text-green-400 text-sm font-bold"></div>
 
                                 <button type="submit" id="authSubmitBtn"
-                                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-bold text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black mt-4">
+                                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-bold text-white bg-black dark:bg-gray-700 hover:bg-gray-800 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black mt-4 transition">
                                     Sign In
                                 </button>
                             </form>
 
                             <div class="mt-4 text-center">
                                 <button onclick="toggleAuthMode()" id="toggleAuthModeBtn"
-                                    class="text-sm font-bold text-gray-600 hover:text-black hover:underline transition">
+                                    class="text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:underline transition">
                                     Need an account? Sign Up
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-200">
+                <div
+                    class="bg-gray-50 dark:bg-gray-800/50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-200 dark:border-gray-700">
                     <button type="button" onclick="closeAuthModal()"
-                        class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black sm:ml-3 sm:w-auto sm:text-sm">
+                        class="w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-700 text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black sm:ml-3 sm:w-auto sm:text-sm transition">
                         Cancel
                     </button>
                 </div>
@@ -351,30 +398,32 @@
         role="dialog" aria-modal="true">
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <!-- Background overlay -->
-            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
-                onclick="closePublisherDashboard()"></div>
+            <div class="fixed inset-0 bg-gray-500 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-80 transition-opacity"
+                aria-hidden="true" onclick="closePublisherDashboard()"></div>
 
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
             <!-- Modal Panel -->
             <div id="publisherModalInner"
-                class="inline-block align-bottom bg-white rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:align-middle max-w-7xl w-full border-2 border-black relative h-[90vh]">
+                class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:align-middle max-w-7xl w-full border-2 border-black dark:border-gray-700 relative h-[90vh]">
 
                 <!-- Inner Flex Wrapper to prevent breaking inline-block centering -->
                 <div class="flex flex-col h-full w-full relative">
-                    <div class="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
+                    <div class="absolute top-0 left-0 w-full h-2 bg-blue-600 dark:bg-blue-500"></div>
 
                     <!-- Modal Header -->
                     <div
-                        class="bg-white px-4 pt-5 pb-4 sm:px-6 sm:pb-4 border-b border-gray-200 shrink-0 flex justify-between items-center">
+                        class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:px-6 sm:pb-4 border-b border-gray-200 dark:border-gray-700 shrink-0 flex justify-between items-center rounded-t-lg">
                         <div>
-                            <h3 class="text-2xl leading-6 font-extrabold text-gray-900 mb-1" id="publisher-title">
+                            <h3 class="text-2xl leading-6 font-extrabold text-gray-900 dark:text-white mb-1"
+                                id="publisher-title">
                                 Publisher Dashboard
                             </h3>
-                            <p class="text-sm text-gray-500">Upload an article to the Siliguri network.</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Upload an article to the Siliguri
+                                network.</p>
                         </div>
                         <button type="button" onclick="closePublisherDashboard()"
-                            class="text-gray-400 hover:text-gray-500 bg-gray-100 rounded-full p-2">
+                            class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-full p-2 transition">
                             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M6 18L18 6M6 6l12 12" />
@@ -386,21 +435,22 @@
                     <div class="flex-1 overflow-hidden grid grid-cols-1 lg:grid-cols-2">
 
                         <!-- LEFT COLUMN: The Form -->
-                        <div class="bg-white px-4 py-5 sm:p-6 overflow-y-auto border-r border-gray-200">
+                        <div
+                            class="bg-white dark:bg-gray-800 px-4 py-5 sm:p-6 overflow-y-auto border-r border-gray-200 dark:border-gray-700 rounded-bl-lg">
                             <form id="publisherForm" class="space-y-4" onsubmit="handlePublishSubmit(event)">
                                 <div>
                                     <label for="articleTitle"
-                                        class="block text-sm font-bold text-gray-700">Headline</label>
+                                        class="block text-sm font-bold text-gray-700 dark:text-gray-300">Headline</label>
                                     <input type="text" id="articleTitle" required
-                                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-black focus:border-black sm:text-sm">
+                                        class="mt-1 block w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-black focus:border-black dark:text-white sm:text-sm">
                                 </div>
 
                                 <div class="flex gap-4">
                                     <div class="w-1/2">
                                         <label for="articleCategory"
-                                            class="block text-sm font-bold text-gray-700">Category</label>
+                                            class="block text-sm font-bold text-gray-700 dark:text-gray-300">Category</label>
                                         <select id="articleCategory"
-                                            class="mt-1 block w-full bg-white border border-gray-300 rounded-md py-2 px-3">
+                                            class="mt-1 block w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md py-2 px-3 dark:text-white focus:outline-none focus:ring-black focus:border-black">
                                             <option value="City News">City News</option>
                                             <option value="Tea Estates">Tea Estates</option>
                                             <option value="Culture">Culture</option>
@@ -409,9 +459,9 @@
                                     </div>
                                     <div class="w-1/2">
                                         <label for="articleType"
-                                            class="block text-sm font-bold text-gray-700">Type</label>
+                                            class="block text-sm font-bold text-gray-700 dark:text-gray-300">Type</label>
                                         <select id="articleType"
-                                            class="mt-1 block w-full bg-white border border-gray-300 rounded-md py-2 px-3">
+                                            class="mt-1 block w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md py-2 px-3 dark:text-white focus:outline-none focus:ring-black focus:border-black">
                                             <option value="standard">Standard Article</option>
                                             <option value="explainer">Explainer</option>
                                             <option value="video">Video Feature</option>
@@ -421,36 +471,40 @@
                                 </div>
 
                                 <div>
-                                    <label for="articleExcerpt" class="block text-sm font-bold text-gray-700">Excerpt
-                                        (Short
-                                        description)</label>
+                                    <label for="articleExcerpt"
+                                        class="block text-sm font-bold text-gray-700 dark:text-gray-300">Excerpt
+                                        (Short description)</label>
                                     <textarea id="articleExcerpt" rows="2"
-                                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"></textarea>
+                                        class="mt-1 block w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm py-2 px-3 dark:text-white focus:outline-none focus:ring-black focus:border-black"></textarea>
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-bold text-gray-700 mb-1">Article Content</label>
-                                    <div id="editor-container" class="h-64 bg-white border border-gray-300 rounded-md">
+                                    <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Article
+                                        Content</label>
+                                    <div id="editor-container"
+                                        class="h-64 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md dark:text-white">
                                     </div>
                                 </div>
                                 <input type="hidden" id="editingArticleId">
 
                                 <div>
-                                    <label for="articleImage" class="block text-sm font-bold text-gray-700">Cover Image
+                                    <label for="articleImage"
+                                        class="block text-sm font-bold text-gray-700 dark:text-gray-300">Cover Image
                                         <span id="imageOptionalNote"
-                                            class="font-normal text-xs text-gray-500">(Optional:
-                                            Upload
-                                            an image for your article)</span></label>
+                                            class="font-normal text-xs text-gray-500 dark:text-gray-400">(Optional:
+                                            Upload an image for your article)</span></label>
                                     <input type="file" id="articleImage" accept="image/*"
-                                        class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                                        class="mt-1 block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-blue-900 dark:file:text-blue-200">
                                 </div>
 
-                                <div id="publisherErrorMsg" class="hidden text-red-600 text-sm font-bold"></div>
-                                <div id="publisherSuccessMsg" class="hidden text-green-600 text-sm font-bold"></div>
+                                <div id="publisherErrorMsg"
+                                    class="hidden text-red-600 dark:text-red-400 text-sm font-bold"></div>
+                                <div id="publisherSuccessMsg"
+                                    class="hidden text-green-600 dark:text-green-400 text-sm font-bold"></div>
 
-                                <div class="pt-4 mt-4 border-t border-gray-200">
+                                <div class="pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
                                     <button type="submit" id="publisherSubmitBtn"
-                                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-lg font-bold text-white bg-blue-600 hover:bg-blue-700 active:translate-x-1 active:translate-y-1 active:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] transition-all">
+                                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] text-lg font-bold text-white bg-blue-600 hover:bg-blue-700 active:translate-x-1 active:translate-y-1 active:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] dark:active:shadow-none transition-all">
                                         Publish Article
                                     </button>
                                 </div>
@@ -458,15 +512,15 @@
                         </div>
 
                         <!-- RIGHT COLUMN: Live Preview -->
-                        <div class="bg-gray-50 hidden lg:block overflow-y-auto relative">
+                        <div class="bg-gray-50 dark:bg-gray-900 hidden lg:block overflow-y-auto relative rounded-br-lg">
                             <div
-                                class="sticky top-0 bg-brandYellow/90 backdrop-blur-sm text-black font-mono text-xs font-bold py-2 px-4 shadow-sm z-10 flex justify-between items-center">
+                                class="sticky top-0 bg-brandYellow/90 dark:bg-yellow-600/90 backdrop-blur-sm text-black font-mono text-xs font-bold py-2 px-4 shadow-sm z-10 flex justify-between items-center transition-colors">
                                 <span>LIVE PREVIEW</span>
                                 <span class="opacity-70">Reads exactly as your audience will see it.</span>
                             </div>
 
                             <div
-                                class="p-8 max-w-3xl mx-auto bg-white min-h-[800px] shadow-sm my-8 border border-gray-100">
+                                class="p-8 max-w-3xl mx-auto bg-white dark:bg-gray-800 min-h-[800px] shadow-sm my-8 border border-gray-100 dark:border-gray-700 transition-colors">
                                 <!-- Content Area -->
                                 <main class="w-full">
 
@@ -483,31 +537,33 @@
 
                                         <!-- Title -->
                                         <h1 id="previewTitle"
-                                            class="font-serif font-extrabold text-4xl md:text-5xl lg:text-6xl text-black mb-6 leading-tight tracking-tight">
+                                            class="font-serif font-extrabold text-4xl md:text-5xl lg:text-6xl text-black dark:text-white mb-6 leading-tight tracking-tight">
                                             Your amazing headline will appear here...
                                         </h1>
 
                                         <!-- Meta -->
                                         <div
-                                            class="flex items-center gap-4 text-sm font-medium text-gray-500 mb-8 pb-8 border-b border-gray-200">
+                                            class="flex items-center gap-4 text-sm font-medium text-gray-500 dark:text-gray-400 mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
                                             <div class="flex items-center gap-2">
-                                                <div class="w-10 h-10 rounded-full bg-gray-200 border-2 border-brandYellow flex items-center justify-center font-bold text-black"
+                                                <div class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 border-2 border-brandYellow flex items-center justify-center font-bold text-black dark:text-white"
                                                     id="previewAuthorInitial">A</div>
                                                 <div>
-                                                    <div class="text-black font-bold uppercase tracking-wide"
+                                                    <div class="text-black dark:text-white font-bold uppercase tracking-wide"
                                                         id="previewAuthorName">Siliguri News</div>
                                                     <div class="text-xs">Just Now</div>
                                                 </div>
                                             </div>
                                             <div class="hidden md:flex gap-4 ml-auto">
-                                                <button class="hover:text-black flex items-center gap-1 transition"><svg
+                                                <button
+                                                    class="hover:text-black dark:hover:text-white flex items-center gap-1 transition"><svg
                                                         xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                                         viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             stroke-width="2"
                                                             d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
                                                     </svg> Share</button>
-                                                <button class="hover:text-black flex items-center gap-1 transition"><svg
+                                                <button
+                                                    class="hover:text-black dark:hover:text-white flex items-center gap-1 transition"><svg
                                                         xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                                         viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -519,19 +575,19 @@
                                     </div>
 
                                     <!-- Cover Image -->
-                                    <div class="w-full aspect-video bg-gray-100 mb-10 overflow-hidden relative"
+                                    <div class="w-full aspect-video bg-gray-100 dark:bg-gray-700 mb-10 overflow-hidden relative"
                                         id="previewImageContainer">
                                         <img id="previewImage" src="" alt="Cover Image"
                                             class="w-full h-full object-cover hidden">
                                         <div id="previewImagePlaceholder"
-                                            class="absolute inset-0 flex items-center justify-center text-gray-400 font-mono text-sm border-2 border-dashed border-gray-300 m-8">
+                                            class="absolute inset-0 flex items-center justify-center text-gray-400 dark:text-gray-500 font-mono text-sm border-2 border-dashed border-gray-300 dark:border-gray-500 m-8">
                                             Cover Image Preview
                                         </div>
                                     </div>
 
                                     <!-- Excerpt -->
                                     <p id="previewExcerpt"
-                                        class="text-xl md:text-2xl font-serif text-gray-600 mb-8 leading-relaxed italic border-l-4 border-brandYellow pl-6">
+                                        class="text-xl md:text-2xl font-serif text-gray-600 dark:text-gray-300 mb-8 leading-relaxed italic border-l-4 border-brandYellow pl-6">
                                         The short description of your article will be displayed here as an engaging
                                         leading
                                         paragraph.
@@ -539,8 +595,9 @@
 
                                     <!-- Body Content -->
                                     <div id="previewContent"
-                                        class="prose prose-lg md:prose-xl max-w-none text-gray-900 font-serif leading-loose prose-p:mb-6 prose-headings:font-bold prose-headings:font-serif prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-a:text-blue-600 prose-a:underline prose-a:decoration-brandYellow prose-a:decoration-4 hover:prose-a:bg-brandYellow hover:prose-a:text-black hover:prose-a:decoration-black prose-img:rounded-xl prose-img:shadow-md prose-blockquote:border-l-4 prose-blockquote:border-black prose-blockquote:bg-gray-50 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:font-serif prose-blockquote:italic">
-                                        <p class="text-gray-400 italic">Start writing your story in the editor to see it
+                                        class="prose prose-lg md:prose-xl max-w-none text-gray-900 dark:text-gray-200 dark:prose-invert font-serif leading-loose prose-p:mb-6 prose-headings:font-bold prose-headings:font-serif prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-a:text-blue-600 prose-a:underline prose-a:decoration-brandYellow prose-a:decoration-4 hover:prose-a:bg-brandYellow hover:prose-a:text-black hover:prose-a:decoration-black prose-img:rounded-xl prose-img:shadow-md prose-blockquote:border-l-4 prose-blockquote:border-black dark:prose-blockquote:border-white prose-blockquote:bg-gray-50 dark:prose-blockquote:bg-gray-800 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:font-serif prose-blockquote:italic">
+                                        <p class="text-gray-400 dark:text-gray-500 italic">Start writing your story in
+                                            the editor to see it
                                             appear here...</p>
                                     </div>
                                 </main>
@@ -555,17 +612,19 @@
         <div id="manageArticlesModal" class="hidden fixed inset-0 z-[100] overflow-y-auto" aria-labelledby="modal-title"
             role="dialog" aria-modal="true">
             <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
-                    onclick="closeManageArticles()"></div>
+                <div class="fixed inset-0 bg-gray-500 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-80 transition-opacity"
+                    aria-hidden="true" onclick="closeManageArticles()"></div>
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
                 <div
-                    class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl w-full border-2 border-black relative">
-                    <div class="absolute top-0 left-0 w-full h-2 bg-green-600"></div>
-                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl dark:shadow-none transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl w-full border-2 border-black dark:border-gray-700 relative">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-green-600 dark:bg-green-500"></div>
+                    <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                         <div class="flex justify-between items-center mb-6">
-                            <h3 class="text-2xl leading-6 font-extrabold text-gray-900" id="manage-title">Manage Your
+                            <h3 class="text-2xl leading-6 font-extrabold text-gray-900 dark:text-white"
+                                id="manage-title">Manage Your
                                 Articles</h3>
-                            <button onclick="closeManageArticles()" class="text-gray-400 hover:text-gray-500">
+                            <button onclick="closeManageArticles()"
+                                class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition">
                                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M6 18L18 6M6 6l12 12" />
@@ -573,7 +632,8 @@
                             </button>
                         </div>
                         <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200 border-2 border-gray-200">
+                            <table
+                                class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 border-2 border-gray-200 dark:border-gray-700">
                                 <thead class="bg-gray-50">
                                     <tr>
                                         <th
@@ -604,17 +664,19 @@
         <div id="moderationModal" class="hidden fixed inset-0 z-[100] overflow-y-auto" aria-labelledby="modal-title"
             role="dialog" aria-modal="true">
             <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
-                    onclick="closeModerationDashboard()"></div>
+                <div class="fixed inset-0 bg-gray-500 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-80 transition-opacity"
+                    aria-hidden="true" onclick="closeModerationDashboard()"></div>
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
                 <div
-                    class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl w-full border-2 border-brandYellow relative">
-                    <div class="absolute top-0 left-0 w-full h-2 bg-brandYellow"></div>
-                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl dark:shadow-none transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl w-full border-2 border-brandYellow dark:border-yellow-600 relative">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-brandYellow dark:bg-yellow-500"></div>
+                    <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                         <div class="flex justify-between items-center mb-6">
-                            <h3 class="text-2xl leading-6 font-extrabold text-gray-900" id="moderation-title">⚡ Manage
+                            <h3 class="text-2xl leading-6 font-extrabold text-gray-900 dark:text-white"
+                                id="moderation-title">⚡ Manage
                                 Publishers</h3>
-                            <button onclick="closeModerationDashboard()" class="text-gray-400 hover:text-gray-500">
+                            <button onclick="closeModerationDashboard()"
+                                class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition">
                                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M6 18L18 6M6 6l12 12" />
@@ -623,22 +685,24 @@
                         </div>
 
                         <div id="moderationLoading" class="text-center py-10">
-                            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-brandYellow mx-auto mb-4">
+                            <div
+                                class="animate-spin rounded-full h-8 w-8 border-b-2 border-brandYellow dark:border-yellow-500 mx-auto mb-4">
                             </div>
-                            <p class="text-sm font-mono text-gray-500">Loading publishers...</p>
+                            <p class="text-sm font-mono text-gray-500 dark:text-gray-400">Loading publishers...</p>
                         </div>
 
                         <div id="publishersList" class="hidden flex flex-col gap-4 max-h-[60vh] overflow-y-auto pr-2">
                             <!-- Publishers will be rendered here -->
                         </div>
                     </div>
-                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-200">
+                    <div
+                        class="bg-gray-50 dark:bg-gray-800/50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-200 dark:border-gray-700">
                         <button type="button" onclick="closeModerationDashboard()"
-                            class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:ml-3 sm:w-auto sm:text-sm">
+                            class="w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-700 text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 transition sm:ml-3 sm:w-auto sm:text-sm">
                             Close
                         </button>
                         <button type="button" onclick="loadPublishersForModeration()"
-                            class="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-black text-brandYellow text-base font-bold hover:bg-gray-800 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                            class="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-black text-brandYellow dark:bg-gray-700 dark:text-yellow-400 text-base font-bold hover:bg-gray-800 dark:hover:bg-gray-600 transition sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                             Refresh List
                         </button>
                     </div>
@@ -650,49 +714,56 @@
         <div id="subscriptionModal" class="hidden fixed inset-0 z-[110] overflow-y-auto" aria-labelledby="modal-title"
             role="dialog" aria-modal="true">
             <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
-                    onclick="closeSubscriptionModal()"></div>
+                <div class="fixed inset-0 bg-gray-500 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-80 transition-opacity"
+                    aria-hidden="true" onclick="closeSubscriptionModal()"></div>
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
                 <div
-                    class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-5xl w-full border-2 border-brandYellow relative">
-                    <div class="absolute top-0 left-0 w-full h-2 bg-brandYellow"></div>
-                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-8">
+                    class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl dark:shadow-none transform transition-all sm:my-8 sm:align-middle sm:max-w-5xl w-full border-2 border-brandYellow dark:border-yellow-600 relative">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-brandYellow dark:bg-yellow-500"></div>
+                    <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-8">
                         <div class="flex justify-between items-center mb-2">
-                            <h3 class="text-3xl leading-6 font-serif font-bold text-gray-900" id="sub-modal-title">
-                                Upgrade
-                                Your Experience</h3>
-                            <button onclick="closeSubscriptionModal()" class="text-gray-400 hover:text-gray-500">
+                            <h3 class="text-3xl leading-6 font-serif font-bold text-gray-900 dark:text-white"
+                                id="sub-modal-title">
+                                Upgrade Your Experience</h3>
+                            <button onclick="closeSubscriptionModal()"
+                                class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition">
                                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                             </button>
                         </div>
-                        <p class="text-gray-500 mb-8" id="sub-modal-desc">Choose the plan that fits your needs.</p>
+                        <p class="text-gray-500 dark:text-gray-400 mb-8" id="sub-modal-desc">Choose the plan that fits
+                            your needs.</p>
 
                         <!-- Publisher Pricing -->
                         <div id="publisherPricing" class="hidden grid-cols-1 md:grid-cols-2 gap-8">
                             <!-- Basic -->
-                            <div class="border border-gray-200 rounded-xl p-8 shadow-sm flex flex-col relative">
-                                <h4 class="text-xl font-bold mb-2">Basic Publisher</h4>
-                                <div class="flex items-baseline gap-1 mb-4">
-                                    <span class="text-3xl font-bold">₹75</span><span class="text-gray-500">/mo</span>
+                            <div
+                                class="border border-gray-200 dark:border-gray-700 rounded-xl p-8 shadow-sm flex flex-col relative dark:bg-gray-800">
+                                <h4 class="text-xl font-bold mb-2 dark:text-white">Basic Publisher</h4>
+                                <div class="flex items-baseline gap-1 mb-4 text-gray-900 dark:text-gray-100">
+                                    <span class="text-3xl font-bold">₹75</span><span
+                                        class="text-gray-500 dark:text-gray-400">/mo</span>
                                 </div>
-                                <ul class="text-gray-600 mb-8 space-y-3 flex-1">
-                                    <li class="flex items-center gap-2"><svg class="w-5 h-5 text-green-500"
-                                            fill="currentColor" viewBox="0 0 20 20">
+                                <ul class="text-gray-600 dark:text-gray-300 mb-8 space-y-3 flex-1">
+                                    <li class="flex items-center gap-2"><svg
+                                            class="w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor"
+                                            viewBox="0 0 20 20">
                                             <path fill-rule="evenodd"
                                                 d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                                                 clip-rule="evenodd"></path>
                                         </svg>Publish Standard Articles</li>
-                                    <li class="flex items-center gap-2"><svg class="w-5 h-5 text-green-500"
-                                            fill="currentColor" viewBox="0 0 20 20">
+                                    <li class="flex items-center gap-2"><svg
+                                            class="w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor"
+                                            viewBox="0 0 20 20">
                                             <path fill-rule="evenodd"
                                                 d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                                                 clip-rule="evenodd"></path>
                                         </svg>Access to Publisher Dashboard</li>
-                                    <li class="flex items-center gap-2 text-gray-400"><svg class="w-5 h-5 text-gray-300"
-                                            fill="currentColor" viewBox="0 0 20 20">
+                                    <li class="flex items-center gap-2 text-gray-400"><svg
+                                            class="w-5 h-5 text-gray-300 dark:text-gray-600" fill="currentColor"
+                                            viewBox="0 0 20 20">
                                             <path fill-rule="evenodd"
                                                 d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
                                                 clip-rule="evenodd"></path>
@@ -700,42 +771,43 @@
                                 </ul>
                                 <div class="flex justify-center flex-col gap-2">
                                     <button onclick="mockPayment('publisher', 'basic', 'monthly')"
-                                        class="w-full bg-white border border-black text-black font-bold py-3 rounded hover:bg-gray-50 transition">Select
+                                        class="w-full bg-white dark:bg-gray-700 border border-black dark:border-gray-600 text-black dark:text-white font-bold py-3 rounded hover:bg-gray-50 dark:hover:bg-gray-600 transition">Select
                                         Basic (Monthly)</button>
                                     <button onclick="mockPayment('publisher', 'basic', 'annual')"
-                                        class="w-full bg-white border border-gray-300 text-gray-600 font-bold py-2 rounded text-sm hover:bg-gray-50 transition">Annual
+                                        class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-400 font-bold py-2 rounded text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition">Annual
                                         (₹750/yr - Save 16%)</button>
                                 </div>
                             </div>
 
                             <!-- Pro -->
                             <div
-                                class="border-2 border-brandYellow rounded-xl p-8 shadow-md flex flex-col relative bg-gradient-to-br from-yellow-50 to-white">
+                                class="border-2 border-brandYellow dark:border-yellow-600 rounded-xl p-8 shadow-md flex flex-col relative bg-gradient-to-br from-yellow-50 to-white dark:from-yellow-900/20 dark:to-gray-800">
                                 <div
-                                    class="absolute top-0 right-0 bg-brandYellow text-black font-mono text-xs font-bold px-3 py-1 uppercase rounded-bl-lg rounded-tr-lg">
+                                    class="absolute top-0 right-0 bg-brandYellow dark:bg-yellow-500 text-black font-mono text-xs font-bold px-3 py-1 uppercase rounded-bl-lg rounded-tr-lg">
                                     Recommended</div>
-                                <h4 class="text-xl font-bold mb-2">Pro Publisher</h4>
-                                <div class="flex items-baseline gap-1 mb-4">
-                                    <span class="text-3xl font-bold">₹199</span><span class="text-gray-500">/mo</span>
+                                <h4 class="text-xl font-bold mb-2 dark:text-white">Pro Publisher</h4>
+                                <div class="flex items-baseline gap-1 mb-4 text-gray-900 dark:text-gray-100">
+                                    <span class="text-3xl font-bold">₹199</span><span
+                                        class="text-gray-500 dark:text-gray-400">/mo</span>
                                 </div>
-                                <ul class="text-gray-900 mb-8 space-y-3 flex-1 font-medium">
+                                <ul class="text-gray-900 dark:text-gray-200 mb-8 space-y-3 flex-1 font-medium">
                                     <li class="flex items-center gap-2"><svg
-                                            class="w-5 h-5 text-brandYellow bg-black rounded-full" fill="currentColor"
-                                            viewBox="0 0 20 20">
+                                            class="w-5 h-5 text-brandYellow dark:text-yellow-500 bg-black dark:bg-white rounded-full"
+                                            fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd"
                                                 d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                                                 clip-rule="evenodd"></path>
                                         </svg>Everything in Basic</li>
                                     <li class="flex items-center gap-2"><svg
-                                            class="w-5 h-5 text-brandYellow bg-black rounded-full" fill="currentColor"
-                                            viewBox="0 0 20 20">
+                                            class="w-5 h-5 text-brandYellow dark:text-yellow-500 bg-black dark:bg-white rounded-full"
+                                            fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd"
                                                 d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                                                 clip-rule="evenodd"></path>
                                         </svg>Publish Premium Content</li>
                                     <li class="flex items-center gap-2"><svg
-                                            class="w-5 h-5 text-brandYellow bg-black rounded-full" fill="currentColor"
-                                            viewBox="0 0 20 20">
+                                            class="w-5 h-5 text-brandYellow dark:text-yellow-500 bg-black dark:bg-white rounded-full"
+                                            fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd"
                                                 d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                                                 clip-rule="evenodd"></path>
@@ -743,10 +815,10 @@
                                 </ul>
                                 <div class="flex justify-center flex-col gap-2">
                                     <button onclick="mockPayment('publisher', 'pro', 'monthly')"
-                                        class="w-full bg-brandYellow hover:bg-yellow-400 text-black font-bold py-3 rounded transition shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1">Select
+                                        class="w-full bg-brandYellow dark:bg-yellow-500 hover:bg-yellow-400 dark:hover:bg-yellow-400 text-black font-bold py-3 rounded transition shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-none active:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1">Select
                                         Pro (Monthly)</button>
                                     <button onclick="mockPayment('publisher', 'pro', 'annual')"
-                                        class="w-full bg-transparent text-gray-600 font-bold py-2 rounded text-sm hover:underline transition">Annual
+                                        class="w-full bg-transparent text-gray-600 dark:text-gray-400 font-bold py-2 rounded text-sm hover:underline hover:text-gray-800 dark:hover:text-gray-200 transition">Annual
                                         (₹1990/yr - Save 16%)</button>
                                 </div>
                             </div>
@@ -756,20 +828,23 @@
                         <div id="memberPricing" class="hidden grid-cols-1 md:grid-cols-2 gap-8">
                             <!-- Free -->
                             <div
-                                class="border border-gray-200 rounded-xl p-8 shadow-sm flex flex-col relative opacity-60">
-                                <h4 class="text-xl font-bold mb-2">Free Reader</h4>
-                                <div class="flex items-baseline gap-1 mb-4">
-                                    <span class="text-3xl font-bold">₹0</span><span class="text-gray-500">/mo</span>
+                                class="border border-gray-200 dark:border-gray-700 rounded-xl p-8 shadow-sm flex flex-col relative opacity-60 dark:bg-gray-800">
+                                <h4 class="text-xl font-bold mb-2 dark:text-white">Free Reader</h4>
+                                <div class="flex items-baseline gap-1 mb-4 text-gray-900 dark:text-gray-100">
+                                    <span class="text-3xl font-bold">₹0</span><span
+                                        class="text-gray-500 dark:text-gray-400">/mo</span>
                                 </div>
-                                <ul class="text-gray-600 mb-8 space-y-3 flex-1">
-                                    <li class="flex items-center gap-2"><svg class="w-5 h-5 text-gray-500"
-                                            fill="currentColor" viewBox="0 0 20 20">
+                                <ul class="text-gray-600 dark:text-gray-300 mb-8 space-y-3 flex-1">
+                                    <li class="flex items-center gap-2"><svg
+                                            class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"
+                                            viewBox="0 0 20 20">
                                             <path fill-rule="evenodd"
                                                 d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                                                 clip-rule="evenodd"></path>
                                         </svg>Read Standard News</li>
-                                    <li class="flex items-center gap-2 text-gray-400"><svg class="w-5 h-5 text-gray-300"
-                                            fill="currentColor" viewBox="0 0 20 20">
+                                    <li class="flex items-center gap-2 text-gray-400 dark:text-gray-500"><svg
+                                            class="w-5 h-5 text-gray-300 dark:text-gray-600" fill="currentColor"
+                                            viewBox="0 0 20 20">
                                             <path fill-rule="evenodd"
                                                 d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
                                                 clip-rule="evenodd"></path>
@@ -777,36 +852,40 @@
                                 </ul>
                                 <div class="flex justify-center flex-col gap-2">
                                     <button
-                                        class="w-full bg-gray-200 text-gray-500 font-bold py-3 rounded cursor-not-allowed">Current
+                                        class="w-full bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 font-bold py-3 rounded cursor-not-allowed">Current
                                         Plan</button>
                                 </div>
                             </div>
 
                             <!-- Pro Member -->
                             <div
-                                class="border-2 border-black rounded-xl p-8 shadow-xl flex flex-col relative bg-black text-white">
+                                class="border-2 border-black dark:border-brandYellow rounded-xl p-8 shadow-xl flex flex-col relative bg-black dark:bg-gray-900 text-white">
                                 <div
-                                    class="absolute top-0 right-0 bg-brandYellow text-black font-mono text-xs font-bold px-3 py-1 uppercase rounded-bl-lg rounded-tr-lg">
+                                    class="absolute top-0 right-0 bg-brandYellow dark:bg-yellow-500 text-black font-mono text-xs font-bold px-3 py-1 uppercase rounded-bl-lg rounded-tr-lg">
                                     All Access</div>
                                 <h4 class="text-xl font-bold mb-2">Siliguri Pro</h4>
                                 <div class="flex items-baseline gap-1 mb-4">
-                                    <span class="text-3xl font-bold">₹30</span><span class="text-gray-400">/mo</span>
+                                    <span class="text-3xl font-bold">₹30</span><span
+                                        class="text-gray-400 dark:text-gray-300">/mo</span>
                                 </div>
-                                <ul class="text-gray-300 mb-8 space-y-3 flex-1 font-medium">
-                                    <li class="flex items-center gap-2"><svg class="w-5 h-5 text-brandYellow"
-                                            fill="currentColor" viewBox="0 0 20 20">
+                                <ul class="text-gray-300 dark:text-gray-200 mb-8 space-y-3 flex-1 font-medium">
+                                    <li class="flex items-center gap-2"><svg
+                                            class="w-5 h-5 text-brandYellow dark:text-yellow-500" fill="currentColor"
+                                            viewBox="0 0 20 20">
                                             <path fill-rule="evenodd"
                                                 d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                                                 clip-rule="evenodd"></path>
                                         </svg>Everything in Free</li>
-                                    <li class="flex items-center gap-2 text-white"><svg class="w-5 h-5 text-brandYellow"
-                                            fill="currentColor" viewBox="0 0 20 20">
+                                    <li class="flex items-center gap-2 text-white"><svg
+                                            class="w-5 h-5 text-brandYellow dark:text-yellow-500" fill="currentColor"
+                                            viewBox="0 0 20 20">
                                             <path fill-rule="evenodd"
                                                 d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                                                 clip-rule="evenodd"></path>
                                         </svg>Unlock All Premium Content</li>
-                                    <li class="flex items-center gap-2 text-white"><svg class="w-5 h-5 text-brandYellow"
-                                            fill="currentColor" viewBox="0 0 20 20">
+                                    <li class="flex items-center gap-2 text-white"><svg
+                                            class="w-5 h-5 text-brandYellow dark:text-yellow-500" fill="currentColor"
+                                            viewBox="0 0 20 20">
                                             <path fill-rule="evenodd"
                                                 d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                                                 clip-rule="evenodd"></path>
@@ -814,10 +893,10 @@
                                 </ul>
                                 <div class="flex justify-center flex-col gap-2">
                                     <button onclick="mockPayment('member', 'pro', 'monthly')"
-                                        class="w-full bg-brandYellow hover:bg-yellow-400 text-black font-bold py-3 rounded transition">Subscribe
+                                        class="w-full bg-brandYellow dark:bg-yellow-500 hover:bg-yellow-400 dark:hover:bg-yellow-400 text-black font-bold py-3 rounded transition">Subscribe
                                         Now (Monthly)</button>
                                     <button onclick="mockPayment('member', 'pro', 'annual')"
-                                        class="w-full bg-transparent text-gray-400 font-bold py-2 rounded text-sm hover:text-white transition">Annual
+                                        class="w-full bg-transparent text-gray-400 dark:text-gray-300 font-bold py-2 rounded text-sm hover:text-white transition">Annual
                                         (₹300/yr - Save 16%)</button>
                                 </div>
                             </div>
@@ -825,11 +904,14 @@
 
                         <!-- Payment Loading Overlay -->
                         <div id="paymentOverlay"
-                            class="hidden absolute inset-0 bg-white/90 backdrop-blur flex flex-col items-center justify-center z-20">
-                            <div class="animate-spin rounded-full h-12 w-12 border-b-4 border-brandYellow mb-4"></div>
-                            <h3 class="text-xl font-bold font-serif mb-2" id="paymentStatusText">Initializing Payment
+                            class="hidden absolute inset-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur flex flex-col items-center justify-center z-20">
+                            <div
+                                class="animate-spin rounded-full h-12 w-12 border-b-4 border-brandYellow dark:border-yellow-500 mb-4">
+                            </div>
+                            <h3 class="text-xl font-bold font-serif mb-2 dark:text-white" id="paymentStatusText">
+                                Initializing Payment
                                 Gateway...</h3>
-                            <p class="text-sm text-gray-500">(Mock Payment Environment)</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">(Mock Payment Environment)</p>
                         </div>
 
                     </div>
@@ -943,6 +1025,8 @@
                 }
             });
             // --- End Live Preview Binding ---
+
+            // Theme Toggle Logic moved to assets/js/theme.js
 
             function openAuthModal(role) {
                 isSignUpMode = true; // Auto-open to Sign Up
