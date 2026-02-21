@@ -1202,7 +1202,7 @@
                                 .eq('email', currentUser.email)
                                 .maybeSingle();
 
-                            if (!subData) {
+                            if (!subError && !subData) {
                                 // User has no subscription record yet -> Force them to choose
                                 openSubscriptionModal(role);
 
@@ -1210,8 +1210,6 @@
                                 publisherDashBtn.style.display = 'none';
                                 manageArtBtn.style.display = 'none';
                                 managePubsBtn.style.display = 'none';
-                                // Optional: You could hide the main container here if you want a hard block
-                                // document.getElementById('mainContentContainer').classList.add('hidden');
 
                                 // We return early so they don't get the standard dashboard buttons yet
                                 return;
@@ -1227,11 +1225,11 @@
                     let blockWarning = "";
 
                     try {
-                        const { data: blockStatus, error } = await supabaseClient
+                        const { data: blockStatus } = await supabaseClient
                             .from('publisher_blocks')
                             .select('*')
                             .eq('email', currentUser.email)
-                            .single();
+                            .maybeSingle();
 
                         if (blockStatus && blockStatus.is_blocked) {
                             const blockUntil = blockStatus.block_until ? new Date(blockStatus.block_until) : null;
