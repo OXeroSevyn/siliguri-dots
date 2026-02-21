@@ -387,6 +387,7 @@
                                     <option value="standard">Standard Article</option>
                                     <option value="explainer">Explainer</option>
                                     <option value="video">Video Feature</option>
+                                    <option value="premium">Premium Article</option>
                                 </select>
                             </div>
                         </div>
@@ -1004,6 +1005,7 @@
                     const mfImage = mf.image_url || mf.image || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=1000&auto=format&fit=crop';
                     const mfAuthor = mf.author_name || mf.author;
                     const mfDate = mf.created_at ? new Date(mf.created_at).toLocaleDateString() : (mf.date || 'Today');
+                    const mfPremiumStar = mf.type === 'premium' ? '<span class="text-brandYellow ml-2 drop-shadow-md" title="Premium Article">★</span>' : '';
 
                     document.getElementById('mainFeatureContainer').innerHTML = `
                         <a href="article.html?id=${mf.id}" class="block w-full">
@@ -1013,8 +1015,8 @@
                                     ${mf.category}
                                 </div>
                             </div>
-                            <h2 class="text-4xl md:text-5xl font-extrabold leading-tight mb-3 group-hover:text-blue-700 transition-colors">
-                                ${mf.title}
+                            <h2 class="text-4xl md:text-5xl font-extrabold leading-tight mb-3 group-hover:text-blue-700 transition-colors flex items-center flex-wrap">
+                                ${mf.title}${mfPremiumStar}
                             </h2>
                             ${mf.excerpt ? `<p class="text-lg text-gray-700 mb-4 line-clamp-2">${mf.excerpt}</p>` : ''}
                             <div class="text-sm font-bold text-gray-500 uppercase tracking-wide">
@@ -1035,6 +1037,7 @@
                     const cat = article.category || 'News';
                     const title = article.title;
                     const excerpt = article.excerpt || '';
+                    const premiumStar = article.type === 'premium' ? '<span class="text-brandYellow ml-2 drop-shadow-sm" title="Premium Article">★</span>' : '';
 
                     // Different styles based on "type"
                     if (article.type === 'explainer') {
@@ -1049,8 +1052,8 @@
                                     </svg>
                                 </div>
                             </div>
-                            <h3 class="text-2xl font-bold leading-tight group-hover:text-blue-700 transition mt-1">
-                                ${title}
+                            <h3 class="text-2xl font-bold leading-tight group-hover:text-blue-700 transition mt-1 flex items-center flex-wrap">
+                                ${title}${premiumStar}
                             </h3>
                         </a>`;
                     } else if (article.type === 'video') {
@@ -1065,8 +1068,8 @@
                                     </svg>
                                 </div>
                             </div>
-                            <h3 class="text-2xl font-bold leading-tight group-hover:text-blue-700 transition mt-1">
-                                ${title}
+                            <h3 class="text-2xl font-bold leading-tight group-hover:text-blue-700 transition mt-1 flex items-center flex-wrap">
+                                ${title}${premiumStar}
                             </h3>
                         </a>`;
                     } else {
@@ -1076,8 +1079,8 @@
                             <div class="overflow-hidden bg-gray-100 aspect-[3/2]">
                                 <img src="${img}" alt="${title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
                             </div>
-                            <h3 class="text-2xl font-bold leading-tight group-hover:text-blue-700 transition">
-                                ${title}
+                            <h3 class="text-2xl font-bold leading-tight group-hover:text-blue-700 transition flex items-center flex-wrap">
+                                ${title}${premiumStar}
                             </h3>
                             ${excerpt ? `<p class="text-gray-600 text-sm">${excerpt}</p>` : ''}
                         </a>`;
