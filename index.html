@@ -919,7 +919,36 @@
                 const role = currentUser.user_metadata?.role || 'member';
                 const isSuperAdmin = currentUser.email === 'subhamdey.one@gmail.com';
 
-                // First, check if the user is blocked in the database
+                // --- 1. Post-Signup Subscription Check ---
+                if (!isSuperAdmin) {
+                    try {
+                        const { data: subData, error: subError } = await supabaseClient
+                            .from('subscriptions')
+                            .select('*')
+                            .eq('email', currentUser.email)
+                            .maybeSingle();
+
+                        if (!subData) {
+                            // User has no subscription record yet -> Force them to choose
+                            openSubscriptionModal(role);
+
+                            // Prevent access to rest of UI until they select a plan
+                            publisherDashBtn.style.display = 'none';
+                            manageArtBtn.style.display = 'none';
+                            managePubsBtn.style.display = 'none';
+                            // Optional: You could hide the main container here if you want a hard block
+                            // document.getElementById('mainContentContainer').classList.add('hidden');
+
+                            // We return early so they don't get the standard dashboard buttons yet
+                            return;
+                        }
+                    } catch (e) {
+                        console.error("Error checking subscription on load:", e);
+                    }
+                }
+                // --- End Subscription Check ---
+
+                // --- 2. Check Publisher Block Status ---
                 let isBlocked = false;
                 let blockWarning = "";
 
@@ -1704,7 +1733,24 @@
         }
 
         function closeSubscriptionModal() {
-            document.getElementById('subscriptionModal').classList.add('hidden');
+            // Check if they are a new user who HAS to pick a plan
+            if (currentUser && currentUser.email !== 'subhamdey.one@gmail.com') {
+                supabaseClient.from('subscriptions')
+                    .select('plan_tier')
+                    .eq('email', currentUser.email)
+                    .maybeSingle()
+                    .then(({ data }) => {
+                        if (!data) {
+                            // They still don't have a plan, so they can't close the modal easily.
+                            // If they try to bypass, log them out.
+                            handleSignOut();
+                        } else {
+                            document.getElementById('subscriptionModal').classList.add('hidden');
+                        }
+                    });
+            } else {
+                document.getElementById('subscriptionModal').classList.add('hidden');
+            }
         }
 
         async function mockPayment(role, tier, cycle) {
@@ -1745,7 +1791,8 @@
                         if (error) throw error;
 
                         setTimeout(() => {
-                            closeSubscriptionModal();
+                            // Force close here without the check since we just wrote the record
+                            document.getElementById('subscriptionModal').classList.add('hidden');
                             window.location.reload(); // Reload to refresh permissions & UI everywhere
                         }, 1000);
 
