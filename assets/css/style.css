@@ -1,0 +1,36 @@
+/* Custom styles for precise logo overlapping */
+.header-logo-container {
+    position: absolute;
+    bottom: -35px; /* Adjusted to balance the new font size */
+    left: 20px;
+    z-index: 50;
+}
+
+@media (min-width: 768px) {
+    .header-logo-container {
+        bottom: -55px; /* Adjusted to balance the new font size */
+        left: 5%;
+    }
+}
+
+.vox-logo {
+    font-size: 4.5rem; /* Scaled down for the longer word */
+    line-height: 0.7;
+    letter-spacing: -0.05em;
+    font-weight: 900;
+}
+
+@media (min-width: 768px) {
+    .vox-logo {
+        font-size: 9rem; /* Scaled down to prevent overflow */
+    }
+}
+
+/* Hide scrollbar for community chat */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

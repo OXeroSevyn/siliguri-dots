@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sili | Siliguri News & Community</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom Tailwind Configuration -->
+    <script src="assets/js/tailwind-config.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@400;500;700;800;900&family=Space+Mono:wght@700&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body class="bg-white text-gray-900 font-sans antialiased">
+
+    <!-- VOX STYLE HEADER -->
+    <header
+        class="bg-brandYellow relative w-full h-[180px] md:h-[220px] flex flex-col justify-start pt-6 border-b border-black">
+        <div class="w-full px-4 md:px-10 flex justify-between items-start z-20 relative">
+
+            <!-- Left Navigation (Vertical lines) -->
+            <nav class="hidden lg:flex items-center text-[15px] font-sans text-black">
+                <a href="#" class="px-5 border-l border-black hover:underline decoration-2 underline-offset-4">City
+                    News</a>
+                <a href="#" class="px-5 border-l border-black hover:underline decoration-2 underline-offset-4">Tea
+                    Estates</a>
+                <a href="#"
+                    class="px-5 border-l border-black hover:underline decoration-2 underline-offset-4">Culture</a>
+                <a href="#" class="px-5 border-l border-black hover:underline decoration-2 underline-offset-4">Food</a>
+                <a href="#"
+                    class="px-5 border-l border-black hover:underline decoration-2 underline-offset-4 font-bold flex items-center gap-1">
+                    Listen
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </a>
+                <a href="#"
+                    class="px-5 border-l border-black hover:underline decoration-2 underline-offset-4 font-bold flex items-center gap-1">
+                    Watch
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path
+                            d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
+                    </svg>
+                </a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-4 lg:gap-6 ml-auto">
+                <a href="#"
+                    class="hidden sm:flex items-center gap-2 font-mono text-[11px] font-bold tracking-widest uppercase hover:text-gray-700 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    Sign In
+                </a>
+                <a href="#"
+                    class="bg-white text-black font-mono text-[11px] font-bold tracking-widest uppercase px-3 py-2 border border-transparent hover:border-black transition whitespace-nowrap">
+                    Become a Member
+                </a>
+                <button
+                    class="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-gray-800 transition shadow-lg shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- The Giant Logo Overlapping -->
+        <div class="header-logo-container">
+            <a href="#"
+                class="font-serif italic vox-logo text-black block hover:opacity-90 transition-opacity">Siliguri<span
+                    class="text-brandYellow mix-blend-difference">.</span></a>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 md:mt-32 pb-20">
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+
+            <!-- LEFT COLUMN: News Content -->
+            <div class="lg:col-span-8 flex flex-col gap-12">
+
+                <!-- Dynamic Main Feature Story -->
+                <article id="mainFeatureContainer" class="group cursor-pointer">
+                    <!-- Loaded via JS -->
+                </article>
+
+                <hr class="border-black border-t-2">
+
+                <!-- Dynamic Sub Stories Grid -->
+                <div id="subStoriesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Loaded via JS -->
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN: Community Chats (Sticky) -->
+            <div class="lg:col-span-4 relative">
+                <div class="sticky top-6 bg-gray-50 border-2 border-black p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+
+                    <div class="flex items-center justify-between border-b-2 border-black pb-4 mb-4">
+                        <h3 class="text-xl font-extrabold uppercase tracking-tight">Town Square Live</h3>
+                        <span
+                            class="flex items-center gap-1 text-xs font-bold text-green-600 bg-green-100 px-2 py-1 rounded-full">
+                            <span class="w-2 h-2 rounded-full bg-green-600 animate-pulse"></span>
+                            142 Online
+                        </span>
+                    </div>
+
+                    <!-- Chat Container -->
+                    <div class="flex flex-col gap-4 h-[500px] overflow-y-auto no-scrollbar pb-4">
+
+                        <!-- Chat Message -->
+                        <div class="bg-white p-3 border border-gray-200 rounded shadow-sm">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-bold text-sm">Rohan_SFC</span>
+                                <span class="text-[10px] text-gray-400">Just now</span>
+                            </div>
+                            <p class="text-sm text-gray-700">Anyone know if City Centre mall is open today? Need to grab
+                                something from the HP store.</p>
+                        </div>
+
+                        <!-- Chat Message (Personalized Easter Egg) -->
+                        <div class="bg-brandYellow/20 p-3 border border-yellow-400 rounded shadow-sm">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-bold text-sm">Suparna97</span>
+                                <span class="text-[10px] text-gray-500">2 mins ago</span>
+                            </div>
+                            <p class="text-sm text-gray-800">Has anyone checked the prices of Khoka Illish at Hong Kong
+                                market today? Planning a special dinner! 🐟</p>
+                        </div>
+
+                        <!-- Chat Message -->
+                        <div class="bg-white p-3 border border-gray-200 rounded shadow-sm">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-bold text-sm">Techie_Nil</span>
+                                <span class="text-[10px] text-gray-400">15 mins ago</span>
+                            </div>
+                            <p class="text-sm text-gray-700">@Rohan_SFC Yeah it's open. I just picked up a cooling pad
+                                for my HP Victus 15. The 3050 gets toasty in this summer heat!</p>
+                        </div>
+
+                        <!-- Chat Message -->
+                        <div class="bg-white p-3 border border-gray-200 rounded shadow-sm">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-bold text-sm">DogLoverSili</span>
+                                <span class="text-[10px] text-gray-400">22 mins ago</span>
+                            </div>
+                            <p class="text-sm text-gray-700">Reminder: POGO's 5th birthday gathering is happening this
+                                August 12th at the ISKCON temple grounds park! All local pups welcome! 🐕🎉</p>
+                        </div>
+
+                        <!-- Chat Message -->
+                        <div class="bg-white p-3 border border-gray-200 rounded shadow-sm">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-bold text-sm">MountainBiker</span>
+                                <span class="text-[10px] text-gray-400">1 hr ago</span>
+                            </div>
+                            <p class="text-sm text-gray-700">Road to Kurseong is completely clear today. Great weather
+                                for a ride up.</p>
+                        </div>
+                    </div>
+
+                    <!-- Chat Input area -->
+                    <div class="mt-4 pt-4 border-t border-gray-300 flex gap-2">
+                        <input type="text" placeholder="Join the conversation..."
+                            class="w-full bg-white border border-black px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brandYellow">
+                        <button
+                            class="bg-black text-white px-4 py-2 font-bold text-sm hover:bg-gray-800 transition">Post</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Simple Footer -->
+    <footer class="bg-black text-white py-12 border-t-[16px] border-brandYellow">
+        <div
+            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <h2 class="font-serif italic text-5xl md:text-6xl text-brandYellow">Siliguri.</h2>
+            <div class="flex gap-6 font-mono text-sm">
+                <a href="#" class="hover:text-brandYellow">About</a>
+                <a href="#" class="hover:text-brandYellow">Contact</a>
+                <a href="#" class="hover:text-brandYellow">Privacy</a>
+            </div>
+            <p class="text-gray-400 text-xs">© 2026 Siliguri News Network. Siliguri, WB.</p>
+        </div>
+    </footer>
+
+    <!-- Fetch & Render Scripts -->
+    <script>
+        async function loadContent() {
+            try {
+                // Fetch directly from the static data.json file
+                const response = await fetch('data/data.json');
+                const data = await response.json();
+
+                // 1. Render Main Feature
+                if (data.mainFeature) {
+                    const mf = data.mainFeature;
+                    document.getElementById('mainFeatureContainer').innerHTML = `
+                        <div class="aspect-video w-full bg-gray-200 overflow-hidden relative mb-4">
+                            <img src="${mf.image}" alt="${mf.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-4 left-4 bg-brandYellow text-black font-mono text-xs font-bold px-2 py-1 uppercase tracking-wider">
+                                ${mf.category}
+                            </div>
+                        </div>
+                        <h2 class="text-4xl md:text-5xl font-extrabold leading-tight mb-3 group-hover:text-blue-700 transition-colors">
+                            ${mf.title}
+                        </h2>
+                        ${mf.excerpt ? `<p class="text-lg text-gray-700 mb-4 line-clamp-2">${mf.excerpt}</p>` : ''}
+                        <div class="text-sm font-bold text-gray-500 uppercase tracking-wide">
+                            By <span class="text-black">${mf.author || 'Editorial'}</span> • ${mf.date}
+                        </div>
+                    `;
+                }
+
+                // 2. Render Sub Articles
+                if (data.articles && data.articles.length > 0) {
+                    const subContainer = document.getElementById('subStoriesContainer');
+                    let html = '';
+
+                    data.articles.forEach(article => {
+                        // Different styles based on "type"
+                        if (article.type === 'explainer') {
+                            html += `
+                            <article class="group cursor-pointer flex flex-col gap-3">
+                                <div class="aspect-[3/2] relative overflow-hidden bg-brandYellow">
+                                    <img src="${article.image}" alt="${article.title}" class="absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-60 group-hover:scale-105 transition-transform duration-500">
+                                    <div class="relative p-6 flex flex-col justify-between h-full z-10">
+                                        <span class="font-mono text-xs font-bold uppercase border-b border-black pb-2 inline-block w-max text-black">${article.category}</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mt-4 group-hover:translate-x-2 transition-transform text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <h3 class="text-2xl font-bold leading-tight group-hover:text-blue-700 transition mt-1">
+                                    ${article.title}
+                                </h3>
+                            </article>`;
+                        } else if (article.type === 'video') {
+                            html += `
+                            <article class="group cursor-pointer flex flex-col gap-3">
+                                <div class="aspect-[3/2] relative overflow-hidden bg-black text-white">
+                                    <img src="${article.image}" alt="${article.title}" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-500">
+                                    <div class="relative p-6 flex flex-col justify-between h-full z-10">
+                                        <span class="font-mono text-xs text-brandYellow font-bold uppercase tracking-wider w-max">${article.category}</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-brandYellow opacity-90" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <h3 class="text-2xl font-bold leading-tight group-hover:text-blue-700 transition mt-1">
+                                    ${article.title}
+                                </h3>
+                            </article>`;
+                        } else {
+                            // Standard type
+                            html += `
+                            <article class="group cursor-pointer flex flex-col gap-3">
+                                <img src="${article.image}" alt="${article.title}" class="aspect-[3/2] object-cover bg-gray-100">
+                                <h3 class="text-2xl font-bold leading-tight group-hover:text-blue-700 transition">
+                                    ${article.title}
+                                </h3>
+                                ${article.excerpt ? `<p class="text-gray-600 text-sm">${article.excerpt}</p>` : ''}
+                            </article>`;
+                        }
+                    });
+
+                    subContainer.innerHTML = html;
+                }
+
+            } catch (error) {
+                console.error("Error loading dynamic content:", error);
+            }
+        }
+
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', loadContent);
+    </script>
+</body>
+
+</html>

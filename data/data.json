@@ -1,0 +1,53 @@
+{
+    "mainFeature": {
+        "id": "1",
+        "title": "Traffic woes at Darjeeling More: Will the new elevated corridor finally solve the gridlock?",
+        "excerpt": "As the gateway to the Northeast struggles with mounting vehicular pressure, local authorities have proposed a massive infrastructure overhaul. Here is what residents need to know.",
+        "author": "Anirban Roy",
+        "date": "3 hours ago",
+        "category": "Infrastructure",
+        "image": "assets/images/placeholder-main.svg"
+    },
+    "articles": [
+        {
+            "id": "1771661063428",
+            "title": "The Game is changing! Siliguri",
+            "category": "Explainer",
+            "excerpt": "HALO might release a new hello!",
+            "author": "Subham",
+            "date": "Just now",
+            "type": "standard",
+            "image": "assets/images/1771661063421-480643819.jpeg"
+        },
+        {
+            "id": "2",
+            "title": "The ultimate guide to finding authentic Khoka Illish in Bidhan Market this monsoon.",
+            "excerpt": "Our food critics, including local enthusiast Suparna, share their top secret vendors for the freshest catch.",
+            "category": "Food",
+            "image": "assets/images/placeholder-thumb.svg",
+            "type": "standard"
+        },
+        {
+            "id": "3",
+            "title": "Why are tea estate wages still a burning issue ahead of the elections?",
+            "category": "Explainer",
+            "image": "assets/images/placeholder-thumb.svg",
+            "type": "explainer"
+        },
+        {
+            "id": "4",
+            "title": "Sevoke Road's new weekend initiative makes it a haven for pet walkers.",
+            "excerpt": "With restricted Sunday traffic, local dogs are claiming the streets.",
+            "category": "Community",
+            "image": "assets/images/placeholder-thumb.svg",
+            "type": "standard"
+        },
+        {
+            "id": "5",
+            "title": "Inside the booming startup culture hiding in Matigara's IT parks.",
+            "category": "Watch 🎥",
+            "image": "assets/images/placeholder-thumb.svg",
+            "type": "video"
+        }
+    ]
+}
