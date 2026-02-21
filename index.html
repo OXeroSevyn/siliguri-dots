@@ -103,6 +103,11 @@
                             class="w-full text-left px-5 py-3 border-b border-gray-100 hover:bg-brandYellow hover:text-black font-bold transition">
                             Past Articles (Edit/Delete)
                         </button>
+                        <!-- For Super Admin -->
+                        <button onclick="openModerationDashboard()" id="managePublishersBtn" style="display: none;"
+                            class="w-full text-left px-5 py-3 border-b border-brandYellow bg-black text-brandYellow hover:bg-gray-800 transition font-bold">
+                            ⚡ Manage Publishers
+                        </button>
                         <!-- For Everyone (Logged In) -->
                         <button onclick="handleSignOut()" id="signOutBtn" style="display: none;"
                             class="w-full text-left px-5 py-3 hover:bg-red-500 hover:text-white font-bold transition">
@@ -481,6 +486,51 @@
         </div>
     </div>
 
+    <!-- Super Admin Moderation Modal -->
+    <div id="moderationModal" class="hidden fixed inset-0 z-[100] overflow-y-auto" aria-labelledby="modal-title"
+        role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
+                onclick="closeModerationDashboard()"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div
+                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl w-full border-2 border-brandYellow relative">
+                <div class="absolute top-0 left-0 w-full h-2 bg-brandYellow"></div>
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl leading-6 font-extrabold text-gray-900" id="moderation-title">⚡ Manage
+                            Publishers</h3>
+                        <button onclick="closeModerationDashboard()" class="text-gray-400 hover:text-gray-500">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div id="moderationLoading" class="text-center py-10">
+                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-brandYellow mx-auto mb-4"></div>
+                        <p class="text-sm font-mono text-gray-500">Loading publishers...</p>
+                    </div>
+
+                    <div id="publishersList" class="hidden flex flex-col gap-4 max-h-[60vh] overflow-y-auto pr-2">
+                        <!-- Publishers will be rendered here -->
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-200">
+                    <button type="button" onclick="closeModerationDashboard()"
+                        class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:ml-3 sm:w-auto sm:text-sm">
+                        Close
+                    </button>
+                    <button type="button" onclick="loadPublishersForModeration()"
+                        class="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-black text-brandYellow text-base font-bold hover:bg-gray-800 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Refresh List
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Quill.js -->
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
@@ -659,13 +709,14 @@
             const userNameDisplay = document.getElementById('userNameDisplay');
 
             const signOutBtn = document.getElementById('signOutBtn');
-            const publisherDashBtn = document.getElementById('publisherDashBtn');
+            const publisherDashBtn = document.getElementById('becomePublisherBtn'); // Reusing ID for simplicity
             const manageArtBtn = document.getElementById('manageArticlesBtn');
+            const managePubsBtn = document.getElementById('managePublishersBtn');
             const dropAuthRow = document.getElementById('dropAuthRow');
 
             if (currentUser) {
                 // User is signed in
-                becomePublisherBtn.style.display = 'none';
+                becomePublisherBtn.style.display = 'none'; // Initially hide, re-evaluate based on role
                 becomeMemberBtn.style.display = 'none';
 
                 userGreeting.classList.remove('hidden');
@@ -677,23 +728,64 @@
 
                 // Get the role from user metadata
                 const role = currentUser.user_metadata?.role || 'member';
-                const isSuperPublisher = currentUser.email === 'subhamdey.one@gmail.com';
+                const isSuperAdmin = currentUser.email === 'subhamdey.one@gmail.com';
 
-                // Show dashboard If Super Publisher OR standard Publisher
-                if (isSuperPublisher || role === 'publisher') {
-                    publisherDashBtn.style.display = 'block';
-                    manageArtBtn.style.display = 'block';
-                    if (isSuperPublisher) {
-                        publisherDashBtn.innerText = "Super Admin / Publish";
+                // First, check if the user is blocked in the database
+                let isBlocked = false;
+                let blockWarning = "";
+
+                try {
+                    const { data: blockStatus, error } = await supabaseClient
+                        .from('publisher_blocks')
+                        .select('*')
+                        .eq('email', currentUser.email)
+                        .single();
+
+                    if (blockStatus && blockStatus.is_blocked) {
+                        const blockUntil = blockStatus.block_until ? new Date(blockStatus.block_until) : null;
+                        if (!blockUntil || blockUntil > new Date()) {
+                            isBlocked = true;
+                            blockWarning = blockStatus.warning_message || "Your publishing privileges have been suspended.";
+                        }
                     }
-                } else {
+                } catch (e) {
+                    // Ignore errors if table doesn't exist yet or no row found
+                    console.log("Block status check bypassed or not found:", e);
+                }
+
+                if (isBlocked && !isSuperAdmin) {
+                    // Blocked users cannot publish
                     publisherDashBtn.style.display = 'none';
                     manageArtBtn.style.display = 'none';
+                    managePubsBtn.style.display = 'none';
+
+                    // Show warning if we just logged in (we can check if it's the first render using a flag, but for simplicity we'll just show it)
+                    if (!window.hasShownBlockWarning) {
+                        alert(`⚠️ PUBLISHER ACCOUNT SUSPENDED\n\n${blockWarning}`);
+                        window.hasShownBlockWarning = true;
+                    }
+                } else {
+                    // Show dashboard If Super Admin OR standard Publisher
+                    if (isSuperAdmin || role === 'publisher') {
+                        publisherDashBtn.style.display = 'block';
+                        manageArtBtn.style.display = 'block';
+                        if (isSuperAdmin) {
+                            publisherDashBtn.innerText = "Super Admin / Publish";
+                            managePubsBtn.style.display = 'block';
+                        } else {
+                            managePubsBtn.style.display = 'none';
+                        }
+                    } else {
+                        publisherDashBtn.style.display = 'none';
+                        manageArtBtn.style.display = 'none';
+                        managePubsBtn.style.display = 'none';
+                    }
                 }
             } else {
                 // User is signed out
-                becomePublisherBtn.style.display = 'inline-flex';
-                becomeMemberBtn.style.display = 'inline-flex';
+                window.hasShownBlockWarning = false;
+                becomePublisherBtn.style.display = 'none';
+                becomeMemberBtn.style.display = 'none';
 
                 userGreeting.classList.add('hidden');
                 userGreeting.classList.remove('flex');
@@ -701,6 +793,7 @@
                 signOutBtn.style.display = 'none';
                 publisherDashBtn.style.display = 'none';
                 manageArtBtn.style.display = 'none';
+                managePubsBtn.style.display = 'none';
                 dropAuthRow.style.display = 'block';
             }
         }
@@ -843,6 +936,199 @@
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerText = "Publish Article";
+            }
+        }
+
+        // Super Admin Moderation Logic
+        function openModerationDashboard() {
+            document.getElementById('userDropdown').classList.add('hidden');
+            document.getElementById('userDropdown').classList.remove('flex', 'flex-col');
+            document.getElementById('moderationModal').classList.remove('hidden');
+            loadPublishersForModeration();
+        }
+
+        function closeModerationDashboard() {
+            document.getElementById('moderationModal').classList.add('hidden');
+        }
+
+        async function loadPublishersForModeration() {
+            const loading = document.getElementById('moderationLoading');
+            const list = document.getElementById('publishersList');
+
+            loading.classList.remove('hidden');
+            list.classList.add('hidden');
+            list.innerHTML = '';
+
+            try {
+                // To get all publishers, we need unique emails from articles. 
+                // Since Supabase doesn't easily let us list auth users from the client,
+                // we'll get unique authors from the articles table, and merge with any existing blocks.
+
+                // 1. Get all articles to extract unique authors
+                const { data: articles, error: articlesError } = await supabaseClient
+                    .from('articles')
+                    .select('author_email, author_name');
+
+                if (articlesError) throw articlesError;
+
+                // Extract unique publisher info
+                const publishersMap = new Map();
+                if (articles) {
+                    articles.forEach(art => {
+                        if (art.author_email && art.author_email !== 'subhamdey.one@gmail.com') { // Exclude super admin
+                            // Only keep the most recent name if there are multiple
+                            if (!publishersMap.has(art.author_email)) {
+                                publishersMap.set(art.author_email, { email: art.author_email, name: art.author_name || 'Unknown' });
+                            }
+                        }
+                    });
+                }
+
+                // 2. Get current block statuses
+                const { data: blocks, error: blocksError } = await supabaseClient
+                    .from('publisher_blocks')
+                    .select('*');
+
+                if (blocksError) throw blocksError;
+
+                // Create a lookup map for blocks
+                const blockMap = new Map();
+                if (blocks) {
+                    blocks.forEach(b => {
+                        if (b.email !== 'subhamdey.one@gmail.com') {
+                            blockMap.set(b.email, b);
+                            // Ensure the email is in our publisher list even if they have no articles
+                            if (!publishersMap.has(b.email)) {
+                                publishersMap.set(b.email, { email: b.email, name: b.email.split('@')[0] });
+                            }
+                        }
+                    });
+                }
+
+                const publishers = Array.from(publishersMap.values());
+
+                if (publishers.length === 0) {
+                    list.innerHTML = '<div class="text-center text-gray-500 py-4">No publishers found yet.</div>';
+                } else {
+                    publishers.forEach((pub, index) => {
+                        const blockInfo = blockMap.get(pub.email);
+                        const isBlocked = blockInfo && blockInfo.is_blocked;
+                        let statusHtml = '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>';
+
+                        if (isBlocked) {
+                            const blockUntil = blockInfo.block_until ? new Date(blockInfo.block_until).toLocaleDateString() : 'Forever';
+                            statusHtml = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800" title="Blocked until ${blockUntil}">Blocked</span>
+                                          <div class="text-xs text-red-600 mt-1">Until: ${blockUntil}</div>`;
+                        }
+
+                        const cardHtml = `
+                            <div class="border border-gray-200 rounded-lg p-4 bg-white shadow-sm flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <div class="font-bold text-lg">${pub.name}</div>
+                                        ${statusHtml}
+                                    </div>
+                                    <div class="text-sm text-gray-500 font-mono">${pub.email}</div>
+                                    ${isBlocked && blockInfo.warning_message ? `<div class="mt-2 text-sm text-gray-700 bg-red-50 p-2 rounded border border-red-100"><strong>Message:</strong> ${blockInfo.warning_message}</div>` : ''}
+                                </div>
+                                <div class="flex flex-col gap-2 w-full md:w-auto">
+                                    <button onclick="toggleBlockModal('${pub.email}', 'ban', ${index})" class="text-sm px-3 py-1.5 bg-red-600 text-white font-bold rounded hover:bg-red-700 transition">
+                                        Ban/Warn User
+                                    </button>
+                                    ${isBlocked ? `
+                                    <button onclick="unblockPublisher('${pub.email}')" class="text-sm px-3 py-1.5 bg-green-600 text-white font-bold rounded hover:bg-green-700 transition">
+                                        Unban
+                                    </button>` : ''}
+                                </div>
+                                
+                                <!-- Hidden inline form for blocking -->
+                                <div id="blockForm-${index}" class="hidden w-full md:w-[300px] mt-4 md:mt-0 p-3 bg-gray-50 rounded border border-gray-200">
+                                    <div class="mb-2">
+                                        <label class="block text-xs font-bold text-gray-700 mb-1">Block Until</label>
+                                        <input type="date" id="blockDate-${index}" class="w-full text-sm border-gray-300 rounded p-1">
+                                        <p class="text-[10px] text-gray-500 mt-0.5">Leave empty for a permanent ban</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="block text-xs font-bold text-gray-700 mb-1">Warning Message to Show User</label>
+                                        <textarea id="blockMsg-${index}" rows="2" class="w-full text-sm border-gray-300 rounded p-1" placeholder="Reason for ban..."></textarea>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <button onclick="submitBlock('${pub.email}', ${index})" class="flex-1 bg-red-600 text-white text-xs font-bold py-1.5 rounded hover:bg-red-700">Confirm Block</button>
+                                        <button onclick="toggleBlockModal('${pub.email}', 'cancel', ${index})" class="flex-1 bg-gray-200 text-gray-800 text-xs font-bold py-1.5 rounded hover:bg-gray-300">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        list.insertAdjacentHTML('beforeend', cardHtml);
+                    });
+                }
+            } catch (err) {
+                console.error("Error loading publishers:", err);
+                list.innerHTML = `<div class="text-center text-red-500 py-4 font-bold">Error loading publishers: ${err.message}</div>`;
+            } finally {
+                loading.classList.add('hidden');
+                list.classList.remove('hidden');
+            }
+        }
+
+        function toggleBlockModal(email, action, index) {
+            const form = document.getElementById(`blockForm-${index}`);
+            if (action === 'ban') {
+                form.classList.remove('hidden');
+            } else {
+                form.classList.add('hidden');
+            }
+        }
+
+        async function submitBlock(email, index) {
+            const dateInput = document.getElementById(`blockDate-${index}`).value;
+            const msgInput = document.getElementById(`blockMsg-${index}`).value;
+
+            let blockUntil = null;
+            if (dateInput) {
+                // Ensure the block goes until the end of the selected day
+                const d = new Date(dateInput);
+                d.setHours(23, 59, 59);
+                blockUntil = d.toISOString();
+            }
+
+            try {
+                const { error } = await supabaseClient
+                    .from('publisher_blocks')
+                    .upsert({
+                        email: email,
+                        is_blocked: true,
+                        block_until: blockUntil,
+                        warning_message: msgInput || "Your publishing privileges have been suspended."
+                    }, { onConflict: 'email' });
+
+                if (error) throw error;
+
+                // Refresh list
+                loadPublishersForModeration();
+            } catch (err) {
+                alert(`Error blocking user: ${err.message}`);
+            }
+        }
+
+        async function unblockPublisher(email) {
+            if (!confirm(`Are you sure you want to unban ${email}? They will immediately be able to publish again.`)) return;
+
+            try {
+                const { error } = await supabaseClient
+                    .from('publisher_blocks')
+                    .upsert({
+                        email: email,
+                        is_blocked: false,
+                        block_until: null,
+                        warning_message: ""
+                    }, { onConflict: 'email' });
+
+                if (error) throw error;
+
+                loadPublishersForModeration();
+            } catch (err) {
+                alert(`Error unblocking user: ${err.message}`);
             }
         }
 
