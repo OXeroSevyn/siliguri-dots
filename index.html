@@ -23,14 +23,8 @@
     <!-- Quill.js for Rich Text Editing -->
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
 
-    <!-- Dark Mode Initializer (Prevents FOUC) -->
-    <script>
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    </script>
+    <!-- Force Light Mode -->
+    <script>document.documentElement.classList.remove('dark'); localStorage.removeItem('theme');</script>
 </head>
 
 <body
