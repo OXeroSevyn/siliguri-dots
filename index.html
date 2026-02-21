@@ -79,8 +79,8 @@
 
         <!-- The Giant Logo Overlapping -->
         <div class="header-logo-container">
-            <a href="#"
-                class="font-serif italic vox-logo text-black block hover:opacity-90 transition-opacity">Siliguri<span
+            <a href="index.html"
+                class="font-serif italic vox-logo text-black inline-block hover:opacity-90 transition-opacity">Siliguri<span
                     class="text-brandYellow mix-blend-difference">.</span></a>
         </div>
     </header>
@@ -291,23 +291,17 @@
 
         let isSignUpMode = false;
         let currentUser = null;
+        let currentTargetRole = 'member'; // Track which role they are attempting to auth for
 
-        function openAuthModal(defaultRole) {
+        function openAuthModal(role) {
             isSignUpMode = true; // Auto-open to Sign Up
+            currentTargetRole = role || 'member';
+
             document.getElementById('authModal').classList.remove('hidden');
             document.getElementById('authErrorMsg').classList.add('hidden');
             document.getElementById('authSuccessMsg').classList.add('hidden');
 
-            // Set UI to Sign Up initially
-            document.getElementById('modal-title').innerText = "Create an Account";
-            document.getElementById('authModeDescription').innerText = "Sign up to become a Siliguri active member.";
-            document.getElementById('authSubmitBtn').innerText = "Sign Up";
-            document.getElementById('toggleAuthModeBtn').innerText = "Already have an account? Sign In";
-            document.getElementById('roleSelectorDiv').classList.remove('hidden');
-
-            if (defaultRole) {
-                document.getElementById('userRole').value = defaultRole;
-            }
+            updateModalUI();
         }
 
         function closeAuthModal() {
@@ -317,24 +311,36 @@
 
         function toggleAuthMode() {
             isSignUpMode = !isSignUpMode;
+            updateModalUI();
+        }
+
+        function updateModalUI() {
             const title = document.getElementById('modal-title');
             const desc = document.getElementById('authModeDescription');
             const submitBtn = document.getElementById('authSubmitBtn');
             const toggleBtn = document.getElementById('toggleAuthModeBtn');
             const roleSelectorDiv = document.getElementById('roleSelectorDiv');
 
+            // Set the hidden role selector value behind the scenes just in case
+            document.getElementById('userRole').value = currentTargetRole;
+
+            // Force the dropdown to be completely hidden since we separated the flows
+            roleSelectorDiv.classList.add('hidden');
+
+            const roleText = currentTargetRole === 'publisher' ? 'Publisher' : 'Member';
+
             if (isSignUpMode) {
-                title.innerText = "Create an Account";
-                desc.innerText = "Sign up to become a Siliguri active member.";
+                title.innerText = `Become a ${roleText}`;
+                desc.innerText = currentTargetRole === 'publisher'
+                    ? "Sign up to post news and articles."
+                    : "Sign up to access exclusive community features.";
                 submitBtn.innerText = "Sign Up";
-                toggleBtn.innerText = "Already have an account? Sign In";
-                roleSelectorDiv.classList.remove('hidden');
+                toggleBtn.innerText = `Already have a ${roleText} account? Sign In`;
             } else {
-                title.innerText = "Welcome to Sili.";
-                desc.innerText = "Sign in to access exclusive community features.";
+                title.innerText = `${roleText} Sign In`;
+                desc.innerText = `Sign in to your ${roleText} account.`;
                 submitBtn.innerText = "Sign In";
-                toggleBtn.innerText = "Need an account? Sign Up";
-                roleSelectorDiv.classList.add('hidden');
+                toggleBtn.innerText = `Need a ${roleText} account? Sign Up`;
             }
         }
 
