@@ -293,6 +293,15 @@
             `;
 
             document.title = article.title + ' | Siliguri News & Community';
+
+            // Force Tailwind CDN to rescan the DOM since we injected new HTML dynamically
+            if (window.tailwind) {
+                // Tailwind CDN usually observes mutations, but sometimes misses fast dynamic inserts.
+                // An empty style tag injection or class toggle can force a re-evaluation
+                const forceStyle = document.createElement('style');
+                document.head.appendChild(forceStyle);
+                setTimeout(() => forceStyle.remove(), 10);
+            }
         }
 
         async function showError() {
