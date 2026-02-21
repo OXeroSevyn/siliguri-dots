@@ -57,7 +57,7 @@
             </nav>
 
             <!-- Right Actions -->
-            <div class="flex items-center gap-4 lg:gap-6 ml-auto z-50">
+            <div class="relative flex items-center gap-4 lg:gap-6 ml-auto z-50">
                 <button onclick="openAuthModal('publisher')" id="becomePublisherBtn"
                     class="bg-transparent text-black font-mono text-[11px] font-bold tracking-widest uppercase px-3 py-2 border border-black hover:bg-black hover:text-white transition whitespace-nowrap">
                     Become a Publisher
@@ -409,9 +409,9 @@
 
             if (currentUser) {
                 // User is signed in
-                becomePublisherBtn.classList.add('hidden');
-                signOutBtn.classList.remove('hidden');
-                becomeMemberBtn.classList.add('hidden');
+                becomePublisherBtn.style.display = 'none';
+                signOutBtn.style.display = 'flex';
+                becomeMemberBtn.style.display = 'none';
 
                 // Get the role from user metadata
                 const role = currentUser.user_metadata?.role || 'member';
@@ -419,19 +419,19 @@
 
                 // Show dashboard If Super Publisher OR standard Publisher
                 if (isSuperPublisher || role === 'publisher') {
-                    publisherDashBtn.classList.remove('hidden');
-                    publisherDashBtn.classList.add('inline-flex');
+                    publisherDashBtn.style.display = 'inline-flex';
                     if (isSuperPublisher) {
                         publisherDashBtn.innerText = "Super Admin / Publish";
                     }
+                } else {
+                    publisherDashBtn.style.display = 'none';
                 }
             } else {
                 // User is signed out
-                becomePublisherBtn.classList.remove('hidden');
-                signOutBtn.classList.add('hidden');
-                becomeMemberBtn.classList.remove('hidden');
-                publisherDashBtn.classList.add('hidden');
-                publisherDashBtn.classList.remove('inline-block');
+                becomePublisherBtn.style.display = 'inline-flex';
+                signOutBtn.style.display = 'none';
+                becomeMemberBtn.style.display = 'inline-flex';
+                publisherDashBtn.style.display = 'none';
             }
         }
 
