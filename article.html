@@ -201,14 +201,16 @@
             const imgSrc = article.image_url || article.image || 'https://images.unsplash.com/photo-1546422904-90eab23c3d7e?q=80&w=800&auto=format&fit=crop';
             const author = article.author_name || article.author || 'Editorial';
             const date = article.created_at ? new Date(article.created_at).toLocaleDateString() : (article.date || 'Today');
-            const premiumStarHTML = article.type === 'premium' ? '<span class="text-brandYellow ml-3 drop-shadow-md text-5xl" title="Premium Article">★</span>' : '';
 
             // Format article using standard typography combined with Quill's .ql-editor class
             container.innerHTML = `
                 <div class="mb-6">
                     <span class="font-mono text-xs font-bold uppercase tracking-widest text-brandYellow bg-black px-2 py-1">${article.category || 'News'}</span>
                 </div>
-                <h1 class="font-serif font-bold text-4xl md:text-5xl lg:text-6xl leading-tight mb-6 flex items-center flex-wrap">${article.title}${premiumStarHTML}</h1>
+                <h1 class="font-serif font-bold text-4xl md:text-5xl lg:text-6xl leading-tight mb-6 flex items-center flex-wrap gap-2">
+                    <span>${article.title}</span>
+                    <span class="${article.type === 'premium' ? '' : 'hidden'} text-brandYellow drop-shadow-md text-3xl md:text-4xl lg:text-5xl -mt-1" title="Premium Article">★</span>
+                </h1>
                 
                 <div class="flex items-center gap-4 mb-8 border-y border-gray-200 py-4">
                     <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center font-bold text-gray-500 uppercase">
