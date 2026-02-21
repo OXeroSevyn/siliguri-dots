@@ -27,9 +27,9 @@
 <body class="bg-white text-gray-900 font-sans antialiased">
 
     <!-- VOX STYLE HEADER -->
-    <header
-        class="bg-brandYellow relative w-full h-[180px] md:h-[220px] flex flex-col justify-start pt-6 border-b border-black">
-        <div class="w-full px-4 md:px-10 flex justify-between items-start z-[60] relative">
+    <header id="mainHeader"
+        class="bg-brandYellow sticky top-0 w-full h-[120px] md:h-[180px] flex flex-col justify-start pt-4 md:pt-6 border-b border-black z-[80] transition-all duration-300">
+        <div class="w-full px-4 md:px-10 flex justify-between items-start z-[90] relative">
 
             <!-- Left Navigation (Vertical lines) -->
             <nav class="hidden lg:flex items-center text-[15px] font-sans text-black">
@@ -134,7 +134,7 @@
             <div class="lg:col-span-8 flex flex-col gap-12">
 
                 <!-- Dynamic Main Feature Story -->
-                <article id="mainFeatureContainer" class="group cursor-pointer">
+                <article id="mainFeatureContainer" class="group cursor-pointer animate-fade-in-up">
                     <!-- Loaded via JS -->
                 </article>
 
@@ -147,8 +147,16 @@
 
                 <div id="loadMoreContainer" class="flex justify-center mt-8 hidden">
                     <button onclick="loadContent(true)" id="loadMoreBtn"
-                        class="bg-black text-white px-6 py-3 font-bold text-sm tracking-widest uppercase hover:bg-gray-800 transition">
-                        Load More Stories
+                        class="bg-black text-white px-6 py-3 font-bold text-sm tracking-widest uppercase hover:bg-gray-800 transition flex items-center justify-center gap-2">
+                        <span>Load More Stories</span>
+                        <svg id="loadMoreSpinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
                     </button>
                 </div>
 
@@ -161,14 +169,17 @@
                     <div class="flex items-center justify-between border-b-2 border-black pb-4 mb-4">
                         <h3 class="text-xl font-extrabold uppercase tracking-tight">Town Square Live</h3>
                         <span
-                            class="flex items-center gap-1 text-xs font-bold text-green-600 bg-green-100 px-2 py-1 rounded-full">
-                            <span class="w-2 h-2 rounded-full bg-green-600 animate-pulse"></span>
+                            class="flex items-center gap-1 text-xs font-bold text-green-600 bg-green-100 px-2 py-1 rounded-full border border-green-200 shadow-sm">
+                            <span class="w-2 h-2 rounded-full bg-green-600 animate-pulse relative">
+                                <span
+                                    class="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 animate-ping"></span>
+                            </span>
                             142 Online
                         </span>
                     </div>
 
                     <!-- Chat Container -->
-                    <div class="flex flex-col gap-4 h-[500px] overflow-y-auto no-scrollbar pb-4">
+                    <div class="flex flex-col gap-4 h-[500px] overflow-y-auto custom-scrollbar pb-4 pr-2">
 
                         <!-- Chat Message -->
                         <div class="bg-white p-3 border border-gray-200 rounded shadow-sm">
@@ -906,6 +917,16 @@
     <script>
         let displayedArticleIds = new Set();
         async function loadContent(isLoadMore = false) {
+            const btnText = document.querySelector('#loadMoreBtn span');
+            const btnSpinner = document.getElementById('loadMoreSpinner');
+            const loadBtn = document.getElementById('loadMoreBtn');
+
+            if (isLoadMore) {
+                btnText.innerText = "Loading...";
+                btnSpinner.classList.remove('hidden');
+                loadBtn.disabled = true;
+            }
+
             try {
                 if (!isLoadMore) {
                     currentPage = 0;
@@ -962,7 +983,7 @@
                     document.getElementById('mainFeatureContainer').innerHTML = `
                         <a href="article.html?id=${mf.id}" class="block w-full">
                             <div class="aspect-video w-full bg-gray-200 overflow-hidden relative mb-4">
-                                <img src="${mgImage}" alt="${mf.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <img src="${mgImage}" alt="${mf.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
                                 <div class="absolute top-4 left-4 bg-brandYellow text-black font-mono text-xs font-bold px-2 py-1 uppercase tracking-wider">
                                     ${mf.category}
                                 </div>
@@ -993,9 +1014,9 @@
                     // Different styles based on "type"
                     if (article.type === 'explainer') {
                         html += `
-                        <a href="article.html?id=${article.id}" class="group cursor-pointer flex flex-col gap-3">
+                        <a href="article.html?id=${article.id}" class="group cursor-pointer flex flex-col gap-3 animate-fade-in-up" style="animation-delay: ${0.1 * (subArticles.indexOf(article) % 20)}s">
                             <div class="aspect-[3/2] relative overflow-hidden bg-brandYellow">
-                                <img src="${img}" alt="${title}" class="absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-60 group-hover:scale-105 transition-transform duration-500">
+                                <img src="${img}" alt="${title}" class="absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-60 group-hover:scale-105 group-hover:opacity-80 transition-all duration-500" loading="lazy">
                                 <div class="relative p-6 flex flex-col justify-between h-full z-10">
                                     <span class="font-mono text-xs font-bold uppercase border-b border-black pb-2 inline-block w-max text-black">${cat}</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mt-4 group-hover:translate-x-2 transition-transform text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1009,9 +1030,9 @@
                         </a>`;
                     } else if (article.type === 'video') {
                         html += `
-                        <a href="article.html?id=${article.id}" class="group cursor-pointer flex flex-col gap-3">
+                        <a href="article.html?id=${article.id}" class="group cursor-pointer flex flex-col gap-3 animate-fade-in-up" style="animation-delay: ${0.1 * (subArticles.indexOf(article) % 20)}s">
                             <div class="aspect-[3/2] relative overflow-hidden bg-black text-white">
-                                <img src="${img}" alt="${title}" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-500">
+                                <img src="${img}" alt="${title}" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 group-hover:opacity-70 transition-all duration-500" loading="lazy">
                                 <div class="relative p-6 flex flex-col justify-between h-full z-10">
                                     <span class="font-mono text-xs text-brandYellow font-bold uppercase tracking-wider w-max">${cat}</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-brandYellow opacity-90" viewBox="0 0 20 20" fill="currentColor">
@@ -1026,8 +1047,10 @@
                     } else {
                         // Standard type
                         html += `
-                        <a href="article.html?id=${article.id}" class="group cursor-pointer flex flex-col gap-3">
-                            <img src="${img}" alt="${title}" class="aspect-[3/2] object-cover bg-gray-100">
+                        <a href="article.html?id=${article.id}" class="group cursor-pointer flex flex-col gap-3 animate-fade-in-up" style="animation-delay: ${0.1 * (subArticles.indexOf(article) % 20)}s">
+                            <div class="overflow-hidden bg-gray-100 aspect-[3/2]">
+                                <img src="${img}" alt="${title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                            </div>
                             <h3 class="text-2xl font-bold leading-tight group-hover:text-blue-700 transition">
                                 ${title}
                             </h3>
@@ -1053,8 +1076,26 @@
 
             } catch (error) {
                 console.error("Error loading dynamic content:", error);
+            } finally {
+                if (isLoadMore) {
+                    btnText.innerText = "Load More Stories";
+                    btnSpinner.classList.add('hidden');
+                    loadBtn.disabled = false;
+                }
             }
         }
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 50) {
+                header.classList.add('glass-header', 'header-scrolled');
+                header.classList.remove('bg-brandYellow');
+            } else {
+                header.classList.remove('glass-header', 'header-scrolled');
+                header.classList.add('bg-brandYellow');
+            }
+        });
 
         // Run on page load
         document.addEventListener('DOMContentLoaded', loadContent);
