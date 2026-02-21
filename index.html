@@ -357,81 +357,186 @@
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
             <!-- Modal Panel -->
-            <div
-                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl w-full border-2 border-black relative">
+            <div id="publisherModalInner"
+                class="inline-block align-bottom bg-white rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:align-middle max-w-7xl w-full border-2 border-black relative h-[90vh] flex flex-col">
                 <div class="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <h3 class="text-2xl leading-6 font-extrabold text-gray-900 mb-2" id="publisher-title">
-                        Publisher Dashboard
-                    </h3>
-                    <p class="text-sm text-gray-500 mb-6">Upload an article to the Siliguri network.</p>
 
-                    <form id="publisherForm" class="space-y-4" onsubmit="handlePublishSubmit(event)">
-                        <div>
-                            <label for="articleTitle" class="block text-sm font-bold text-gray-700">Headline</label>
-                            <input type="text" id="articleTitle" required
-                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-black focus:border-black sm:text-sm">
-                        </div>
-
-                        <div class="flex gap-4">
-                            <div class="w-1/2">
-                                <label for="articleCategory"
-                                    class="block text-sm font-bold text-gray-700">Category</label>
-                                <select id="articleCategory"
-                                    class="mt-1 block w-full bg-white border border-gray-300 rounded-md py-2 px-3">
-                                    <option value="City News">City News</option>
-                                    <option value="Tea Estates">Tea Estates</option>
-                                    <option value="Culture">Culture</option>
-                                    <option value="Food">Food</option>
-                                </select>
-                            </div>
-                            <div class="w-1/2">
-                                <label for="articleType" class="block text-sm font-bold text-gray-700">Type</label>
-                                <select id="articleType"
-                                    class="mt-1 block w-full bg-white border border-gray-300 rounded-md py-2 px-3">
-                                    <option value="standard">Standard Article</option>
-                                    <option value="explainer">Explainer</option>
-                                    <option value="video">Video Feature</option>
-                                    <option value="premium">Premium Article</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label for="articleExcerpt" class="block text-sm font-bold text-gray-700">Excerpt (Short
-                                description)</label>
-                            <textarea id="articleExcerpt" rows="2"
-                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"></textarea>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-1">Article Content</label>
-                            <div id="editor-container" class="h-64 bg-white border border-gray-300 rounded-md"></div>
-                        </div>
-                        <input type="hidden" id="editingArticleId">
-
-                        <div>
-                            <label for="articleImage" class="block text-sm font-bold text-gray-700">Cover Image <span
-                                    id="imageOptionalNote" class="font-normal text-xs text-gray-500">(Optional: Upload
-                                    an image for your article)</span></label>
-                            <input type="file" id="articleImage" accept="image/*"
-                                class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                        </div>
-
-                        <div id="publisherErrorMsg" class="hidden text-red-600 text-sm font-bold"></div>
-                        <div id="publisherSuccessMsg" class="hidden text-green-600 text-sm font-bold"></div>
-
-                        <button type="submit" id="publisherSubmitBtn"
-                            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 mt-4">
-                            Publish Article
-                        </button>
-                    </form>
-                </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-200">
+                <!-- Modal Header -->
+                <div
+                    class="bg-white px-4 pt-5 pb-4 sm:px-6 sm:pb-4 border-b border-gray-200 shrink-0 flex justify-between items-center">
+                    <div>
+                        <h3 class="text-2xl leading-6 font-extrabold text-gray-900 mb-1" id="publisher-title">
+                            Publisher Dashboard
+                        </h3>
+                        <p class="text-sm text-gray-500">Upload an article to the Siliguri network.</p>
+                    </div>
                     <button type="button" onclick="closePublisherDashboard()"
-                        class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:ml-3 sm:w-auto sm:text-sm">
-                        Close
+                        class="text-gray-400 hover:text-gray-500 bg-gray-100 rounded-full p-2">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
                     </button>
+                </div>
+
+                <!-- Modal Body: 2 Columns -->
+                <div class="flex-1 overflow-hidden grid grid-cols-1 lg:grid-cols-2">
+
+                    <!-- LEFT COLUMN: The Form -->
+                    <div class="bg-white px-4 py-5 sm:p-6 overflow-y-auto border-r border-gray-200">
+                        <form id="publisherForm" class="space-y-4" onsubmit="handlePublishSubmit(event)">
+                            <div>
+                                <label for="articleTitle" class="block text-sm font-bold text-gray-700">Headline</label>
+                                <input type="text" id="articleTitle" required
+                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-black focus:border-black sm:text-sm">
+                            </div>
+
+                            <div class="flex gap-4">
+                                <div class="w-1/2">
+                                    <label for="articleCategory"
+                                        class="block text-sm font-bold text-gray-700">Category</label>
+                                    <select id="articleCategory"
+                                        class="mt-1 block w-full bg-white border border-gray-300 rounded-md py-2 px-3">
+                                        <option value="City News">City News</option>
+                                        <option value="Tea Estates">Tea Estates</option>
+                                        <option value="Culture">Culture</option>
+                                        <option value="Food">Food</option>
+                                    </select>
+                                </div>
+                                <div class="w-1/2">
+                                    <label for="articleType" class="block text-sm font-bold text-gray-700">Type</label>
+                                    <select id="articleType"
+                                        class="mt-1 block w-full bg-white border border-gray-300 rounded-md py-2 px-3">
+                                        <option value="standard">Standard Article</option>
+                                        <option value="explainer">Explainer</option>
+                                        <option value="video">Video Feature</option>
+                                        <option value="premium">Premium Article</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="articleExcerpt" class="block text-sm font-bold text-gray-700">Excerpt (Short
+                                    description)</label>
+                                <textarea id="articleExcerpt" rows="2"
+                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-1">Article Content</label>
+                                <div id="editor-container" class="h-64 bg-white border border-gray-300 rounded-md">
+                                </div>
+                            </div>
+                            <input type="hidden" id="editingArticleId">
+
+                            <div>
+                                <label for="articleImage" class="block text-sm font-bold text-gray-700">Cover Image
+                                    <span id="imageOptionalNote" class="font-normal text-xs text-gray-500">(Optional:
+                                        Upload
+                                        an image for your article)</span></label>
+                                <input type="file" id="articleImage" accept="image/*"
+                                    class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                            </div>
+
+                            <div id="publisherErrorMsg" class="hidden text-red-600 text-sm font-bold"></div>
+                            <div id="publisherSuccessMsg" class="hidden text-green-600 text-sm font-bold"></div>
+
+                            <div class="pt-4 mt-4 border-t border-gray-200">
+                                <button type="submit" id="publisherSubmitBtn"
+                                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-lg font-bold text-white bg-blue-600 hover:bg-blue-700 active:translate-x-1 active:translate-y-1 active:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] transition-all">
+                                    Publish Article
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- RIGHT COLUMN: Live Preview -->
+                    <div class="bg-gray-50 hidden lg:block overflow-y-auto relative">
+                        <div
+                            class="sticky top-0 bg-brandYellow/90 backdrop-blur-sm text-black font-mono text-xs font-bold py-2 px-4 shadow-sm z-10 flex justify-between items-center">
+                            <span>LIVE PREVIEW</span>
+                            <span class="opacity-70">Reads exactly as your audience will see it.</span>
+                        </div>
+
+                        <div class="p-8 max-w-3xl mx-auto bg-white min-h-[800px] shadow-sm my-8 border border-gray-100">
+                            <!-- Content Area -->
+                            <main class="w-full">
+
+                                <div class="mb-8">
+                                    <!-- Tag -->
+                                    <div class="flex gap-2 mb-4" id="previewTagContainer">
+                                        <span id="previewCategory"
+                                            class="bg-brandYellow text-black font-mono text-xs font-bold px-3 py-1 uppercase tracking-widest inline-block shadow-sm">City
+                                            News</span>
+                                        <span id="previewPremiumTag"
+                                            class="hidden bg-black text-brandYellow text-xs font-bold font-mono px-3 py-1 uppercase tracking-widest shadow-sm">Premium
+                                            Content</span>
+                                    </div>
+
+                                    <!-- Title -->
+                                    <h1 id="previewTitle"
+                                        class="font-serif font-extrabold text-4xl md:text-5xl lg:text-6xl text-black mb-6 leading-tight tracking-tight">
+                                        Your amazing headline will appear here...
+                                    </h1>
+
+                                    <!-- Meta -->
+                                    <div
+                                        class="flex items-center gap-4 text-sm font-medium text-gray-500 mb-8 pb-8 border-b border-gray-200">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-10 h-10 rounded-full bg-gray-200 border-2 border-brandYellow flex items-center justify-center font-bold text-black"
+                                                id="previewAuthorInitial">A</div>
+                                            <div>
+                                                <div class="text-black font-bold uppercase tracking-wide"
+                                                    id="previewAuthorName">Siliguri News</div>
+                                                <div class="text-xs">Just Now</div>
+                                            </div>
+                                        </div>
+                                        <div class="hidden md:flex gap-4 ml-auto">
+                                            <button class="hover:text-black flex items-center gap-1 transition"><svg
+                                                    xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                                                </svg> Share</button>
+                                            <button class="hover:text-black flex items-center gap-1 transition"><svg
+                                                    xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                                                </svg> Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Cover Image -->
+                                <div class="w-full aspect-video bg-gray-100 mb-10 overflow-hidden relative"
+                                    id="previewImageContainer">
+                                    <img id="previewImage" src="" alt="Cover Image"
+                                        class="w-full h-full object-cover hidden">
+                                    <div id="previewImagePlaceholder"
+                                        class="absolute inset-0 flex items-center justify-center text-gray-400 font-mono text-sm border-2 border-dashed border-gray-300 m-8">
+                                        Cover Image Preview
+                                    </div>
+                                </div>
+
+                                <!-- Excerpt -->
+                                <p id="previewExcerpt"
+                                    class="text-xl md:text-2xl font-serif text-gray-600 mb-8 leading-relaxed italic border-l-4 border-brandYellow pl-6">
+                                    The short description of your article will be displayed here as an engaging leading
+                                    paragraph.
+                                </p>
+
+                                <!-- Body Content -->
+                                <div id="previewContent"
+                                    class="prose prose-lg md:prose-xl max-w-none text-gray-900 font-serif leading-loose prose-p:mb-6 prose-headings:font-bold prose-headings:font-serif prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-a:text-blue-600 prose-a:underline prose-a:decoration-brandYellow prose-a:decoration-4 hover:prose-a:bg-brandYellow hover:prose-a:text-black hover:prose-a:decoration-black prose-img:rounded-xl prose-img:shadow-md prose-blockquote:border-l-4 prose-blockquote:border-black prose-blockquote:bg-gray-50 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:font-serif prose-blockquote:italic">
+                                    <p class="text-gray-400 italic">Start writing your story in the editor to see it
+                                        appear here...</p>
+                                </div>
+                            </main>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -753,6 +858,79 @@
                 ]
             }
         });
+
+        // --- Live Preview Binding Logic ---
+        function updateLivePreview() {
+            // Title
+            const titleVal = document.getElementById('articleTitle').value;
+            document.getElementById('previewTitle').innerText = titleVal || 'Your amazing headline will appear here...';
+
+            // Category
+            const catVal = document.getElementById('articleCategory').value;
+            document.getElementById('previewCategory').innerText = catVal;
+
+            // Type (Premium Tag)
+            const typeVal = document.getElementById('articleType').value;
+            const premTag = document.getElementById('previewPremiumTag');
+            if (typeVal === 'premium') {
+                premTag.classList.remove('hidden');
+                premTag.classList.add('inline-block');
+            } else {
+                premTag.classList.add('hidden');
+                premTag.classList.remove('inline-block');
+            }
+
+            // Excerpt
+            const excerptVal = document.getElementById('articleExcerpt').value;
+            const previewExcerpt = document.getElementById('previewExcerpt');
+            if (excerptVal) {
+                previewExcerpt.innerText = excerptVal;
+                previewExcerpt.style.display = 'block';
+            } else {
+                previewExcerpt.style.display = 'none';
+            }
+
+            // Content
+            const contentHtml = quill.root.innerHTML;
+            if (quill.getText().trim() === '') {
+                document.getElementById('previewContent').innerHTML = '<p class="text-gray-400 italic">Start writing your story in the editor to see it appear here...</p>';
+            } else {
+                document.getElementById('previewContent').innerHTML = contentHtml;
+            }
+        }
+
+        // Attach static input listeners
+        ['articleTitle', 'articleCategory', 'articleType', 'articleExcerpt'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateLivePreview);
+            document.getElementById(id).addEventListener('change', updateLivePreview);
+        });
+
+        // Attach Quill listener
+        quill.on('text-change', function () {
+            updateLivePreview();
+        });
+
+        // Image Preview Logic
+        document.getElementById('articleImage').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            const imgEl = document.getElementById('previewImage');
+            const placeholder = document.getElementById('previewImagePlaceholder');
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imgEl.src = e.target.result;
+                    imgEl.classList.remove('hidden');
+                    placeholder.classList.add('hidden');
+                }
+                reader.readAsDataURL(file);
+            } else {
+                imgEl.src = '';
+                imgEl.classList.add('hidden');
+                placeholder.classList.remove('hidden');
+            }
+        });
+        // --- End Live Preview Binding ---
 
         function openAuthModal(role) {
             isSignUpMode = true; // Auto-open to Sign Up
