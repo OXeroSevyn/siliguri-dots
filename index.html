@@ -709,7 +709,7 @@
             const userNameDisplay = document.getElementById('userNameDisplay');
 
             const signOutBtn = document.getElementById('signOutBtn');
-            const publisherDashBtn = document.getElementById('becomePublisherBtn'); // Reusing ID for simplicity
+            const publisherDashBtn = document.getElementById('publisherDashBtn');
             const manageArtBtn = document.getElementById('manageArticlesBtn');
             const managePubsBtn = document.getElementById('managePublishersBtn');
             const dropAuthRow = document.getElementById('dropAuthRow');
@@ -784,8 +784,8 @@
             } else {
                 // User is signed out
                 window.hasShownBlockWarning = false;
-                becomePublisherBtn.style.display = 'none';
-                becomeMemberBtn.style.display = 'none';
+                becomePublisherBtn.style.display = 'inline-flex';
+                becomeMemberBtn.style.display = 'inline-flex';
 
                 userGreeting.classList.add('hidden');
                 userGreeting.classList.remove('flex');
