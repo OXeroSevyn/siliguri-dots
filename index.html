@@ -960,29 +960,10 @@
             list.innerHTML = '';
 
             try {
-                // To get all publishers, we need unique emails from articles. 
-                // Since Supabase doesn't easily let us list auth users from the client,
-                // we'll get unique authors from the articles table, and merge with any existing blocks.
+                // 1. Get ALL users securely via the custom Postgres function
+                const { data: allUsers, error: usersError } = await supabaseClient.rpc('get_all_users');
 
-                // 1. Get all articles to extract unique authors
-                const { data: articles, error: articlesError } = await supabaseClient
-                    .from('articles')
-                    .select('author_email, author_name');
-
-                if (articlesError) throw articlesError;
-
-                // Extract unique publisher info
-                const publishersMap = new Map();
-                if (articles) {
-                    articles.forEach(art => {
-                        if (art.author_email && art.author_email !== 'subhamdey.one@gmail.com') { // Exclude super admin
-                            // Only keep the most recent name if there are multiple
-                            if (!publishersMap.has(art.author_email)) {
-                                publishersMap.set(art.author_email, { email: art.author_email, name: art.author_name || 'Unknown' });
-                            }
-                        }
-                    });
-                }
+                if (usersError) throw usersError;
 
                 // 2. Get current block statuses
                 const { data: blocks, error: blocksError } = await supabaseClient
@@ -994,25 +975,30 @@
                 // Create a lookup map for blocks
                 const blockMap = new Map();
                 if (blocks) {
-                    blocks.forEach(b => {
-                        if (b.email !== 'subhamdey.one@gmail.com') {
-                            blockMap.set(b.email, b);
-                            // Ensure the email is in our publisher list even if they have no articles
-                            if (!publishersMap.has(b.email)) {
-                                publishersMap.set(b.email, { email: b.email, name: b.email.split('@')[0] });
-                            }
-                        }
-                    });
+                    blocks.forEach(b => blockMap.set(b.email, b));
                 }
 
-                const publishers = Array.from(publishersMap.values());
+                // Filter out the Super Admin
+                let filteredPublishers = [];
+                if (allUsers) {
+                    filteredPublishers = allUsers.filter(u => u.email && u.email !== 'subhamdey.one@gmail.com');
+                }
 
-                if (publishers.length === 0) {
-                    list.innerHTML = '<div class="text-center text-gray-500 py-4">No publishers found yet.</div>';
+                // Add any blocked users who might not be in auth anymore
+                blockMap.forEach(b => {
+                    const exists = filteredPublishers.find(p => p.email === b.email);
+                    if (!exists && b.email !== 'subhamdey.one@gmail.com') {
+                        filteredPublishers.push({ email: b.email, name: b.email.split('@')[0] });
+                    }
+                });
+
+                if (filteredPublishers.length === 0) {
+                    list.innerHTML = '<div class="text-center text-gray-500 py-4">No publishers found. Register a new user first.</div>';
                 } else {
-                    publishers.forEach((pub, index) => {
+                    filteredPublishers.forEach((pub, index) => {
                         const blockInfo = blockMap.get(pub.email);
                         const isBlocked = blockInfo && blockInfo.is_blocked;
+                        const pubName = pub.name || pub.email.split('@')[0];
                         let statusHtml = '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>';
 
                         if (isBlocked) {
@@ -1025,7 +1011,7 @@
                             <div class="border border-gray-200 rounded-lg p-4 bg-white shadow-sm flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
                                 <div class="flex-1">
                                     <div class="flex items-center gap-2 mb-1">
-                                        <div class="font-bold text-lg">${pub.name}</div>
+                                        <div class="font-bold text-lg">${pubName}</div>
                                         ${statusHtml}
                                     </div>
                                     <div class="text-sm text-gray-500 font-mono">${pub.email}</div>
@@ -1064,7 +1050,16 @@
                 }
             } catch (err) {
                 console.error("Error loading publishers:", err);
-                list.innerHTML = `<div class="text-center text-red-500 py-4 font-bold">Error loading publishers: ${err.message}</div>`;
+                // Provide a friendly fallback message guiding them on how to set up the DB function
+                let errMsg = err.message;
+                if (err.message.includes("function") && err.message.includes("does not exist")) {
+                    errMsg = "The SQL function 'get_all_users' needs to be added via the Supabase Dashboard. See instructions in the codebase.";
+                }
+                list.innerHTML = `
+                    <div class="bg-red-50 border border-red-200 rounded p-4 text-left">
+                        <div class="text-red-800 font-bold mb-2">Error Loading Users</div>
+                        <div class="text-red-600 text-sm">${errMsg}</div>
+                    </div>`;
             } finally {
                 loading.classList.add('hidden');
                 list.classList.remove('hidden');
