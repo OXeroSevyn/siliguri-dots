@@ -58,6 +58,7 @@
 
             <!-- Right Actions -->
             <div class="relative flex items-center gap-4 lg:gap-6 ml-auto z-50">
+                <!-- Logged Out State -->
                 <button onclick="openAuthModal('publisher')" id="becomePublisherBtn"
                     class="bg-transparent text-black font-mono text-[11px] font-bold tracking-widest uppercase px-3 py-2 border border-black hover:bg-black hover:text-white transition whitespace-nowrap">
                     Become a Publisher
@@ -66,22 +67,46 @@
                     class="bg-white text-black font-mono text-[11px] font-bold tracking-widest uppercase px-3 py-2 border border-transparent hover:border-black transition whitespace-nowrap">
                     Become a Member
                 </button>
-                <button onclick="handleSignOut()" id="signOutBtn" style="display: none;"
-                    class="bg-transparent text-black font-mono text-[11px] font-bold tracking-widest uppercase px-3 py-2 border border-black hover:bg-black hover:text-white transition whitespace-nowrap">
-                    Sign Out
-                </button>
-                <button onclick="openPublisherDashboard()" id="publisherDashBtn" style="display: none;"
-                    class="bg-blue-600 text-white font-mono text-[11px] font-bold tracking-widest uppercase px-3 py-2 hover:bg-blue-700 transition whitespace-nowrap">
-                    Publish
-                </button>
-                <button
-                    class="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-gray-800 transition shadow-lg shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
+
+                <!-- Logged In State Greeting -->
+                <div id="userGreeting"
+                    class="hidden items-center gap-2 font-mono text-sm font-bold tracking-wide uppercase text-black">
+                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    Welcome, <span id="userNameDisplay" class="text-blue-700">User</span>
+                </div>
+
+                <!-- Hamburger Menu Container -->
+                <div class="relative">
+                    <button id="hamburgerBtn" onclick="toggleUserMenu()"
+                        class="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-gray-800 transition shadow-lg shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 pointer-events-none" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                    <!-- Dropdown Menu -->
+                    <div id="userDropdown"
+                        class="hidden absolute right-0 mt-3 w-56 bg-white border-2 border-black rounded shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] py-2 font-mono text-sm z-50">
+                        <!-- For Publishers -->
+                        <button onclick="openPublisherDashboard()" id="publisherDashBtn" style="display: none;"
+                            class="w-full text-left px-5 py-3 border-b border-gray-100 hover:bg-brandYellow hover:text-black font-bold transition">
+                            Publish Article
+                        </button>
+                        <!-- For Everyone (Logged In) -->
+                        <button onclick="handleSignOut()" id="signOutBtn" style="display: none;"
+                            class="w-full text-left px-5 py-3 hover:bg-red-500 hover:text-white font-bold transition">
+                            Sign Out
+                        </button>
+                        <!-- For Everyone (Logged Out) -->
+                        <div id="dropAuthRow" class="flex flex-col">
+                            <button onclick="openAuthModal('member')"
+                                class="w-full text-left px-5 py-3 hover:bg-brandYellow hover:text-black font-bold transition">
+                                Sign In / Join
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -489,8 +514,31 @@
             }
         }
 
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('userDropdown');
+            if (dropdown.classList.contains('hidden')) {
+                dropdown.classList.remove('hidden');
+                dropdown.classList.add('flex', 'flex-col');
+            } else {
+                dropdown.classList.add('hidden');
+                dropdown.classList.remove('flex', 'flex-col');
+            }
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (event) => {
+            const dropdown = document.getElementById('userDropdown');
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            if (dropdown && !hamburgerBtn.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.add('hidden');
+                dropdown.classList.remove('flex', 'flex-col');
+            }
+        });
+
         async function handleSignOut() {
             await supabaseClient.auth.signOut();
+            document.getElementById('userDropdown').classList.add('hidden');
+            document.getElementById('userDropdown').classList.remove('flex', 'flex-col');
             checkUserSession();
         }
 
@@ -499,15 +547,25 @@
             currentUser = session?.user;
 
             const becomePublisherBtn = document.getElementById('becomePublisherBtn');
-            const signOutBtn = document.getElementById('signOutBtn');
             const becomeMemberBtn = document.getElementById('becomeMemberBtn');
+            const userGreeting = document.getElementById('userGreeting');
+            const userNameDisplay = document.getElementById('userNameDisplay');
+
+            const signOutBtn = document.getElementById('signOutBtn');
             const publisherDashBtn = document.getElementById('publisherDashBtn');
+            const dropAuthRow = document.getElementById('dropAuthRow');
 
             if (currentUser) {
                 // User is signed in
                 becomePublisherBtn.style.display = 'none';
-                signOutBtn.style.display = 'flex';
                 becomeMemberBtn.style.display = 'none';
+
+                userGreeting.classList.remove('hidden');
+                userGreeting.classList.add('flex');
+                userNameDisplay.innerText = currentUser.email.split('@')[0];
+
+                signOutBtn.style.display = 'block';
+                dropAuthRow.style.display = 'none';
 
                 // Get the role from user metadata
                 const role = currentUser.user_metadata?.role || 'member';
@@ -515,7 +573,7 @@
 
                 // Show dashboard If Super Publisher OR standard Publisher
                 if (isSuperPublisher || role === 'publisher') {
-                    publisherDashBtn.style.display = 'inline-flex';
+                    publisherDashBtn.style.display = 'block';
                     if (isSuperPublisher) {
                         publisherDashBtn.innerText = "Super Admin / Publish";
                     }
@@ -525,9 +583,14 @@
             } else {
                 // User is signed out
                 becomePublisherBtn.style.display = 'inline-flex';
-                signOutBtn.style.display = 'none';
                 becomeMemberBtn.style.display = 'inline-flex';
+
+                userGreeting.classList.add('hidden');
+                userGreeting.classList.remove('flex');
+
+                signOutBtn.style.display = 'none';
                 publisherDashBtn.style.display = 'none';
+                dropAuthRow.style.display = 'block';
             }
         }
 
@@ -543,6 +606,8 @@
 
         // Publisher Dashboard Logic
         function openPublisherDashboard() {
+            document.getElementById('userDropdown').classList.add('hidden');
+            document.getElementById('userDropdown').classList.remove('flex', 'flex-col');
             document.getElementById('publisherModal').classList.remove('hidden');
         }
 
