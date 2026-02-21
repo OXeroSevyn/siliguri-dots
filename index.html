@@ -287,7 +287,7 @@
         // Supabase Initialization
         const supabaseUrl = 'https://dssxoikhszevavriutc.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzc3hvaWtraHN6ZXZhdnJpdXRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2NjA3NDEsImV4cCI6MjA4NzIzNjc0MX0.SJx4tz808lDKuiNE3lXY4kAT_ikwTTxNlacbhYpUvZw';
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
         let isSignUpMode = false;
         let currentUser = null;
@@ -363,7 +363,7 @@
                 if (isSignUpMode) {
                     const selectedRole = document.getElementById('userRole').value;
                     // Sign Up with custom data (role)
-                    authResponse = await supabase.auth.signUp({
+                    authResponse = await supabaseClient.auth.signUp({
                         email: email,
                         password: password,
                         options: {
@@ -374,7 +374,7 @@
                     });
                 } else {
                     // Sign In
-                    authResponse = await supabase.auth.signInWithPassword({
+                    authResponse = await supabaseClient.auth.signInWithPassword({
                         email: email,
                         password: password,
                     });
@@ -400,12 +400,12 @@
         }
 
         async function handleSignOut() {
-            await supabase.auth.signOut();
+            await supabaseClient.auth.signOut();
             checkUserSession();
         }
 
         async function checkUserSession() {
-            const { data: { session } } = await supabase.auth.getSession();
+            const { data: { session } } = await supabaseClient.auth.getSession();
             currentUser = session?.user;
 
             const becomePublisherBtn = document.getElementById('becomePublisherBtn');
@@ -445,7 +445,7 @@
         document.addEventListener('DOMContentLoaded', checkUserSession);
 
         // Listen for auth state changes globally
-        supabase.auth.onAuthStateChange((event, session) => {
+        supabaseClient.auth.onAuthStateChange((event, session) => {
             if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
                 checkUserSession();
             }
