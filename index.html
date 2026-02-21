@@ -358,1102 +358,1129 @@
 
             <!-- Modal Panel -->
             <div id="publisherModalInner"
-                class="inline-block align-bottom bg-white rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:align-middle max-w-7xl w-full border-2 border-black relative h-[90vh] flex flex-col">
-                <div class="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
+                class="inline-block align-bottom bg-white rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:align-middle max-w-7xl w-full border-2 border-black relative h-[90vh]">
 
-                <!-- Modal Header -->
-                <div
-                    class="bg-white px-4 pt-5 pb-4 sm:px-6 sm:pb-4 border-b border-gray-200 shrink-0 flex justify-between items-center">
-                    <div>
-                        <h3 class="text-2xl leading-6 font-extrabold text-gray-900 mb-1" id="publisher-title">
-                            Publisher Dashboard
-                        </h3>
-                        <p class="text-sm text-gray-500">Upload an article to the Siliguri network.</p>
-                    </div>
-                    <button type="button" onclick="closePublisherDashboard()"
-                        class="text-gray-400 hover:text-gray-500 bg-gray-100 rounded-full p-2">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
+                <!-- Inner Flex Wrapper to prevent breaking inline-block centering -->
+                <div class="flex flex-col h-full w-full relative">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
 
-                <!-- Modal Body: 2 Columns -->
-                <div class="flex-1 overflow-hidden grid grid-cols-1 lg:grid-cols-2">
-
-                    <!-- LEFT COLUMN: The Form -->
-                    <div class="bg-white px-4 py-5 sm:p-6 overflow-y-auto border-r border-gray-200">
-                        <form id="publisherForm" class="space-y-4" onsubmit="handlePublishSubmit(event)">
-                            <div>
-                                <label for="articleTitle" class="block text-sm font-bold text-gray-700">Headline</label>
-                                <input type="text" id="articleTitle" required
-                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-black focus:border-black sm:text-sm">
-                            </div>
-
-                            <div class="flex gap-4">
-                                <div class="w-1/2">
-                                    <label for="articleCategory"
-                                        class="block text-sm font-bold text-gray-700">Category</label>
-                                    <select id="articleCategory"
-                                        class="mt-1 block w-full bg-white border border-gray-300 rounded-md py-2 px-3">
-                                        <option value="City News">City News</option>
-                                        <option value="Tea Estates">Tea Estates</option>
-                                        <option value="Culture">Culture</option>
-                                        <option value="Food">Food</option>
-                                    </select>
-                                </div>
-                                <div class="w-1/2">
-                                    <label for="articleType" class="block text-sm font-bold text-gray-700">Type</label>
-                                    <select id="articleType"
-                                        class="mt-1 block w-full bg-white border border-gray-300 rounded-md py-2 px-3">
-                                        <option value="standard">Standard Article</option>
-                                        <option value="explainer">Explainer</option>
-                                        <option value="video">Video Feature</option>
-                                        <option value="premium">Premium Article</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label for="articleExcerpt" class="block text-sm font-bold text-gray-700">Excerpt (Short
-                                    description)</label>
-                                <textarea id="articleExcerpt" rows="2"
-                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"></textarea>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-1">Article Content</label>
-                                <div id="editor-container" class="h-64 bg-white border border-gray-300 rounded-md">
-                                </div>
-                            </div>
-                            <input type="hidden" id="editingArticleId">
-
-                            <div>
-                                <label for="articleImage" class="block text-sm font-bold text-gray-700">Cover Image
-                                    <span id="imageOptionalNote" class="font-normal text-xs text-gray-500">(Optional:
-                                        Upload
-                                        an image for your article)</span></label>
-                                <input type="file" id="articleImage" accept="image/*"
-                                    class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                            </div>
-
-                            <div id="publisherErrorMsg" class="hidden text-red-600 text-sm font-bold"></div>
-                            <div id="publisherSuccessMsg" class="hidden text-green-600 text-sm font-bold"></div>
-
-                            <div class="pt-4 mt-4 border-t border-gray-200">
-                                <button type="submit" id="publisherSubmitBtn"
-                                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-lg font-bold text-white bg-blue-600 hover:bg-blue-700 active:translate-x-1 active:translate-y-1 active:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] transition-all">
-                                    Publish Article
-                                </button>
-                            </div>
-                        </form>
+                    <!-- Modal Header -->
+                    <div
+                        class="bg-white px-4 pt-5 pb-4 sm:px-6 sm:pb-4 border-b border-gray-200 shrink-0 flex justify-between items-center">
+                        <div>
+                            <h3 class="text-2xl leading-6 font-extrabold text-gray-900 mb-1" id="publisher-title">
+                                Publisher Dashboard
+                            </h3>
+                            <p class="text-sm text-gray-500">Upload an article to the Siliguri network.</p>
+                        </div>
+                        <button type="button" onclick="closePublisherDashboard()"
+                            class="text-gray-400 hover:text-gray-500 bg-gray-100 rounded-full p-2">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
                     </div>
 
-                    <!-- RIGHT COLUMN: Live Preview -->
-                    <div class="bg-gray-50 hidden lg:block overflow-y-auto relative">
-                        <div
-                            class="sticky top-0 bg-brandYellow/90 backdrop-blur-sm text-black font-mono text-xs font-bold py-2 px-4 shadow-sm z-10 flex justify-between items-center">
-                            <span>LIVE PREVIEW</span>
-                            <span class="opacity-70">Reads exactly as your audience will see it.</span>
+                    <!-- Modal Body: 2 Columns -->
+                    <div class="flex-1 overflow-hidden grid grid-cols-1 lg:grid-cols-2">
+
+                        <!-- LEFT COLUMN: The Form -->
+                        <div class="bg-white px-4 py-5 sm:p-6 overflow-y-auto border-r border-gray-200">
+                            <form id="publisherForm" class="space-y-4" onsubmit="handlePublishSubmit(event)">
+                                <div>
+                                    <label for="articleTitle"
+                                        class="block text-sm font-bold text-gray-700">Headline</label>
+                                    <input type="text" id="articleTitle" required
+                                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-black focus:border-black sm:text-sm">
+                                </div>
+
+                                <div class="flex gap-4">
+                                    <div class="w-1/2">
+                                        <label for="articleCategory"
+                                            class="block text-sm font-bold text-gray-700">Category</label>
+                                        <select id="articleCategory"
+                                            class="mt-1 block w-full bg-white border border-gray-300 rounded-md py-2 px-3">
+                                            <option value="City News">City News</option>
+                                            <option value="Tea Estates">Tea Estates</option>
+                                            <option value="Culture">Culture</option>
+                                            <option value="Food">Food</option>
+                                        </select>
+                                    </div>
+                                    <div class="w-1/2">
+                                        <label for="articleType"
+                                            class="block text-sm font-bold text-gray-700">Type</label>
+                                        <select id="articleType"
+                                            class="mt-1 block w-full bg-white border border-gray-300 rounded-md py-2 px-3">
+                                            <option value="standard">Standard Article</option>
+                                            <option value="explainer">Explainer</option>
+                                            <option value="video">Video Feature</option>
+                                            <option value="premium">Premium Article</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label for="articleExcerpt" class="block text-sm font-bold text-gray-700">Excerpt
+                                        (Short
+                                        description)</label>
+                                    <textarea id="articleExcerpt" rows="2"
+                                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"></textarea>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-1">Article Content</label>
+                                    <div id="editor-container" class="h-64 bg-white border border-gray-300 rounded-md">
+                                    </div>
+                                </div>
+                                <input type="hidden" id="editingArticleId">
+
+                                <div>
+                                    <label for="articleImage" class="block text-sm font-bold text-gray-700">Cover Image
+                                        <span id="imageOptionalNote"
+                                            class="font-normal text-xs text-gray-500">(Optional:
+                                            Upload
+                                            an image for your article)</span></label>
+                                    <input type="file" id="articleImage" accept="image/*"
+                                        class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                                </div>
+
+                                <div id="publisherErrorMsg" class="hidden text-red-600 text-sm font-bold"></div>
+                                <div id="publisherSuccessMsg" class="hidden text-green-600 text-sm font-bold"></div>
+
+                                <div class="pt-4 mt-4 border-t border-gray-200">
+                                    <button type="submit" id="publisherSubmitBtn"
+                                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-lg font-bold text-white bg-blue-600 hover:bg-blue-700 active:translate-x-1 active:translate-y-1 active:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] transition-all">
+                                        Publish Article
+                                    </button>
+                                </div>
+                            </form>
                         </div>
 
-                        <div class="p-8 max-w-3xl mx-auto bg-white min-h-[800px] shadow-sm my-8 border border-gray-100">
-                            <!-- Content Area -->
-                            <main class="w-full">
+                        <!-- RIGHT COLUMN: Live Preview -->
+                        <div class="bg-gray-50 hidden lg:block overflow-y-auto relative">
+                            <div
+                                class="sticky top-0 bg-brandYellow/90 backdrop-blur-sm text-black font-mono text-xs font-bold py-2 px-4 shadow-sm z-10 flex justify-between items-center">
+                                <span>LIVE PREVIEW</span>
+                                <span class="opacity-70">Reads exactly as your audience will see it.</span>
+                            </div>
 
-                                <div class="mb-8">
-                                    <!-- Tag -->
-                                    <div class="flex gap-2 mb-4" id="previewTagContainer">
-                                        <span id="previewCategory"
-                                            class="bg-brandYellow text-black font-mono text-xs font-bold px-3 py-1 uppercase tracking-widest inline-block shadow-sm">City
-                                            News</span>
-                                        <span id="previewPremiumTag"
-                                            class="hidden bg-black text-brandYellow text-xs font-bold font-mono px-3 py-1 uppercase tracking-widest shadow-sm">Premium
-                                            Content</span>
-                                    </div>
+                            <div
+                                class="p-8 max-w-3xl mx-auto bg-white min-h-[800px] shadow-sm my-8 border border-gray-100">
+                                <!-- Content Area -->
+                                <main class="w-full">
 
-                                    <!-- Title -->
-                                    <h1 id="previewTitle"
-                                        class="font-serif font-extrabold text-4xl md:text-5xl lg:text-6xl text-black mb-6 leading-tight tracking-tight">
-                                        Your amazing headline will appear here...
-                                    </h1>
+                                    <div class="mb-8">
+                                        <!-- Tag -->
+                                        <div class="flex gap-2 mb-4" id="previewTagContainer">
+                                            <span id="previewCategory"
+                                                class="bg-brandYellow text-black font-mono text-xs font-bold px-3 py-1 uppercase tracking-widest inline-block shadow-sm">City
+                                                News</span>
+                                            <span id="previewPremiumTag"
+                                                class="hidden bg-black text-brandYellow text-xs font-bold font-mono px-3 py-1 uppercase tracking-widest shadow-sm">Premium
+                                                Content</span>
+                                        </div>
 
-                                    <!-- Meta -->
-                                    <div
-                                        class="flex items-center gap-4 text-sm font-medium text-gray-500 mb-8 pb-8 border-b border-gray-200">
-                                        <div class="flex items-center gap-2">
-                                            <div class="w-10 h-10 rounded-full bg-gray-200 border-2 border-brandYellow flex items-center justify-center font-bold text-black"
-                                                id="previewAuthorInitial">A</div>
-                                            <div>
-                                                <div class="text-black font-bold uppercase tracking-wide"
-                                                    id="previewAuthorName">Siliguri News</div>
-                                                <div class="text-xs">Just Now</div>
+                                        <!-- Title -->
+                                        <h1 id="previewTitle"
+                                            class="font-serif font-extrabold text-4xl md:text-5xl lg:text-6xl text-black mb-6 leading-tight tracking-tight">
+                                            Your amazing headline will appear here...
+                                        </h1>
+
+                                        <!-- Meta -->
+                                        <div
+                                            class="flex items-center gap-4 text-sm font-medium text-gray-500 mb-8 pb-8 border-b border-gray-200">
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-10 h-10 rounded-full bg-gray-200 border-2 border-brandYellow flex items-center justify-center font-bold text-black"
+                                                    id="previewAuthorInitial">A</div>
+                                                <div>
+                                                    <div class="text-black font-bold uppercase tracking-wide"
+                                                        id="previewAuthorName">Siliguri News</div>
+                                                    <div class="text-xs">Just Now</div>
+                                                </div>
+                                            </div>
+                                            <div class="hidden md:flex gap-4 ml-auto">
+                                                <button class="hover:text-black flex items-center gap-1 transition"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                                                    </svg> Share</button>
+                                                <button class="hover:text-black flex items-center gap-1 transition"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                                                    </svg> Save</button>
                                             </div>
                                         </div>
-                                        <div class="hidden md:flex gap-4 ml-auto">
-                                            <button class="hover:text-black flex items-center gap-1 transition"><svg
-                                                    xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                                                </svg> Share</button>
-                                            <button class="hover:text-black flex items-center gap-1 transition"><svg
-                                                    xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-                                                </svg> Save</button>
+                                    </div>
+
+                                    <!-- Cover Image -->
+                                    <div class="w-full aspect-video bg-gray-100 mb-10 overflow-hidden relative"
+                                        id="previewImageContainer">
+                                        <img id="previewImage" src="" alt="Cover Image"
+                                            class="w-full h-full object-cover hidden">
+                                        <div id="previewImagePlaceholder"
+                                            class="absolute inset-0 flex items-center justify-center text-gray-400 font-mono text-sm border-2 border-dashed border-gray-300 m-8">
+                                            Cover Image Preview
                                         </div>
                                     </div>
-                                </div>
 
-                                <!-- Cover Image -->
-                                <div class="w-full aspect-video bg-gray-100 mb-10 overflow-hidden relative"
-                                    id="previewImageContainer">
-                                    <img id="previewImage" src="" alt="Cover Image"
-                                        class="w-full h-full object-cover hidden">
-                                    <div id="previewImagePlaceholder"
-                                        class="absolute inset-0 flex items-center justify-center text-gray-400 font-mono text-sm border-2 border-dashed border-gray-300 m-8">
-                                        Cover Image Preview
+                                    <!-- Excerpt -->
+                                    <p id="previewExcerpt"
+                                        class="text-xl md:text-2xl font-serif text-gray-600 mb-8 leading-relaxed italic border-l-4 border-brandYellow pl-6">
+                                        The short description of your article will be displayed here as an engaging
+                                        leading
+                                        paragraph.
+                                    </p>
+
+                                    <!-- Body Content -->
+                                    <div id="previewContent"
+                                        class="prose prose-lg md:prose-xl max-w-none text-gray-900 font-serif leading-loose prose-p:mb-6 prose-headings:font-bold prose-headings:font-serif prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-a:text-blue-600 prose-a:underline prose-a:decoration-brandYellow prose-a:decoration-4 hover:prose-a:bg-brandYellow hover:prose-a:text-black hover:prose-a:decoration-black prose-img:rounded-xl prose-img:shadow-md prose-blockquote:border-l-4 prose-blockquote:border-black prose-blockquote:bg-gray-50 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:font-serif prose-blockquote:italic">
+                                        <p class="text-gray-400 italic">Start writing your story in the editor to see it
+                                            appear here...</p>
                                     </div>
+                                </main>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manage Articles Modal -->
+        <div id="manageArticlesModal" class="hidden fixed inset-0 z-[100] overflow-y-auto" aria-labelledby="modal-title"
+            role="dialog" aria-modal="true">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
+                    onclick="closeManageArticles()"></div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                <div
+                    class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl w-full border-2 border-black relative">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-green-600"></div>
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-2xl leading-6 font-extrabold text-gray-900" id="manage-title">Manage Your
+                                Articles</h3>
+                            <button onclick="closeManageArticles()" class="text-gray-400 hover:text-gray-500">
+                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 border-2 border-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                            Title</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                            Category</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                            Date</th>
+                                        <th
+                                            class="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                            Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="manageArticlesTableBody" class="bg-white divide-y divide-gray-200">
+                                    <!-- Loaded via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Super Admin Moderation Modal -->
+        <div id="moderationModal" class="hidden fixed inset-0 z-[100] overflow-y-auto" aria-labelledby="modal-title"
+            role="dialog" aria-modal="true">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
+                    onclick="closeModerationDashboard()"></div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                <div
+                    class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl w-full border-2 border-brandYellow relative">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-brandYellow"></div>
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-2xl leading-6 font-extrabold text-gray-900" id="moderation-title">⚡ Manage
+                                Publishers</h3>
+                            <button onclick="closeModerationDashboard()" class="text-gray-400 hover:text-gray-500">
+                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div id="moderationLoading" class="text-center py-10">
+                            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-brandYellow mx-auto mb-4">
+                            </div>
+                            <p class="text-sm font-mono text-gray-500">Loading publishers...</p>
+                        </div>
+
+                        <div id="publishersList" class="hidden flex flex-col gap-4 max-h-[60vh] overflow-y-auto pr-2">
+                            <!-- Publishers will be rendered here -->
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-200">
+                        <button type="button" onclick="closeModerationDashboard()"
+                            class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:ml-3 sm:w-auto sm:text-sm">
+                            Close
+                        </button>
+                        <button type="button" onclick="loadPublishersForModeration()"
+                            class="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-black text-brandYellow text-base font-bold hover:bg-gray-800 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                            Refresh List
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subscription Modal -->
+        <div id="subscriptionModal" class="hidden fixed inset-0 z-[110] overflow-y-auto" aria-labelledby="modal-title"
+            role="dialog" aria-modal="true">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
+                    onclick="closeSubscriptionModal()"></div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                <div
+                    class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-5xl w-full border-2 border-brandYellow relative">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-brandYellow"></div>
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-8">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-3xl leading-6 font-serif font-bold text-gray-900" id="sub-modal-title">
+                                Upgrade
+                                Your Experience</h3>
+                            <button onclick="closeSubscriptionModal()" class="text-gray-400 hover:text-gray-500">
+                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="text-gray-500 mb-8" id="sub-modal-desc">Choose the plan that fits your needs.</p>
+
+                        <!-- Publisher Pricing -->
+                        <div id="publisherPricing" class="hidden grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Basic -->
+                            <div class="border border-gray-200 rounded-xl p-8 shadow-sm flex flex-col relative">
+                                <h4 class="text-xl font-bold mb-2">Basic Publisher</h4>
+                                <div class="flex items-baseline gap-1 mb-4">
+                                    <span class="text-3xl font-bold">₹75</span><span class="text-gray-500">/mo</span>
                                 </div>
-
-                                <!-- Excerpt -->
-                                <p id="previewExcerpt"
-                                    class="text-xl md:text-2xl font-serif text-gray-600 mb-8 leading-relaxed italic border-l-4 border-brandYellow pl-6">
-                                    The short description of your article will be displayed here as an engaging leading
-                                    paragraph.
-                                </p>
-
-                                <!-- Body Content -->
-                                <div id="previewContent"
-                                    class="prose prose-lg md:prose-xl max-w-none text-gray-900 font-serif leading-loose prose-p:mb-6 prose-headings:font-bold prose-headings:font-serif prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-a:text-blue-600 prose-a:underline prose-a:decoration-brandYellow prose-a:decoration-4 hover:prose-a:bg-brandYellow hover:prose-a:text-black hover:prose-a:decoration-black prose-img:rounded-xl prose-img:shadow-md prose-blockquote:border-l-4 prose-blockquote:border-black prose-blockquote:bg-gray-50 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:font-serif prose-blockquote:italic">
-                                    <p class="text-gray-400 italic">Start writing your story in the editor to see it
-                                        appear here...</p>
+                                <ul class="text-gray-600 mb-8 space-y-3 flex-1">
+                                    <li class="flex items-center gap-2"><svg class="w-5 h-5 text-green-500"
+                                            fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>Publish Standard Articles</li>
+                                    <li class="flex items-center gap-2"><svg class="w-5 h-5 text-green-500"
+                                            fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>Access to Publisher Dashboard</li>
+                                    <li class="flex items-center gap-2 text-gray-400"><svg class="w-5 h-5 text-gray-300"
+                                            fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>Premium Content Tag</li>
+                                </ul>
+                                <div class="flex justify-center flex-col gap-2">
+                                    <button onclick="mockPayment('publisher', 'basic', 'monthly')"
+                                        class="w-full bg-white border border-black text-black font-bold py-3 rounded hover:bg-gray-50 transition">Select
+                                        Basic (Monthly)</button>
+                                    <button onclick="mockPayment('publisher', 'basic', 'annual')"
+                                        class="w-full bg-white border border-gray-300 text-gray-600 font-bold py-2 rounded text-sm hover:bg-gray-50 transition">Annual
+                                        (₹750/yr - Save 16%)</button>
                                 </div>
-                            </main>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Manage Articles Modal -->
-    <div id="manageArticlesModal" class="hidden fixed inset-0 z-[100] overflow-y-auto" aria-labelledby="modal-title"
-        role="dialog" aria-modal="true">
-        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
-                onclick="closeManageArticles()"></div>
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-            <div
-                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl w-full border-2 border-black relative">
-                <div class="absolute top-0 left-0 w-full h-2 bg-green-600"></div>
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-2xl leading-6 font-extrabold text-gray-900" id="manage-title">Manage Your
-                            Articles</h3>
-                        <button onclick="closeManageArticles()" class="text-gray-400 hover:text-gray-500">
-                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200 border-2 border-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                        Title</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                        Category</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                        Date</th>
-                                    <th
-                                        class="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                        Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="manageArticlesTableBody" class="bg-white divide-y divide-gray-200">
-                                <!-- Loaded via JS -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Super Admin Moderation Modal -->
-    <div id="moderationModal" class="hidden fixed inset-0 z-[100] overflow-y-auto" aria-labelledby="modal-title"
-        role="dialog" aria-modal="true">
-        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
-                onclick="closeModerationDashboard()"></div>
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-            <div
-                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl w-full border-2 border-brandYellow relative">
-                <div class="absolute top-0 left-0 w-full h-2 bg-brandYellow"></div>
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-2xl leading-6 font-extrabold text-gray-900" id="moderation-title">⚡ Manage
-                            Publishers</h3>
-                        <button onclick="closeModerationDashboard()" class="text-gray-400 hover:text-gray-500">
-                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
-
-                    <div id="moderationLoading" class="text-center py-10">
-                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-brandYellow mx-auto mb-4"></div>
-                        <p class="text-sm font-mono text-gray-500">Loading publishers...</p>
-                    </div>
-
-                    <div id="publishersList" class="hidden flex flex-col gap-4 max-h-[60vh] overflow-y-auto pr-2">
-                        <!-- Publishers will be rendered here -->
-                    </div>
-                </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-200">
-                    <button type="button" onclick="closeModerationDashboard()"
-                        class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:ml-3 sm:w-auto sm:text-sm">
-                        Close
-                    </button>
-                    <button type="button" onclick="loadPublishersForModeration()"
-                        class="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-black text-brandYellow text-base font-bold hover:bg-gray-800 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                        Refresh List
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Subscription Modal -->
-    <div id="subscriptionModal" class="hidden fixed inset-0 z-[110] overflow-y-auto" aria-labelledby="modal-title"
-        role="dialog" aria-modal="true">
-        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
-                onclick="closeSubscriptionModal()"></div>
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-            <div
-                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-5xl w-full border-2 border-brandYellow relative">
-                <div class="absolute top-0 left-0 w-full h-2 bg-brandYellow"></div>
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-8">
-                    <div class="flex justify-between items-center mb-2">
-                        <h3 class="text-3xl leading-6 font-serif font-bold text-gray-900" id="sub-modal-title">Upgrade
-                            Your Experience</h3>
-                        <button onclick="closeSubscriptionModal()" class="text-gray-400 hover:text-gray-500">
-                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
-                    <p class="text-gray-500 mb-8" id="sub-modal-desc">Choose the plan that fits your needs.</p>
-
-                    <!-- Publisher Pricing -->
-                    <div id="publisherPricing" class="hidden grid-cols-1 md:grid-cols-2 gap-8">
-                        <!-- Basic -->
-                        <div class="border border-gray-200 rounded-xl p-8 shadow-sm flex flex-col relative">
-                            <h4 class="text-xl font-bold mb-2">Basic Publisher</h4>
-                            <div class="flex items-baseline gap-1 mb-4">
-                                <span class="text-3xl font-bold">₹75</span><span class="text-gray-500">/mo</span>
                             </div>
-                            <ul class="text-gray-600 mb-8 space-y-3 flex-1">
-                                <li class="flex items-center gap-2"><svg class="w-5 h-5 text-green-500"
-                                        fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>Publish Standard Articles</li>
-                                <li class="flex items-center gap-2"><svg class="w-5 h-5 text-green-500"
-                                        fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>Access to Publisher Dashboard</li>
-                                <li class="flex items-center gap-2 text-gray-400"><svg class="w-5 h-5 text-gray-300"
-                                        fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>Premium Content Tag</li>
-                            </ul>
-                            <div class="flex justify-center flex-col gap-2">
-                                <button onclick="mockPayment('publisher', 'basic', 'monthly')"
-                                    class="w-full bg-white border border-black text-black font-bold py-3 rounded hover:bg-gray-50 transition">Select
-                                    Basic (Monthly)</button>
-                                <button onclick="mockPayment('publisher', 'basic', 'annual')"
-                                    class="w-full bg-white border border-gray-300 text-gray-600 font-bold py-2 rounded text-sm hover:bg-gray-50 transition">Annual
-                                    (₹750/yr - Save 16%)</button>
-                            </div>
-                        </div>
 
-                        <!-- Pro -->
-                        <div
-                            class="border-2 border-brandYellow rounded-xl p-8 shadow-md flex flex-col relative bg-gradient-to-br from-yellow-50 to-white">
+                            <!-- Pro -->
                             <div
-                                class="absolute top-0 right-0 bg-brandYellow text-black font-mono text-xs font-bold px-3 py-1 uppercase rounded-bl-lg rounded-tr-lg">
-                                Recommended</div>
-                            <h4 class="text-xl font-bold mb-2">Pro Publisher</h4>
-                            <div class="flex items-baseline gap-1 mb-4">
-                                <span class="text-3xl font-bold">₹199</span><span class="text-gray-500">/mo</span>
-                            </div>
-                            <ul class="text-gray-900 mb-8 space-y-3 flex-1 font-medium">
-                                <li class="flex items-center gap-2"><svg
-                                        class="w-5 h-5 text-brandYellow bg-black rounded-full" fill="currentColor"
-                                        viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>Everything in Basic</li>
-                                <li class="flex items-center gap-2"><svg
-                                        class="w-5 h-5 text-brandYellow bg-black rounded-full" fill="currentColor"
-                                        viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>Publish Premium Content</li>
-                                <li class="flex items-center gap-2"><svg
-                                        class="w-5 h-5 text-brandYellow bg-black rounded-full" fill="currentColor"
-                                        viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>Priority Support</li>
-                            </ul>
-                            <div class="flex justify-center flex-col gap-2">
-                                <button onclick="mockPayment('publisher', 'pro', 'monthly')"
-                                    class="w-full bg-brandYellow hover:bg-yellow-400 text-black font-bold py-3 rounded transition shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1">Select
-                                    Pro (Monthly)</button>
-                                <button onclick="mockPayment('publisher', 'pro', 'annual')"
-                                    class="w-full bg-transparent text-gray-600 font-bold py-2 rounded text-sm hover:underline transition">Annual
-                                    (₹1990/yr - Save 16%)</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Member Pricing -->
-                    <div id="memberPricing" class="hidden grid-cols-1 md:grid-cols-2 gap-8">
-                        <!-- Free -->
-                        <div class="border border-gray-200 rounded-xl p-8 shadow-sm flex flex-col relative opacity-60">
-                            <h4 class="text-xl font-bold mb-2">Free Reader</h4>
-                            <div class="flex items-baseline gap-1 mb-4">
-                                <span class="text-3xl font-bold">₹0</span><span class="text-gray-500">/mo</span>
-                            </div>
-                            <ul class="text-gray-600 mb-8 space-y-3 flex-1">
-                                <li class="flex items-center gap-2"><svg class="w-5 h-5 text-gray-500"
-                                        fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>Read Standard News</li>
-                                <li class="flex items-center gap-2 text-gray-400"><svg class="w-5 h-5 text-gray-300"
-                                        fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>Access Premium Content</li>
-                            </ul>
-                            <div class="flex justify-center flex-col gap-2">
-                                <button
-                                    class="w-full bg-gray-200 text-gray-500 font-bold py-3 rounded cursor-not-allowed">Current
-                                    Plan</button>
+                                class="border-2 border-brandYellow rounded-xl p-8 shadow-md flex flex-col relative bg-gradient-to-br from-yellow-50 to-white">
+                                <div
+                                    class="absolute top-0 right-0 bg-brandYellow text-black font-mono text-xs font-bold px-3 py-1 uppercase rounded-bl-lg rounded-tr-lg">
+                                    Recommended</div>
+                                <h4 class="text-xl font-bold mb-2">Pro Publisher</h4>
+                                <div class="flex items-baseline gap-1 mb-4">
+                                    <span class="text-3xl font-bold">₹199</span><span class="text-gray-500">/mo</span>
+                                </div>
+                                <ul class="text-gray-900 mb-8 space-y-3 flex-1 font-medium">
+                                    <li class="flex items-center gap-2"><svg
+                                            class="w-5 h-5 text-brandYellow bg-black rounded-full" fill="currentColor"
+                                            viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>Everything in Basic</li>
+                                    <li class="flex items-center gap-2"><svg
+                                            class="w-5 h-5 text-brandYellow bg-black rounded-full" fill="currentColor"
+                                            viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>Publish Premium Content</li>
+                                    <li class="flex items-center gap-2"><svg
+                                            class="w-5 h-5 text-brandYellow bg-black rounded-full" fill="currentColor"
+                                            viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>Priority Support</li>
+                                </ul>
+                                <div class="flex justify-center flex-col gap-2">
+                                    <button onclick="mockPayment('publisher', 'pro', 'monthly')"
+                                        class="w-full bg-brandYellow hover:bg-yellow-400 text-black font-bold py-3 rounded transition shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1">Select
+                                        Pro (Monthly)</button>
+                                    <button onclick="mockPayment('publisher', 'pro', 'annual')"
+                                        class="w-full bg-transparent text-gray-600 font-bold py-2 rounded text-sm hover:underline transition">Annual
+                                        (₹1990/yr - Save 16%)</button>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Pro Member -->
-                        <div
-                            class="border-2 border-black rounded-xl p-8 shadow-xl flex flex-col relative bg-black text-white">
+                        <!-- Member Pricing -->
+                        <div id="memberPricing" class="hidden grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Free -->
                             <div
-                                class="absolute top-0 right-0 bg-brandYellow text-black font-mono text-xs font-bold px-3 py-1 uppercase rounded-bl-lg rounded-tr-lg">
-                                All Access</div>
-                            <h4 class="text-xl font-bold mb-2">Siliguri Pro</h4>
-                            <div class="flex items-baseline gap-1 mb-4">
-                                <span class="text-3xl font-bold">₹30</span><span class="text-gray-400">/mo</span>
+                                class="border border-gray-200 rounded-xl p-8 shadow-sm flex flex-col relative opacity-60">
+                                <h4 class="text-xl font-bold mb-2">Free Reader</h4>
+                                <div class="flex items-baseline gap-1 mb-4">
+                                    <span class="text-3xl font-bold">₹0</span><span class="text-gray-500">/mo</span>
+                                </div>
+                                <ul class="text-gray-600 mb-8 space-y-3 flex-1">
+                                    <li class="flex items-center gap-2"><svg class="w-5 h-5 text-gray-500"
+                                            fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>Read Standard News</li>
+                                    <li class="flex items-center gap-2 text-gray-400"><svg class="w-5 h-5 text-gray-300"
+                                            fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>Access Premium Content</li>
+                                </ul>
+                                <div class="flex justify-center flex-col gap-2">
+                                    <button
+                                        class="w-full bg-gray-200 text-gray-500 font-bold py-3 rounded cursor-not-allowed">Current
+                                        Plan</button>
+                                </div>
                             </div>
-                            <ul class="text-gray-300 mb-8 space-y-3 flex-1 font-medium">
-                                <li class="flex items-center gap-2"><svg class="w-5 h-5 text-brandYellow"
-                                        fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>Everything in Free</li>
-                                <li class="flex items-center gap-2 text-white"><svg class="w-5 h-5 text-brandYellow"
-                                        fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>Unlock All Premium Content</li>
-                                <li class="flex items-center gap-2 text-white"><svg class="w-5 h-5 text-brandYellow"
-                                        fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>Ad-Free Experience</li>
-                            </ul>
-                            <div class="flex justify-center flex-col gap-2">
-                                <button onclick="mockPayment('member', 'pro', 'monthly')"
-                                    class="w-full bg-brandYellow hover:bg-yellow-400 text-black font-bold py-3 rounded transition">Subscribe
-                                    Now (Monthly)</button>
-                                <button onclick="mockPayment('member', 'pro', 'annual')"
-                                    class="w-full bg-transparent text-gray-400 font-bold py-2 rounded text-sm hover:text-white transition">Annual
-                                    (₹300/yr - Save 16%)</button>
+
+                            <!-- Pro Member -->
+                            <div
+                                class="border-2 border-black rounded-xl p-8 shadow-xl flex flex-col relative bg-black text-white">
+                                <div
+                                    class="absolute top-0 right-0 bg-brandYellow text-black font-mono text-xs font-bold px-3 py-1 uppercase rounded-bl-lg rounded-tr-lg">
+                                    All Access</div>
+                                <h4 class="text-xl font-bold mb-2">Siliguri Pro</h4>
+                                <div class="flex items-baseline gap-1 mb-4">
+                                    <span class="text-3xl font-bold">₹30</span><span class="text-gray-400">/mo</span>
+                                </div>
+                                <ul class="text-gray-300 mb-8 space-y-3 flex-1 font-medium">
+                                    <li class="flex items-center gap-2"><svg class="w-5 h-5 text-brandYellow"
+                                            fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>Everything in Free</li>
+                                    <li class="flex items-center gap-2 text-white"><svg class="w-5 h-5 text-brandYellow"
+                                            fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>Unlock All Premium Content</li>
+                                    <li class="flex items-center gap-2 text-white"><svg class="w-5 h-5 text-brandYellow"
+                                            fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>Ad-Free Experience</li>
+                                </ul>
+                                <div class="flex justify-center flex-col gap-2">
+                                    <button onclick="mockPayment('member', 'pro', 'monthly')"
+                                        class="w-full bg-brandYellow hover:bg-yellow-400 text-black font-bold py-3 rounded transition">Subscribe
+                                        Now (Monthly)</button>
+                                    <button onclick="mockPayment('member', 'pro', 'annual')"
+                                        class="w-full bg-transparent text-gray-400 font-bold py-2 rounded text-sm hover:text-white transition">Annual
+                                        (₹300/yr - Save 16%)</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Payment Loading Overlay -->
-                    <div id="paymentOverlay"
-                        class="hidden absolute inset-0 bg-white/90 backdrop-blur flex flex-col items-center justify-center z-20">
-                        <div class="animate-spin rounded-full h-12 w-12 border-b-4 border-brandYellow mb-4"></div>
-                        <h3 class="text-xl font-bold font-serif mb-2" id="paymentStatusText">Initializing Payment
-                            Gateway...</h3>
-                        <p class="text-sm text-gray-500">(Mock Payment Environment)</p>
-                    </div>
+                        <!-- Payment Loading Overlay -->
+                        <div id="paymentOverlay"
+                            class="hidden absolute inset-0 bg-white/90 backdrop-blur flex flex-col items-center justify-center z-20">
+                            <div class="animate-spin rounded-full h-12 w-12 border-b-4 border-brandYellow mb-4"></div>
+                            <h3 class="text-xl font-bold font-serif mb-2" id="paymentStatusText">Initializing Payment
+                                Gateway...</h3>
+                            <p class="text-sm text-gray-500">(Mock Payment Environment)</p>
+                        </div>
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Quill.js -->
-    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+        <!-- Quill.js -->
+        <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
-    <!-- Supabase Library -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <!-- Supabase Library -->
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- Auth State Management -->
-    <script>
-        // Supabase Initialization
-        const supabaseUrl = 'https://dssxoikkhszevavriutc.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzc3hvaWtraHN6ZXZhdnJpdXRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2NjA3NDEsImV4cCI6MjA4NzIzNjc0MX0.SJx4tz808lDKuiNE3lXY4kAT_ikwTTxNlacbhYpUvZw';
-        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+        <!-- Auth State Management -->
+        <script>
+            // Supabase Initialization
+            const supabaseUrl = 'https://dssxoikkhszevavriutc.supabase.co';
+            const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzc3hvaWtraHN6ZXZhdnJpdXRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2NjA3NDEsImV4cCI6MjA4NzIzNjc0MX0.SJx4tz808lDKuiNE3lXY4kAT_ikwTTxNlacbhYpUvZw';
+            const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        let isSignUpMode = false;
-        let currentUser = null;
-        let currentTargetRole = 'member'; // Track which role they are attempting to auth for
-        let currentPage = 0;
-        const articlesPerPage = 20;
+            let isSignUpMode = false;
+            let currentUser = null;
+            let currentTargetRole = 'member'; // Track which role they are attempting to auth for
+            let currentPage = 0;
+            const articlesPerPage = 20;
 
-        // Initialize Quill
-        const quill = new Quill('#editor-container', {
-            theme: 'snow',
-            placeholder: 'Write your story...',
-            modules: {
-                toolbar: [
-                    [{ 'header': [1, 2, 3, false] }],
-                    ['bold', 'italic', 'underline', 'strike'],
-                    ['link', 'blockquote', 'code-block'],
-                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                    ['clean']
-                ]
-            }
-        });
-
-        // --- Live Preview Binding Logic ---
-        function updateLivePreview() {
-            // Title
-            const titleVal = document.getElementById('articleTitle').value;
-            document.getElementById('previewTitle').innerText = titleVal || 'Your amazing headline will appear here...';
-
-            // Category
-            const catVal = document.getElementById('articleCategory').value;
-            document.getElementById('previewCategory').innerText = catVal;
-
-            // Type (Premium Tag)
-            const typeVal = document.getElementById('articleType').value;
-            const premTag = document.getElementById('previewPremiumTag');
-            if (typeVal === 'premium') {
-                premTag.classList.remove('hidden');
-                premTag.classList.add('inline-block');
-            } else {
-                premTag.classList.add('hidden');
-                premTag.classList.remove('inline-block');
-            }
-
-            // Excerpt
-            const excerptVal = document.getElementById('articleExcerpt').value;
-            const previewExcerpt = document.getElementById('previewExcerpt');
-            if (excerptVal) {
-                previewExcerpt.innerText = excerptVal;
-                previewExcerpt.style.display = 'block';
-            } else {
-                previewExcerpt.style.display = 'none';
-            }
-
-            // Content
-            const contentHtml = quill.root.innerHTML;
-            if (quill.getText().trim() === '') {
-                document.getElementById('previewContent').innerHTML = '<p class="text-gray-400 italic">Start writing your story in the editor to see it appear here...</p>';
-            } else {
-                document.getElementById('previewContent').innerHTML = contentHtml;
-            }
-        }
-
-        // Attach static input listeners
-        ['articleTitle', 'articleCategory', 'articleType', 'articleExcerpt'].forEach(id => {
-            document.getElementById(id).addEventListener('input', updateLivePreview);
-            document.getElementById(id).addEventListener('change', updateLivePreview);
-        });
-
-        // Attach Quill listener
-        quill.on('text-change', function () {
-            updateLivePreview();
-        });
-
-        // Image Preview Logic
-        document.getElementById('articleImage').addEventListener('change', function (e) {
-            const file = e.target.files[0];
-            const imgEl = document.getElementById('previewImage');
-            const placeholder = document.getElementById('previewImagePlaceholder');
-
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    imgEl.src = e.target.result;
-                    imgEl.classList.remove('hidden');
-                    placeholder.classList.add('hidden');
+            // Initialize Quill
+            const quill = new Quill('#editor-container', {
+                theme: 'snow',
+                placeholder: 'Write your story...',
+                modules: {
+                    toolbar: [
+                        [{ 'header': [1, 2, 3, false] }],
+                        ['bold', 'italic', 'underline', 'strike'],
+                        ['link', 'blockquote', 'code-block'],
+                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                        ['clean']
+                    ]
                 }
-                reader.readAsDataURL(file);
-            } else {
-                imgEl.src = '';
-                imgEl.classList.add('hidden');
-                placeholder.classList.remove('hidden');
+            });
+
+            // --- Live Preview Binding Logic ---
+            function updateLivePreview() {
+                // Title
+                const titleVal = document.getElementById('articleTitle').value;
+                document.getElementById('previewTitle').innerText = titleVal || 'Your amazing headline will appear here...';
+
+                // Category
+                const catVal = document.getElementById('articleCategory').value;
+                document.getElementById('previewCategory').innerText = catVal;
+
+                // Type (Premium Tag)
+                const typeVal = document.getElementById('articleType').value;
+                const premTag = document.getElementById('previewPremiumTag');
+                if (typeVal === 'premium') {
+                    premTag.classList.remove('hidden');
+                    premTag.classList.add('inline-block');
+                } else {
+                    premTag.classList.add('hidden');
+                    premTag.classList.remove('inline-block');
+                }
+
+                // Excerpt
+                const excerptVal = document.getElementById('articleExcerpt').value;
+                const previewExcerpt = document.getElementById('previewExcerpt');
+                if (excerptVal) {
+                    previewExcerpt.innerText = excerptVal;
+                    previewExcerpt.style.display = 'block';
+                } else {
+                    previewExcerpt.style.display = 'none';
+                }
+
+                // Content
+                const contentHtml = quill.root.innerHTML;
+                if (quill.getText().trim() === '') {
+                    document.getElementById('previewContent').innerHTML = '<p class="text-gray-400 italic">Start writing your story in the editor to see it appear here...</p>';
+                } else {
+                    document.getElementById('previewContent').innerHTML = contentHtml;
+                }
             }
-        });
-        // --- End Live Preview Binding ---
 
-        function openAuthModal(role) {
-            isSignUpMode = true; // Auto-open to Sign Up
-            currentTargetRole = role || 'member';
+            // Attach static input listeners
+            ['articleTitle', 'articleCategory', 'articleType', 'articleExcerpt'].forEach(id => {
+                document.getElementById(id).addEventListener('input', updateLivePreview);
+                document.getElementById(id).addEventListener('change', updateLivePreview);
+            });
 
-            document.getElementById('authModal').classList.remove('hidden');
-            document.getElementById('authErrorMsg').classList.add('hidden');
-            document.getElementById('authSuccessMsg').classList.add('hidden');
+            // Attach Quill listener
+            quill.on('text-change', function () {
+                updateLivePreview();
+            });
 
-            updateModalUI();
-        }
+            // Image Preview Logic
+            document.getElementById('articleImage').addEventListener('change', function (e) {
+                const file = e.target.files[0];
+                const imgEl = document.getElementById('previewImage');
+                const placeholder = document.getElementById('previewImagePlaceholder');
 
-        function closeAuthModal() {
-            document.getElementById('authModal').classList.add('hidden');
-            document.getElementById('authForm').reset();
-        }
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        imgEl.src = e.target.result;
+                        imgEl.classList.remove('hidden');
+                        placeholder.classList.add('hidden');
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    imgEl.src = '';
+                    imgEl.classList.add('hidden');
+                    placeholder.classList.remove('hidden');
+                }
+            });
+            // --- End Live Preview Binding ---
 
-        function toggleAuthMode() {
-            isSignUpMode = !isSignUpMode;
-            updateModalUI();
-        }
+            function openAuthModal(role) {
+                isSignUpMode = true; // Auto-open to Sign Up
+                currentTargetRole = role || 'member';
 
-        function updateModalUI() {
-            const title = document.getElementById('modal-title');
-            const desc = document.getElementById('authModeDescription');
-            const submitBtn = document.getElementById('authSubmitBtn');
-            const toggleBtn = document.getElementById('toggleAuthModeBtn');
-            const roleSelectorDiv = document.getElementById('roleSelectorDiv');
+                document.getElementById('authModal').classList.remove('hidden');
+                document.getElementById('authErrorMsg').classList.add('hidden');
+                document.getElementById('authSuccessMsg').classList.add('hidden');
 
-            // Set the hidden role selector value behind the scenes just in case
-            document.getElementById('userRole').value = currentTargetRole;
-
-            // Force the dropdown to be completely hidden since we separated the flows
-            roleSelectorDiv.classList.add('hidden');
-
-            const roleText = currentTargetRole === 'publisher' ? 'Publisher' : 'Member';
-
-            if (isSignUpMode) {
-                title.innerText = `Become a ${roleText}`;
-                desc.innerText = currentTargetRole === 'publisher'
-                    ? "Sign up to post news and articles."
-                    : "Sign up to access exclusive community features.";
-                submitBtn.innerText = "Sign Up";
-                toggleBtn.innerText = `Already have a ${roleText} account? Sign In`;
-            } else {
-                title.innerText = `${roleText} Sign In`;
-                desc.innerText = `Sign in to your ${roleText} account.`;
-                submitBtn.innerText = "Sign In";
-                toggleBtn.innerText = `Need a ${roleText} account? Sign Up`;
+                updateModalUI();
             }
-        }
 
-        async function handleAuthSubmit(e) {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const errorMsg = document.getElementById('authErrorMsg');
-            const successMsg = document.getElementById('authSuccessMsg');
-            const submitBtn = document.getElementById('authSubmitBtn');
+            function closeAuthModal() {
+                document.getElementById('authModal').classList.add('hidden');
+                document.getElementById('authForm').reset();
+            }
 
-            errorMsg.classList.add('hidden');
-            successMsg.classList.add('hidden');
-            submitBtn.disabled = true;
-            submitBtn.innerText = "Loading...";
+            function toggleAuthMode() {
+                isSignUpMode = !isSignUpMode;
+                updateModalUI();
+            }
 
-            try {
-                let authResponse;
+            function updateModalUI() {
+                const title = document.getElementById('modal-title');
+                const desc = document.getElementById('authModeDescription');
+                const submitBtn = document.getElementById('authSubmitBtn');
+                const toggleBtn = document.getElementById('toggleAuthModeBtn');
+                const roleSelectorDiv = document.getElementById('roleSelectorDiv');
+
+                // Set the hidden role selector value behind the scenes just in case
+                document.getElementById('userRole').value = currentTargetRole;
+
+                // Force the dropdown to be completely hidden since we separated the flows
+                roleSelectorDiv.classList.add('hidden');
+
+                const roleText = currentTargetRole === 'publisher' ? 'Publisher' : 'Member';
 
                 if (isSignUpMode) {
-                    const selectedRole = document.getElementById('userRole').value;
-                    // Sign Up with custom data (role)
-                    authResponse = await supabaseClient.auth.signUp({
-                        email: email,
-                        password: password,
-                        options: {
-                            data: {
-                                role: selectedRole
-                            }
-                        }
-                    });
+                    title.innerText = `Become a ${roleText}`;
+                    desc.innerText = currentTargetRole === 'publisher'
+                        ? "Sign up to post news and articles."
+                        : "Sign up to access exclusive community features.";
+                    submitBtn.innerText = "Sign Up";
+                    toggleBtn.innerText = `Already have a ${roleText} account? Sign In`;
                 } else {
-                    // Sign In
-                    authResponse = await supabaseClient.auth.signInWithPassword({
-                        email: email,
-                        password: password,
-                    });
+                    title.innerText = `${roleText} Sign In`;
+                    desc.innerText = `Sign in to your ${roleText} account.`;
+                    submitBtn.innerText = "Sign In";
+                    toggleBtn.innerText = `Need a ${roleText} account? Sign Up`;
                 }
-
-                if (authResponse.error) throw authResponse.error;
-
-                successMsg.innerText = isSignUpMode ? "Sign up successful! You can now log in." : "Successfully signed in!";
-                successMsg.classList.remove('hidden');
-
-                setTimeout(() => {
-                    closeAuthModal();
-                    checkUserSession();
-                }, 1500);
-
-            } catch (err) {
-                errorMsg.innerText = err.message || "An error occurred during authentication.";
-                errorMsg.classList.remove('hidden');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerText = isSignUpMode ? "Sign Up" : "Sign In";
             }
-        }
 
-        function toggleUserMenu() {
-            const dropdown = document.getElementById('userDropdown');
-            if (dropdown.classList.contains('hidden')) {
-                dropdown.classList.remove('hidden');
-                dropdown.classList.add('flex', 'flex-col');
-            } else {
-                dropdown.classList.add('hidden');
-                dropdown.classList.remove('flex', 'flex-col');
-            }
-        }
+            async function handleAuthSubmit(e) {
+                e.preventDefault();
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const errorMsg = document.getElementById('authErrorMsg');
+                const successMsg = document.getElementById('authSuccessMsg');
+                const submitBtn = document.getElementById('authSubmitBtn');
 
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (event) => {
-            const dropdown = document.getElementById('userDropdown');
-            const hamburgerBtn = document.getElementById('hamburgerBtn');
-            if (dropdown && !hamburgerBtn.contains(event.target) && !dropdown.contains(event.target)) {
-                dropdown.classList.add('hidden');
-                dropdown.classList.remove('flex', 'flex-col');
-            }
-        });
-
-        async function handleSignOut() {
-            await supabaseClient.auth.signOut();
-            document.getElementById('userDropdown').classList.add('hidden');
-            document.getElementById('userDropdown').classList.remove('flex', 'flex-col');
-            checkUserSession();
-        }
-
-        async function checkUserSession() {
-            const { data: { session } } = await supabaseClient.auth.getSession();
-            currentUser = session?.user;
-
-            const becomePublisherBtn = document.getElementById('becomePublisherBtn');
-            const becomeMemberBtn = document.getElementById('becomeMemberBtn');
-            const userGreeting = document.getElementById('userGreeting');
-            const userNameDisplay = document.getElementById('userNameDisplay');
-
-            const signOutBtn = document.getElementById('signOutBtn');
-            const publisherDashBtn = document.getElementById('publisherDashBtn');
-            const manageArtBtn = document.getElementById('manageArticlesBtn');
-            const managePubsBtn = document.getElementById('managePublishersBtn');
-            const dropAuthRow = document.getElementById('dropAuthRow');
-
-            if (currentUser) {
-                // User is signed in
-                becomePublisherBtn.style.display = 'none'; // Initially hide, re-evaluate based on role
-                becomeMemberBtn.style.display = 'none';
-
-                userGreeting.classList.remove('hidden');
-                userGreeting.classList.add('flex');
-                userNameDisplay.innerText = currentUser.email.split('@')[0];
-
-                signOutBtn.style.display = 'block';
-                dropAuthRow.style.display = 'none';
-
-                // Get the role from user metadata
-                const role = currentUser.user_metadata?.role || 'member';
-                const isSuperAdmin = currentUser.email === 'subhamdey.one@gmail.com';
-
-                // --- 1. Post-Signup Subscription Check ---
-                if (!isSuperAdmin) {
-                    try {
-                        const { data: subData, error: subError } = await supabaseClient
-                            .from('subscriptions')
-                            .select('*')
-                            .eq('email', currentUser.email)
-                            .maybeSingle();
-
-                        if (!subData) {
-                            // User has no subscription record yet -> Force them to choose
-                            openSubscriptionModal(role);
-
-                            // Prevent access to rest of UI until they select a plan
-                            publisherDashBtn.style.display = 'none';
-                            manageArtBtn.style.display = 'none';
-                            managePubsBtn.style.display = 'none';
-                            // Optional: You could hide the main container here if you want a hard block
-                            // document.getElementById('mainContentContainer').classList.add('hidden');
-
-                            // We return early so they don't get the standard dashboard buttons yet
-                            return;
-                        }
-                    } catch (e) {
-                        console.error("Error checking subscription on load:", e);
-                    }
-                }
-                // --- End Subscription Check ---
-
-                // --- 2. Check Publisher Block Status ---
-                let isBlocked = false;
-                let blockWarning = "";
+                errorMsg.classList.add('hidden');
+                successMsg.classList.add('hidden');
+                submitBtn.disabled = true;
+                submitBtn.innerText = "Loading...";
 
                 try {
-                    const { data: blockStatus, error } = await supabaseClient
-                        .from('publisher_blocks')
-                        .select('*')
-                        .eq('email', currentUser.email)
-                        .single();
+                    let authResponse;
 
-                    if (blockStatus && blockStatus.is_blocked) {
-                        const blockUntil = blockStatus.block_until ? new Date(blockStatus.block_until) : null;
-                        if (!blockUntil || blockUntil > new Date()) {
-                            isBlocked = true;
-                            blockWarning = blockStatus.warning_message || "Your publishing privileges have been suspended.";
-                        }
-                    }
-                } catch (e) {
-                    // Ignore errors if table doesn't exist yet or no row found
-                    console.log("Block status check bypassed or not found:", e);
-                }
-
-                if (isBlocked && !isSuperAdmin) {
-                    // Blocked users cannot publish
-                    publisherDashBtn.style.display = 'none';
-                    manageArtBtn.style.display = 'none';
-                    managePubsBtn.style.display = 'none';
-
-                    // Show warning if we just logged in (we can check if it's the first render using a flag, but for simplicity we'll just show it)
-                    if (!window.hasShownBlockWarning) {
-                        alert(`⚠️ PUBLISHER ACCOUNT SUSPENDED\n\n${blockWarning}`);
-                        window.hasShownBlockWarning = true;
-                    }
-                } else {
-                    // Show dashboard If Super Admin OR standard Publisher
-                    if (isSuperAdmin || role === 'publisher') {
-                        publisherDashBtn.style.display = 'block';
-                        manageArtBtn.style.display = 'block';
-                        if (isSuperAdmin) {
-                            publisherDashBtn.innerText = "Super Admin / Publish";
-                            managePubsBtn.style.display = 'block';
-                        } else {
-                            managePubsBtn.style.display = 'none';
-                        }
+                    if (isSignUpMode) {
+                        const selectedRole = document.getElementById('userRole').value;
+                        // Sign Up with custom data (role)
+                        authResponse = await supabaseClient.auth.signUp({
+                            email: email,
+                            password: password,
+                            options: {
+                                data: {
+                                    role: selectedRole
+                                }
+                            }
+                        });
                     } else {
+                        // Sign In
+                        authResponse = await supabaseClient.auth.signInWithPassword({
+                            email: email,
+                            password: password,
+                        });
+                    }
+
+                    if (authResponse.error) throw authResponse.error;
+
+                    successMsg.innerText = isSignUpMode ? "Sign up successful! You can now log in." : "Successfully signed in!";
+                    successMsg.classList.remove('hidden');
+
+                    setTimeout(() => {
+                        closeAuthModal();
+                        checkUserSession();
+                    }, 1500);
+
+                } catch (err) {
+                    errorMsg.innerText = err.message || "An error occurred during authentication.";
+                    errorMsg.classList.remove('hidden');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = isSignUpMode ? "Sign Up" : "Sign In";
+                }
+            }
+
+            function toggleUserMenu() {
+                const dropdown = document.getElementById('userDropdown');
+                if (dropdown.classList.contains('hidden')) {
+                    dropdown.classList.remove('hidden');
+                    dropdown.classList.add('flex', 'flex-col');
+                } else {
+                    dropdown.classList.add('hidden');
+                    dropdown.classList.remove('flex', 'flex-col');
+                }
+            }
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (event) => {
+                const dropdown = document.getElementById('userDropdown');
+                const hamburgerBtn = document.getElementById('hamburgerBtn');
+                if (dropdown && !hamburgerBtn.contains(event.target) && !dropdown.contains(event.target)) {
+                    dropdown.classList.add('hidden');
+                    dropdown.classList.remove('flex', 'flex-col');
+                }
+            });
+
+            async function handleSignOut() {
+                await supabaseClient.auth.signOut();
+                document.getElementById('userDropdown').classList.add('hidden');
+                document.getElementById('userDropdown').classList.remove('flex', 'flex-col');
+                checkUserSession();
+            }
+
+            async function checkUserSession() {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                currentUser = session?.user;
+
+                const becomePublisherBtn = document.getElementById('becomePublisherBtn');
+                const becomeMemberBtn = document.getElementById('becomeMemberBtn');
+                const userGreeting = document.getElementById('userGreeting');
+                const userNameDisplay = document.getElementById('userNameDisplay');
+
+                const signOutBtn = document.getElementById('signOutBtn');
+                const publisherDashBtn = document.getElementById('publisherDashBtn');
+                const manageArtBtn = document.getElementById('manageArticlesBtn');
+                const managePubsBtn = document.getElementById('managePublishersBtn');
+                const dropAuthRow = document.getElementById('dropAuthRow');
+
+                if (currentUser) {
+                    // User is signed in
+                    becomePublisherBtn.style.display = 'none'; // Initially hide, re-evaluate based on role
+                    becomeMemberBtn.style.display = 'none';
+
+                    userGreeting.classList.remove('hidden');
+                    userGreeting.classList.add('flex');
+                    userNameDisplay.innerText = currentUser.email.split('@')[0];
+
+                    signOutBtn.style.display = 'block';
+                    dropAuthRow.style.display = 'none';
+
+                    // Get the role from user metadata
+                    const role = currentUser.user_metadata?.role || 'member';
+                    const isSuperAdmin = currentUser.email === 'subhamdey.one@gmail.com';
+
+                    // --- 1. Post-Signup Subscription Check ---
+                    if (!isSuperAdmin) {
+                        try {
+                            const { data: subData, error: subError } = await supabaseClient
+                                .from('subscriptions')
+                                .select('*')
+                                .eq('email', currentUser.email)
+                                .maybeSingle();
+
+                            if (!subData) {
+                                // User has no subscription record yet -> Force them to choose
+                                openSubscriptionModal(role);
+
+                                // Prevent access to rest of UI until they select a plan
+                                publisherDashBtn.style.display = 'none';
+                                manageArtBtn.style.display = 'none';
+                                managePubsBtn.style.display = 'none';
+                                // Optional: You could hide the main container here if you want a hard block
+                                // document.getElementById('mainContentContainer').classList.add('hidden');
+
+                                // We return early so they don't get the standard dashboard buttons yet
+                                return;
+                            }
+                        } catch (e) {
+                            console.error("Error checking subscription on load:", e);
+                        }
+                    }
+                    // --- End Subscription Check ---
+
+                    // --- 2. Check Publisher Block Status ---
+                    let isBlocked = false;
+                    let blockWarning = "";
+
+                    try {
+                        const { data: blockStatus, error } = await supabaseClient
+                            .from('publisher_blocks')
+                            .select('*')
+                            .eq('email', currentUser.email)
+                            .single();
+
+                        if (blockStatus && blockStatus.is_blocked) {
+                            const blockUntil = blockStatus.block_until ? new Date(blockStatus.block_until) : null;
+                            if (!blockUntil || blockUntil > new Date()) {
+                                isBlocked = true;
+                                blockWarning = blockStatus.warning_message || "Your publishing privileges have been suspended.";
+                            }
+                        }
+                    } catch (e) {
+                        // Ignore errors if table doesn't exist yet or no row found
+                        console.log("Block status check bypassed or not found:", e);
+                    }
+
+                    if (isBlocked && !isSuperAdmin) {
+                        // Blocked users cannot publish
                         publisherDashBtn.style.display = 'none';
                         manageArtBtn.style.display = 'none';
                         managePubsBtn.style.display = 'none';
+
+                        // Show warning if we just logged in (we can check if it's the first render using a flag, but for simplicity we'll just show it)
+                        if (!window.hasShownBlockWarning) {
+                            alert(`⚠️ PUBLISHER ACCOUNT SUSPENDED\n\n${blockWarning}`);
+                            window.hasShownBlockWarning = true;
+                        }
+                    } else {
+                        // Show dashboard If Super Admin OR standard Publisher
+                        if (isSuperAdmin || role === 'publisher') {
+                            publisherDashBtn.style.display = 'block';
+                            manageArtBtn.style.display = 'block';
+                            if (isSuperAdmin) {
+                                publisherDashBtn.innerText = "Super Admin / Publish";
+                                managePubsBtn.style.display = 'block';
+                            } else {
+                                managePubsBtn.style.display = 'none';
+                            }
+                        } else {
+                            publisherDashBtn.style.display = 'none';
+                            manageArtBtn.style.display = 'none';
+                            managePubsBtn.style.display = 'none';
+                        }
                     }
-                }
-            } else {
-                // User is signed out
-                window.hasShownBlockWarning = false;
-                becomePublisherBtn.style.display = 'inline-flex';
-                becomeMemberBtn.style.display = 'inline-flex';
+                } else {
+                    // User is signed out
+                    window.hasShownBlockWarning = false;
+                    becomePublisherBtn.style.display = 'inline-flex';
+                    becomeMemberBtn.style.display = 'inline-flex';
 
-                userGreeting.classList.add('hidden');
-                userGreeting.classList.remove('flex');
+                    userGreeting.classList.add('hidden');
+                    userGreeting.classList.remove('flex');
 
-                signOutBtn.style.display = 'none';
-                publisherDashBtn.style.display = 'none';
-                manageArtBtn.style.display = 'none';
-                managePubsBtn.style.display = 'none';
-                dropAuthRow.style.display = 'block';
-            }
-        }
-
-        // Run session check on load
-        document.addEventListener('DOMContentLoaded', checkUserSession);
-
-        // Listen for auth state changes globally
-        supabaseClient.auth.onAuthStateChange((event, session) => {
-            if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
-                checkUserSession();
-            }
-        });
-
-        // Publisher Dashboard Logic
-        async function openPublisherDashboard(articleToEdit = null) {
-            document.getElementById('userDropdown').classList.add('hidden');
-            document.getElementById('userDropdown').classList.remove('flex', 'flex-col');
-            document.getElementById('publisherModal').classList.remove('hidden');
-
-            // --- Premium Publishing Logic ---
-            const typeSelect = document.getElementById('articleType');
-            const premiumOption = Array.from(typeSelect.options).find(opt => opt.value === 'premium');
-
-            // Default assumes basic until fetched
-            let canPublishPremium = false;
-
-            if (currentUser && currentUser.email === 'subhamdey.one@gmail.com') {
-                canPublishPremium = true; // Super Admin always can
-            } else if (currentUser) {
-                try {
-                    const { data: subData } = await supabaseClient
-                        .from('subscriptions')
-                        .select('plan_tier')
-                        .eq('email', currentUser.email)
-                        .single();
-
-                    if (subData && subData.plan_tier === 'pro') {
-                        canPublishPremium = true;
-                    }
-                } catch (e) {
-                    console.error("Could not fetch subscription data", e);
+                    signOutBtn.style.display = 'none';
+                    publisherDashBtn.style.display = 'none';
+                    manageArtBtn.style.display = 'none';
+                    managePubsBtn.style.display = 'none';
+                    dropAuthRow.style.display = 'block';
                 }
             }
 
-            if (!canPublishPremium) {
-                premiumOption.disabled = true;
-                premiumOption.text = "Premium Article (Requires Pro)";
-                if (typeSelect.value === 'premium') typeSelect.value = 'standard';
-            } else {
-                premiumOption.disabled = false;
-                premiumOption.text = "Premium Article";
-            }
-            // --- End Premium Publishing Logic ---
+            // Run session check on load
+            document.addEventListener('DOMContentLoaded', checkUserSession);
 
-            if (articleToEdit && typeof articleToEdit === 'object' && articleToEdit.id) {
-                document.getElementById('publisher-title').innerText = "Edit Article";
-                document.getElementById('publisherSubmitBtn').innerText = "Update Article";
-                document.getElementById('editingArticleId').value = articleToEdit.id;
-                document.getElementById('articleTitle').value = articleToEdit.title || '';
-                document.getElementById('articleCategory').value = articleToEdit.category || 'City News';
-                document.getElementById('articleType').value = articleToEdit.type || 'standard';
-                document.getElementById('articleExcerpt').value = articleToEdit.excerpt || '';
-                quill.root.innerHTML = articleToEdit.content || '';
-            } else {
-                document.getElementById('publisher-title').innerText = "Publisher Dashboard";
-                document.getElementById('publisherSubmitBtn').innerText = "Publish Article";
-                document.getElementById('editingArticleId').value = "";
-                document.getElementById('publisherForm').reset();
-                quill.root.innerHTML = '';
-            }
-        }
+            // Listen for auth state changes globally
+            supabaseClient.auth.onAuthStateChange((event, session) => {
+                if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
+                    checkUserSession();
+                }
+            });
 
-        function closePublisherDashboard() {
-            document.getElementById('publisherModal').classList.add('hidden');
-            document.getElementById('publisherForm').reset();
-            quill.root.innerHTML = '';
-            document.getElementById('publisherErrorMsg').classList.add('hidden');
-            document.getElementById('publisherSuccessMsg').classList.add('hidden');
-            document.getElementById('editingArticleId').value = "";
-        }
+            // Publisher Dashboard Logic
+            async function openPublisherDashboard(articleToEdit = null) {
+                document.getElementById('userDropdown').classList.add('hidden');
+                document.getElementById('userDropdown').classList.remove('flex', 'flex-col');
+                document.getElementById('publisherModal').classList.remove('hidden');
 
-        async function handlePublishSubmit(e) {
-            e.preventDefault();
+                // --- Premium Publishing Logic ---
+                const typeSelect = document.getElementById('articleType');
+                const premiumOption = Array.from(typeSelect.options).find(opt => opt.value === 'premium');
 
-            const submitBtn = document.getElementById('publisherSubmitBtn');
-            const errorMsg = document.getElementById('publisherErrorMsg');
-            const successMsg = document.getElementById('publisherSuccessMsg');
+                // Default assumes basic until fetched
+                let canPublishPremium = false;
 
-            errorMsg.classList.add('hidden');
-            successMsg.classList.add('hidden');
-            submitBtn.disabled = true;
-            submitBtn.innerText = "Uploading...";
-
-            try {
-                if (!currentUser) throw new Error("You must be logged in to publish.");
-
-                const title = document.getElementById('articleTitle').value;
-                const category = document.getElementById('articleCategory').value;
-                const type = document.getElementById('articleType').value;
-                const excerpt = document.getElementById('articleExcerpt').value;
-                const content = quill.root.innerHTML;
-                const imageFile = document.getElementById('articleImage').files[0];
-                const editingId = document.getElementById('editingArticleId').value;
-
-                // Double check backend authorization for premium
-                if (type === 'premium') {
-                    if (currentUser.email !== 'subhamdey.one@gmail.com') {
-                        const { data: subCheck } = await supabaseClient
+                if (currentUser && currentUser.email === 'subhamdey.one@gmail.com') {
+                    canPublishPremium = true; // Super Admin always can
+                } else if (currentUser) {
+                    try {
+                        const { data: subData } = await supabaseClient
                             .from('subscriptions')
                             .select('plan_tier')
                             .eq('email', currentUser.email)
                             .single();
 
-                        if (!subCheck || subCheck.plan_tier !== 'pro') {
-                            throw new Error("You need a Pro Subscription to publish Premium content.");
+                        if (subData && subData.plan_tier === 'pro') {
+                            canPublishPremium = true;
                         }
+                    } catch (e) {
+                        console.error("Could not fetch subscription data", e);
                     }
                 }
 
-                let imageUrl = null;
-
-                if (imageFile) {
-                    // 1. Upload Image to Supabase Storage
-                    const fileExt = imageFile.name.split('.').pop();
-                    const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
-                    const filePath = `article-images/${fileName}`;
-
-                    const { error: uploadError } = await supabaseClient.storage
-                        .from('images') // 'images' bucket must be created in Supabase
-                        .upload(filePath, imageFile);
-
-                    if (uploadError) throw uploadError;
-
-                    // Getting the public URL
-                    const { data: publicUrlData } = supabaseClient.storage
-                        .from('images')
-                        .getPublicUrl(filePath);
-
-                    imageUrl = publicUrlData.publicUrl;
-                }
-
-                // 2. Prepare Article Data
-                const articleData = {
-                    title: title,
-                    category: category,
-                    type: type,
-                    excerpt: excerpt,
-                    content: content,
-                    author_email: currentUser.email,
-                    author_name: currentUser.email.split('@')[0], // Simplified author name
-                };
-
-                if (imageUrl) {
-                    articleData.image_url = imageUrl;
-                }
-
-                if (editingId) {
-                    const { error: dbError } = await supabaseClient
-                        .from('articles')
-                        .update(articleData)
-                        .eq('id', editingId);
-
-                    if (dbError) throw dbError;
-                    successMsg.innerText = "Article updated successfully!";
+                if (!canPublishPremium) {
+                    premiumOption.disabled = true;
+                    premiumOption.text = "Premium Article (Requires Pro)";
+                    if (typeSelect.value === 'premium') typeSelect.value = 'standard';
                 } else {
-                    const { error: dbError } = await supabaseClient
-                        .from('articles')
-                        .insert([articleData]);
+                    premiumOption.disabled = false;
+                    premiumOption.text = "Premium Article";
+                }
+                // --- End Premium Publishing Logic ---
 
-                    if (dbError) throw dbError;
-                    successMsg.innerText = "Article published successfully!";
+                if (articleToEdit && typeof articleToEdit === 'object' && articleToEdit.id) {
+                    document.getElementById('publisher-title').innerText = "Edit Article";
+                    document.getElementById('publisherSubmitBtn').innerText = "Update Article";
+                    document.getElementById('editingArticleId').value = articleToEdit.id;
+                    document.getElementById('articleTitle').value = articleToEdit.title || '';
+                    document.getElementById('articleCategory').value = articleToEdit.category || 'City News';
+                    document.getElementById('articleType').value = articleToEdit.type || 'standard';
+                    document.getElementById('articleExcerpt').value = articleToEdit.excerpt || '';
+                    quill.root.innerHTML = articleToEdit.content || '';
+                } else {
+                    document.getElementById('publisher-title').innerText = "Publisher Dashboard";
+                    document.getElementById('publisherSubmitBtn').innerText = "Publish Article";
+                    document.getElementById('editingArticleId').value = "";
+                    document.getElementById('publisherForm').reset();
+                    quill.root.innerHTML = '';
                 }
 
-                successMsg.classList.remove('hidden');
+                // Immediately trigger the Live Preview to reflect default or edited state
+                updateLivePreview();
 
-                setTimeout(() => {
-                    closePublisherDashboard();
-                    loadContent(); // refresh homepage
-
-                    // If manage articles is open, refresh it too
-                    if (!document.getElementById('manageArticlesModal').classList.contains('hidden')) {
-                        loadUserArticles();
-                    }
-                }, 1500);
-
-            } catch (err) {
-                errorMsg.innerText = err.message || "An error occurred while publishing.";
-                errorMsg.classList.remove('hidden');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Publish Article";
+                // Set Author Name dynamically in preview
+                if (currentUser) {
+                    const name = currentUser.email.split('@')[0];
+                    document.getElementById('previewAuthorName').innerText = name;
+                    document.getElementById('previewAuthorInitial').innerText = name.charAt(0).toUpperCase();
+                }
             }
-        }
 
-        // Super Admin Moderation Logic
-        function openModerationDashboard() {
-            document.getElementById('userDropdown').classList.add('hidden');
-            document.getElementById('userDropdown').classList.remove('flex', 'flex-col');
-            document.getElementById('moderationModal').classList.remove('hidden');
-            loadPublishersForModeration();
-        }
+            function closePublisherDashboard() {
+                document.getElementById('publisherModal').classList.add('hidden');
+                document.getElementById('publisherForm').reset();
+                quill.root.innerHTML = '';
+                document.getElementById('publisherErrorMsg').classList.add('hidden');
+                document.getElementById('publisherSuccessMsg').classList.add('hidden');
+                document.getElementById('editingArticleId').value = "";
 
-        function closeModerationDashboard() {
-            document.getElementById('moderationModal').classList.add('hidden');
-        }
+                // Reset Preview Image
+                document.getElementById('previewImage').src = '';
+                document.getElementById('previewImage').classList.add('hidden');
+                document.getElementById('previewImagePlaceholder').classList.remove('hidden');
+            }
 
-        async function loadPublishersForModeration() {
-            const loading = document.getElementById('moderationLoading');
-            const list = document.getElementById('publishersList');
+            async function handlePublishSubmit(e) {
+                e.preventDefault();
 
-            loading.classList.remove('hidden');
-            list.classList.add('hidden');
-            list.innerHTML = '';
+                const submitBtn = document.getElementById('publisherSubmitBtn');
+                const errorMsg = document.getElementById('publisherErrorMsg');
+                const successMsg = document.getElementById('publisherSuccessMsg');
 
-            try {
-                // 1. Get ALL users securely via the custom Postgres function
-                const { data: allUsers, error: usersError } = await supabaseClient.rpc('get_all_users');
+                errorMsg.classList.add('hidden');
+                successMsg.classList.add('hidden');
+                submitBtn.disabled = true;
+                submitBtn.innerText = "Uploading...";
 
-                if (usersError) throw usersError;
+                try {
+                    if (!currentUser) throw new Error("You must be logged in to publish.");
 
-                // 2. Get current block statuses
-                const { data: blocks, error: blocksError } = await supabaseClient
-                    .from('publisher_blocks')
-                    .select('*');
+                    const title = document.getElementById('articleTitle').value;
+                    const category = document.getElementById('articleCategory').value;
+                    const type = document.getElementById('articleType').value;
+                    const excerpt = document.getElementById('articleExcerpt').value;
+                    const content = quill.root.innerHTML;
+                    const imageFile = document.getElementById('articleImage').files[0];
+                    const editingId = document.getElementById('editingArticleId').value;
 
-                if (blocksError) throw blocksError;
+                    // Double check backend authorization for premium
+                    if (type === 'premium') {
+                        if (currentUser.email !== 'subhamdey.one@gmail.com') {
+                            const { data: subCheck } = await supabaseClient
+                                .from('subscriptions')
+                                .select('plan_tier')
+                                .eq('email', currentUser.email)
+                                .single();
 
-                // Create a lookup map for blocks
-                const blockMap = new Map();
-                if (blocks) {
-                    blocks.forEach(b => blockMap.set(b.email, b));
-                }
-
-                // Filter out the Super Admin
-                let filteredPublishers = [];
-                if (allUsers) {
-                    filteredPublishers = allUsers.filter(u => u.email && u.email !== 'subhamdey.one@gmail.com');
-                }
-
-                // Add any blocked users who might not be in auth anymore
-                blockMap.forEach(b => {
-                    const exists = filteredPublishers.find(p => p.email === b.email);
-                    if (!exists && b.email !== 'subhamdey.one@gmail.com') {
-                        filteredPublishers.push({ email: b.email, name: b.email.split('@')[0] });
-                    }
-                });
-
-                if (filteredPublishers.length === 0) {
-                    list.innerHTML = '<div class="text-center text-gray-500 py-4">No publishers found. Register a new user first.</div>';
-                } else {
-                    filteredPublishers.forEach((pub, index) => {
-                        const blockInfo = blockMap.get(pub.email);
-                        const isBlocked = blockInfo && blockInfo.is_blocked;
-                        const pubName = pub.name || pub.email.split('@')[0];
-                        let statusHtml = '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>';
-
-                        if (isBlocked) {
-                            const blockUntil = blockInfo.block_until ? new Date(blockInfo.block_until).toLocaleDateString() : 'Forever';
-                            statusHtml = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800" title="Blocked until ${blockUntil}">Blocked</span>
-                                          <div class="text-xs text-red-600 mt-1">Until: ${blockUntil}</div>`;
+                            if (!subCheck || subCheck.plan_tier !== 'pro') {
+                                throw new Error("You need a Pro Subscription to publish Premium content.");
+                            }
                         }
+                    }
 
-                        const cardHtml = `
+                    let imageUrl = null;
+
+                    if (imageFile) {
+                        // 1. Upload Image to Supabase Storage
+                        const fileExt = imageFile.name.split('.').pop();
+                        const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
+                        const filePath = `article-images/${fileName}`;
+
+                        const { error: uploadError } = await supabaseClient.storage
+                            .from('images') // 'images' bucket must be created in Supabase
+                            .upload(filePath, imageFile);
+
+                        if (uploadError) throw uploadError;
+
+                        // Getting the public URL
+                        const { data: publicUrlData } = supabaseClient.storage
+                            .from('images')
+                            .getPublicUrl(filePath);
+
+                        imageUrl = publicUrlData.publicUrl;
+                    }
+
+                    // 2. Prepare Article Data
+                    const articleData = {
+                        title: title,
+                        category: category,
+                        type: type,
+                        excerpt: excerpt,
+                        content: content,
+                        author_email: currentUser.email,
+                        author_name: currentUser.email.split('@')[0], // Simplified author name
+                    };
+
+                    if (imageUrl) {
+                        articleData.image_url = imageUrl;
+                    }
+
+                    if (editingId) {
+                        const { error: dbError } = await supabaseClient
+                            .from('articles')
+                            .update(articleData)
+                            .eq('id', editingId);
+
+                        if (dbError) throw dbError;
+                        successMsg.innerText = "Article updated successfully!";
+                    } else {
+                        const { error: dbError } = await supabaseClient
+                            .from('articles')
+                            .insert([articleData]);
+
+                        if (dbError) throw dbError;
+                        successMsg.innerText = "Article published successfully!";
+                    }
+
+                    successMsg.classList.remove('hidden');
+
+                    setTimeout(() => {
+                        closePublisherDashboard();
+                        loadContent(); // refresh homepage
+
+                        // If manage articles is open, refresh it too
+                        if (!document.getElementById('manageArticlesModal').classList.contains('hidden')) {
+                            loadUserArticles();
+                        }
+                    }, 1500);
+
+                } catch (err) {
+                    errorMsg.innerText = err.message || "An error occurred while publishing.";
+                    errorMsg.classList.remove('hidden');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = "Publish Article";
+                }
+            }
+
+            // Super Admin Moderation Logic
+            function openModerationDashboard() {
+                document.getElementById('userDropdown').classList.add('hidden');
+                document.getElementById('userDropdown').classList.remove('flex', 'flex-col');
+                document.getElementById('moderationModal').classList.remove('hidden');
+                loadPublishersForModeration();
+            }
+
+            function closeModerationDashboard() {
+                document.getElementById('moderationModal').classList.add('hidden');
+            }
+
+            async function loadPublishersForModeration() {
+                const loading = document.getElementById('moderationLoading');
+                const list = document.getElementById('publishersList');
+
+                loading.classList.remove('hidden');
+                list.classList.add('hidden');
+                list.innerHTML = '';
+
+                try {
+                    // 1. Get ALL users securely via the custom Postgres function
+                    const { data: allUsers, error: usersError } = await supabaseClient.rpc('get_all_users');
+
+                    if (usersError) throw usersError;
+
+                    // 2. Get current block statuses
+                    const { data: blocks, error: blocksError } = await supabaseClient
+                        .from('publisher_blocks')
+                        .select('*');
+
+                    if (blocksError) throw blocksError;
+
+                    // Create a lookup map for blocks
+                    const blockMap = new Map();
+                    if (blocks) {
+                        blocks.forEach(b => blockMap.set(b.email, b));
+                    }
+
+                    // Filter out the Super Admin
+                    let filteredPublishers = [];
+                    if (allUsers) {
+                        filteredPublishers = allUsers.filter(u => u.email && u.email !== 'subhamdey.one@gmail.com');
+                    }
+
+                    // Add any blocked users who might not be in auth anymore
+                    blockMap.forEach(b => {
+                        const exists = filteredPublishers.find(p => p.email === b.email);
+                        if (!exists && b.email !== 'subhamdey.one@gmail.com') {
+                            filteredPublishers.push({ email: b.email, name: b.email.split('@')[0] });
+                        }
+                    });
+
+                    if (filteredPublishers.length === 0) {
+                        list.innerHTML = '<div class="text-center text-gray-500 py-4">No publishers found. Register a new user first.</div>';
+                    } else {
+                        filteredPublishers.forEach((pub, index) => {
+                            const blockInfo = blockMap.get(pub.email);
+                            const isBlocked = blockInfo && blockInfo.is_blocked;
+                            const pubName = pub.name || pub.email.split('@')[0];
+                            let statusHtml = '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>';
+
+                            if (isBlocked) {
+                                const blockUntil = blockInfo.block_until ? new Date(blockInfo.block_until).toLocaleDateString() : 'Forever';
+                                statusHtml = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800" title="Blocked until ${blockUntil}">Blocked</span>
+                                          <div class="text-xs text-red-600 mt-1">Until: ${blockUntil}</div>`;
+                            }
+
+                            const cardHtml = `
                             <div class="border border-gray-200 rounded-lg p-4 bg-white shadow-sm flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
                                 <div class="flex-1">
                                     <div class="flex items-center gap-2 mb-1">
@@ -1491,126 +1518,126 @@
                                 </div>
                             </div>
                         `;
-                        list.insertAdjacentHTML('beforeend', cardHtml);
-                    });
-                }
-            } catch (err) {
-                console.error("Error loading publishers:", err);
-                // Provide a friendly fallback message guiding them on how to set up the DB function
-                let errMsg = err.message;
-                if (err.message.includes("function") && err.message.includes("does not exist")) {
-                    errMsg = "The SQL function 'get_all_users' needs to be added via the Supabase Dashboard. See instructions in the codebase.";
-                }
-                list.innerHTML = `
+                            list.insertAdjacentHTML('beforeend', cardHtml);
+                        });
+                    }
+                } catch (err) {
+                    console.error("Error loading publishers:", err);
+                    // Provide a friendly fallback message guiding them on how to set up the DB function
+                    let errMsg = err.message;
+                    if (err.message.includes("function") && err.message.includes("does not exist")) {
+                        errMsg = "The SQL function 'get_all_users' needs to be added via the Supabase Dashboard. See instructions in the codebase.";
+                    }
+                    list.innerHTML = `
                     <div class="bg-red-50 border border-red-200 rounded p-4 text-left">
                         <div class="text-red-800 font-bold mb-2">Error Loading Users</div>
                         <div class="text-red-600 text-sm">${errMsg}</div>
                     </div>`;
-            } finally {
-                loading.classList.add('hidden');
-                list.classList.remove('hidden');
-            }
-        }
-
-        function toggleBlockModal(email, action, index) {
-            const form = document.getElementById(`blockForm-${index}`);
-            if (action === 'ban') {
-                form.classList.remove('hidden');
-            } else {
-                form.classList.add('hidden');
-            }
-        }
-
-        async function submitBlock(email, index) {
-            const dateInput = document.getElementById(`blockDate-${index}`).value;
-            const msgInput = document.getElementById(`blockMsg-${index}`).value;
-
-            let blockUntil = null;
-            if (dateInput) {
-                // Ensure the block goes until the end of the selected day
-                const d = new Date(dateInput);
-                d.setHours(23, 59, 59);
-                blockUntil = d.toISOString();
+                } finally {
+                    loading.classList.add('hidden');
+                    list.classList.remove('hidden');
+                }
             }
 
-            try {
-                const { error } = await supabaseClient
-                    .from('publisher_blocks')
-                    .upsert({
-                        email: email,
-                        is_blocked: true,
-                        block_until: blockUntil,
-                        warning_message: msgInput || "Your publishing privileges have been suspended."
-                    }, { onConflict: 'email' });
-
-                if (error) throw error;
-
-                // Refresh list
-                loadPublishersForModeration();
-            } catch (err) {
-                alert(`Error blocking user: ${err.message}`);
-            }
-        }
-
-        async function unblockPublisher(email) {
-            if (!confirm(`Are you sure you want to unban ${email}? They will immediately be able to publish again.`)) return;
-
-            try {
-                const { error } = await supabaseClient
-                    .from('publisher_blocks')
-                    .upsert({
-                        email: email,
-                        is_blocked: false,
-                        block_until: null,
-                        warning_message: ""
-                    }, { onConflict: 'email' });
-
-                if (error) throw error;
-
-                loadPublishersForModeration();
-            } catch (err) {
-                alert(`Error unblocking user: ${err.message}`);
-            }
-        }
-
-        // Manage Articles Logic
-        let userArticlesList = [];
-
-        function openManageArticles() {
-            document.getElementById('userDropdown').classList.add('hidden');
-            document.getElementById('userDropdown').classList.remove('flex', 'flex-col');
-            document.getElementById('manageArticlesModal').classList.remove('hidden');
-            loadUserArticles();
-        }
-
-        function closeManageArticles() {
-            document.getElementById('manageArticlesModal').classList.add('hidden');
-        }
-
-        async function loadUserArticles() {
-            if (!currentUser) return;
-            const tbody = document.getElementById('manageArticlesTableBody');
-            tbody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">Loading your articles...</td></tr>';
-
-            const { data, error } = await supabaseClient
-                .from('articles')
-                .select('*')
-                .eq('author_email', currentUser.email)
-                .order('created_at', { ascending: false });
-
-            if (error) {
-                tbody.innerHTML = `<tr><td colspan="4" class="px-6 py-4 text-center text-sm text-red-500">Failed to load articles.</td></tr>`;
-                return;
+            function toggleBlockModal(email, action, index) {
+                const form = document.getElementById(`blockForm-${index}`);
+                if (action === 'ban') {
+                    form.classList.remove('hidden');
+                } else {
+                    form.classList.add('hidden');
+                }
             }
 
-            userArticlesList = data; // store globally for editing
+            async function submitBlock(email, index) {
+                const dateInput = document.getElementById(`blockDate-${index}`).value;
+                const msgInput = document.getElementById(`blockMsg-${index}`).value;
 
-            if (!data || data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">You haven't published any articles yet.</td></tr>`;
-                return;
+                let blockUntil = null;
+                if (dateInput) {
+                    // Ensure the block goes until the end of the selected day
+                    const d = new Date(dateInput);
+                    d.setHours(23, 59, 59);
+                    blockUntil = d.toISOString();
+                }
+
+                try {
+                    const { error } = await supabaseClient
+                        .from('publisher_blocks')
+                        .upsert({
+                            email: email,
+                            is_blocked: true,
+                            block_until: blockUntil,
+                            warning_message: msgInput || "Your publishing privileges have been suspended."
+                        }, { onConflict: 'email' });
+
+                    if (error) throw error;
+
+                    // Refresh list
+                    loadPublishersForModeration();
+                } catch (err) {
+                    alert(`Error blocking user: ${err.message}`);
+                }
             }
 
-            tbody.innerHTML = data.map(article => `
+            async function unblockPublisher(email) {
+                if (!confirm(`Are you sure you want to unban ${email}? They will immediately be able to publish again.`)) return;
+
+                try {
+                    const { error } = await supabaseClient
+                        .from('publisher_blocks')
+                        .upsert({
+                            email: email,
+                            is_blocked: false,
+                            block_until: null,
+                            warning_message: ""
+                        }, { onConflict: 'email' });
+
+                    if (error) throw error;
+
+                    loadPublishersForModeration();
+                } catch (err) {
+                    alert(`Error unblocking user: ${err.message}`);
+                }
+            }
+
+            // Manage Articles Logic
+            let userArticlesList = [];
+
+            function openManageArticles() {
+                document.getElementById('userDropdown').classList.add('hidden');
+                document.getElementById('userDropdown').classList.remove('flex', 'flex-col');
+                document.getElementById('manageArticlesModal').classList.remove('hidden');
+                loadUserArticles();
+            }
+
+            function closeManageArticles() {
+                document.getElementById('manageArticlesModal').classList.add('hidden');
+            }
+
+            async function loadUserArticles() {
+                if (!currentUser) return;
+                const tbody = document.getElementById('manageArticlesTableBody');
+                tbody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">Loading your articles...</td></tr>';
+
+                const { data, error } = await supabaseClient
+                    .from('articles')
+                    .select('*')
+                    .eq('author_email', currentUser.email)
+                    .order('created_at', { ascending: false });
+
+                if (error) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="px-6 py-4 text-center text-sm text-red-500">Failed to load articles.</td></tr>`;
+                    return;
+                }
+
+                userArticlesList = data; // store globally for editing
+
+                if (!data || data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">You haven't published any articles yet.</td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = data.map(article => `
                 <tr>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 truncate max-w-xs">${article.title}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${article.category}</td>
@@ -1621,120 +1648,120 @@
                     </td>
                 </tr>
             `).join('');
-        }
-
-        function editArticle(id) {
-            const article = userArticlesList.find(a => a.id.toString() === id.toString());
-            if (article) {
-                openPublisherDashboard(article);
             }
-        }
 
-        async function deleteArticle(id) {
-            if (confirm("Are you sure you want to delete this article? This cannot be undone.")) {
-                const { error } = await supabaseClient.from('articles').delete().eq('id', id);
-                if (error) {
-                    alert("Failed to delete article: " + error.message);
+            function editArticle(id) {
+                const article = userArticlesList.find(a => a.id.toString() === id.toString());
+                if (article) {
+                    openPublisherDashboard(article);
+                }
+            }
+
+            async function deleteArticle(id) {
+                if (confirm("Are you sure you want to delete this article? This cannot be undone.")) {
+                    const { error } = await supabaseClient.from('articles').delete().eq('id', id);
+                    if (error) {
+                        alert("Failed to delete article: " + error.message);
+                    } else {
+                        loadUserArticles();
+                        loadContent(); // refresh homepage
+                    }
+                }
+            }
+        </script>
+
+        <!-- Fetch & Render Scripts -->
+        <script>
+            let currentCategoryFilter = null;
+            function filterCategory(category) {
+                if (currentCategoryFilter === category) {
+                    currentCategoryFilter = null;
                 } else {
-                    loadUserArticles();
-                    loadContent(); // refresh homepage
+                    currentCategoryFilter = category;
                 }
-            }
-        }
-    </script>
 
-    <!-- Fetch & Render Scripts -->
-    <script>
-        let currentCategoryFilter = null;
-        function filterCategory(category) {
-            if (currentCategoryFilter === category) {
-                currentCategoryFilter = null;
-            } else {
-                currentCategoryFilter = category;
+                // Highlight selected nav link 
+                document.querySelectorAll('.nav-link').forEach(el => {
+                    if (el.innerText.trim() === currentCategoryFilter) {
+                        el.classList.add('font-bold', 'text-blue-700');
+                    } else {
+                        el.classList.remove('font-bold', 'text-blue-700');
+                    }
+                });
+
+                loadContent(false);
             }
 
-            // Highlight selected nav link 
-            document.querySelectorAll('.nav-link').forEach(el => {
-                if (el.innerText.trim() === currentCategoryFilter) {
-                    el.classList.add('font-bold', 'text-blue-700');
-                } else {
-                    el.classList.remove('font-bold', 'text-blue-700');
-                }
-            });
+            let displayedArticleIds = new Set();
+            async function loadContent(isLoadMore = false) {
+                const btnText = document.querySelector('#loadMoreBtn span');
+                const btnSpinner = document.getElementById('loadMoreSpinner');
+                const loadBtn = document.getElementById('loadMoreBtn');
 
-            loadContent(false);
-        }
-
-        let displayedArticleIds = new Set();
-        async function loadContent(isLoadMore = false) {
-            const btnText = document.querySelector('#loadMoreBtn span');
-            const btnSpinner = document.getElementById('loadMoreSpinner');
-            const loadBtn = document.getElementById('loadMoreBtn');
-
-            if (isLoadMore) {
-                btnText.innerText = "Loading...";
-                btnSpinner.classList.remove('hidden');
-                loadBtn.disabled = true;
-            }
-
-            try {
-                if (!isLoadMore) {
-                    currentPage = 0;
-                    displayedArticleIds.clear();
-                    document.getElementById('mainFeatureContainer').innerHTML = '';
-                    document.getElementById('subStoriesContainer').innerHTML = '';
-                    document.getElementById('loadMoreContainer').classList.add('hidden');
-                }
-                const start = currentPage * articlesPerPage;
-                const end = start + articlesPerPage - 1;
-
-                // Fetch directly from Supabase Database
-                let query = supabaseClient
-                    .from('articles')
-                    .select('*', { count: 'exact' })
-                    .order('created_at', { ascending: false });
-
-                if (currentCategoryFilter) {
-                    query = query.eq('category', currentCategoryFilter);
+                if (isLoadMore) {
+                    btnText.innerText = "Loading...";
+                    btnSpinner.classList.remove('hidden');
+                    loadBtn.disabled = true;
                 }
 
-                const { data: dbArticles, error, count } = await query.range(start, end);
-
-                if (error) {
-                    console.error("Database fetch error:", error);
-                    return;
-                }
-
-                if (!dbArticles || dbArticles.length === 0) {
+                try {
                     if (!isLoadMore) {
-                        document.getElementById('mainFeatureContainer').innerHTML = `
+                        currentPage = 0;
+                        displayedArticleIds.clear();
+                        document.getElementById('mainFeatureContainer').innerHTML = '';
+                        document.getElementById('subStoriesContainer').innerHTML = '';
+                        document.getElementById('loadMoreContainer').classList.add('hidden');
+                    }
+                    const start = currentPage * articlesPerPage;
+                    const end = start + articlesPerPage - 1;
+
+                    // Fetch directly from Supabase Database
+                    let query = supabaseClient
+                        .from('articles')
+                        .select('*', { count: 'exact' })
+                        .order('created_at', { ascending: false });
+
+                    if (currentCategoryFilter) {
+                        query = query.eq('category', currentCategoryFilter);
+                    }
+
+                    const { data: dbArticles, error, count } = await query.range(start, end);
+
+                    if (error) {
+                        console.error("Database fetch error:", error);
+                        return;
+                    }
+
+                    if (!dbArticles || dbArticles.length === 0) {
+                        if (!isLoadMore) {
+                            document.getElementById('mainFeatureContainer').innerHTML = `
                             <div class="col-span-full py-20 text-center">
                                 <span class="text-4xl block mb-4">📭</span>
                                 <h3 class="text-2xl font-bold text-gray-800">No stories found.</h3>
                                 ${currentCategoryFilter ? `<p class="text-gray-500 mt-2">There are no articles published in "${currentCategoryFilter}" yet.</p>` : '<p class="text-gray-500 mt-2">Publishers haven\'t posted any news yet.</p>'}
                             </div>
                         `;
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                const subContainer = document.getElementById('subStoriesContainer');
-                let html = '';
+                    const subContainer = document.getElementById('subStoriesContainer');
+                    let html = '';
 
-                let startIndex = 0;
-                let articlesToRender = dbArticles;
-                // 1. Render Main Feature only on first load
-                if (!isLoadMore && articlesToRender.length > 0) {
-                    const mf = articlesToRender[0];
-                    displayedArticleIds.add(mf.id);
-                    startIndex = 1;
+                    let startIndex = 0;
+                    let articlesToRender = dbArticles;
+                    // 1. Render Main Feature only on first load
+                    if (!isLoadMore && articlesToRender.length > 0) {
+                        const mf = articlesToRender[0];
+                        displayedArticleIds.add(mf.id);
+                        startIndex = 1;
 
-                    const mfImage = mf.image_url || mf.image || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=1000&auto=format&fit=crop';
-                    const mfAuthor = mf.author_name || mf.author;
-                    const mfDate = mf.created_at ? new Date(mf.created_at).toLocaleDateString() : (mf.date || 'Today');
-                    const mfPremiumTag = mf.type === 'premium' ? '<span class="bg-black text-brandYellow font-mono text-xs font-bold px-2 py-1 uppercase tracking-wider ml-1">Premium Content</span>' : '';
+                        const mfImage = mf.image_url || mf.image || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=1000&auto=format&fit=crop';
+                        const mfAuthor = mf.author_name || mf.author;
+                        const mfDate = mf.created_at ? new Date(mf.created_at).toLocaleDateString() : (mf.date || 'Today');
+                        const mfPremiumTag = mf.type === 'premium' ? '<span class="bg-black text-brandYellow font-mono text-xs font-bold px-2 py-1 uppercase tracking-wider ml-1">Premium Content</span>' : '';
 
-                    document.getElementById('mainFeatureContainer').innerHTML = `
+                        document.getElementById('mainFeatureContainer').innerHTML = `
                         <a href="article.html?id=${mf.id}" class="block w-full">
                             <div class="aspect-video w-full bg-gray-200 overflow-hidden relative mb-4">
                                 <img src="${mfImage}" alt="${mf.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
@@ -1752,24 +1779,24 @@
                             </div>
                         </a>
                     `;
-                }
+                    }
 
-                // 2. Render Sub Articles
-                const subArticles = articlesToRender.slice(startIndex);
+                    // 2. Render Sub Articles
+                    const subArticles = articlesToRender.slice(startIndex);
 
-                subArticles.forEach(article => {
-                    if (displayedArticleIds.has(article.id)) return;
-                    displayedArticleIds.add(article.id);
+                    subArticles.forEach(article => {
+                        if (displayedArticleIds.has(article.id)) return;
+                        displayedArticleIds.add(article.id);
 
-                    const img = article.image_url || article.image || 'https://images.unsplash.com/photo-1546422904-90eab23c3d7e?q=80&w=800&auto=format&fit=crop';
-                    const cat = article.category || 'News';
-                    const title = article.title;
-                    const excerpt = article.excerpt || '';
-                    const premiumTag = article.type === 'premium' ? '<span class="bg-black text-brandYellow font-mono text-xs font-bold uppercase tracking-wider px-2 py-1 ml-1 self-start inline-block">Premium Content</span>' : '';
+                        const img = article.image_url || article.image || 'https://images.unsplash.com/photo-1546422904-90eab23c3d7e?q=80&w=800&auto=format&fit=crop';
+                        const cat = article.category || 'News';
+                        const title = article.title;
+                        const excerpt = article.excerpt || '';
+                        const premiumTag = article.type === 'premium' ? '<span class="bg-black text-brandYellow font-mono text-xs font-bold uppercase tracking-wider px-2 py-1 ml-1 self-start inline-block">Premium Content</span>' : '';
 
-                    // Different styles based on "type"
-                    if (article.type === 'explainer') {
-                        html += `
+                        // Different styles based on "type"
+                        if (article.type === 'explainer') {
+                            html += `
                         <a href="article.html?id=${article.id}" class="group cursor-pointer flex flex-col gap-3 animate-fade-in-up" style="animation-delay: ${0.1 * (subArticles.indexOf(article) % 20)}s">
                             <div class="aspect-[3/2] relative overflow-hidden bg-brandYellow">
                                 <img src="${img}" alt="${title}" class="absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-60 group-hover:scale-105 group-hover:opacity-80 transition-all duration-500" loading="lazy">
@@ -1787,8 +1814,8 @@
                                 ${title}
                             </h3>
                         </a>`;
-                    } else if (article.type === 'video') {
-                        html += `
+                        } else if (article.type === 'video') {
+                            html += `
                         <a href="article.html?id=${article.id}" class="group cursor-pointer flex flex-col gap-3 animate-fade-in-up" style="animation-delay: ${0.1 * (subArticles.indexOf(article) % 20)}s">
                             <div class="aspect-[3/2] relative overflow-hidden bg-black text-white">
                                 <img src="${img}" alt="${title}" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 group-hover:opacity-70 transition-all duration-500" loading="lazy">
@@ -1806,9 +1833,9 @@
                                 ${title}
                             </h3>
                         </a>`;
-                    } else {
-                        // Standard type
-                        html += `
+                        } else {
+                            // Standard type
+                            html += `
                         <a href="article.html?id=${article.id}" class="group cursor-pointer flex flex-col gap-3 animate-fade-in-up" style="animation-delay: ${0.1 * (subArticles.indexOf(article) % 20)}s">
                             <div class="overflow-hidden bg-gray-100 aspect-[3/2] relative">
                                 <img src="${img}" alt="${title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
@@ -1819,51 +1846,51 @@
                             </h3>
                             ${excerpt ? `<p class="text-gray-600 text-sm">${excerpt}</p>` : ''}
                         </a>`;
+                        }
+                    });
+
+                    if (isLoadMore) {
+                        subContainer.innerHTML += html;
+                    } else {
+                        subContainer.innerHTML = html;
                     }
-                });
 
-                if (isLoadMore) {
-                    subContainer.innerHTML += html;
-                } else {
-                    subContainer.innerHTML = html;
-                }
+                    // Check pagination state
+                    if (dbArticles.length === articlesPerPage && count > (currentPage + 1) * articlesPerPage) {
+                        document.getElementById('loadMoreContainer').classList.remove('hidden');
+                    } else {
+                        document.getElementById('loadMoreContainer').classList.add('hidden');
+                    }
 
-                // Check pagination state
-                if (dbArticles.length === articlesPerPage && count > (currentPage + 1) * articlesPerPage) {
-                    document.getElementById('loadMoreContainer').classList.remove('hidden');
-                } else {
-                    document.getElementById('loadMoreContainer').classList.add('hidden');
-                }
+                    currentPage++;
 
-                currentPage++;
-
-            } catch (error) {
-                console.error("Error loading dynamic content:", error);
-            } finally {
-                if (isLoadMore) {
-                    btnText.innerText = "Load More Stories";
-                    btnSpinner.classList.add('hidden');
-                    loadBtn.disabled = false;
+                } catch (error) {
+                    console.error("Error loading dynamic content:", error);
+                } finally {
+                    if (isLoadMore) {
+                        btnText.innerText = "Load More Stories";
+                        btnSpinner.classList.add('hidden');
+                        loadBtn.disabled = false;
+                    }
                 }
             }
-        }
 
-        // Simulated Live Chat
-        const chatMessages = [
-            { user: "FoodieJalpaiguri", msg: "Has anyone tried the new momo stall near the station? The line was crazy today!" },
-            { user: "WeatherWatcher", msg: "Looks like heavy rain starting at 4 PM. Grab your umbrellas if you're out." },
-            { user: "Student_NBU", msg: "Does anyone have notes for the 3rd semester economics paper?" },
-            { user: "TravelBug", msg: "Planning a weekend trip to Mirik. Are the roads clear after yesterday's landslide?" },
-            { user: "Rajesh_88", msg: "Traffic at Venus More is bumper to bumper right now. Avoid if possible." }
-        ];
+            // Simulated Live Chat
+            const chatMessages = [
+                { user: "FoodieJalpaiguri", msg: "Has anyone tried the new momo stall near the station? The line was crazy today!" },
+                { user: "WeatherWatcher", msg: "Looks like heavy rain starting at 4 PM. Grab your umbrellas if you're out." },
+                { user: "Student_NBU", msg: "Does anyone have notes for the 3rd semester economics paper?" },
+                { user: "TravelBug", msg: "Planning a weekend trip to Mirik. Are the roads clear after yesterday's landslide?" },
+                { user: "Rajesh_88", msg: "Traffic at Venus More is bumper to bumper right now. Avoid if possible." }
+            ];
 
-        function simulateLiveChat() {
-            const container = document.getElementById('chatContainer');
-            if (!container) return;
+            function simulateLiveChat() {
+                const container = document.getElementById('chatContainer');
+                if (!container) return;
 
-            setInterval(() => {
-                const randomMsg = chatMessages[Math.floor(Math.random() * chatMessages.length)];
-                const msgHtml = `
+                setInterval(() => {
+                    const randomMsg = chatMessages[Math.floor(Math.random() * chatMessages.length)];
+                    const msgHtml = `
                     <div class="bg-white p-3 border border-gray-200 rounded shadow-sm animate-fade-in-up">
                         <div class="flex items-center justify-between mb-1">
                             <span class="font-bold text-sm text-blue-700">${randomMsg.user}</span>
@@ -1872,153 +1899,153 @@
                         <p class="text-sm text-gray-700">${randomMsg.msg}</p>
                     </div>
                 `;
-                container.insertAdjacentHTML('beforeend', msgHtml);
-                container.scrollTop = container.scrollHeight;
-            }, 8000); // Every 8 seconds
-        }
-
-        // Subscription Logic
-        function openSubscriptionModal(roleType) {
-            closeAuthModal(); // Close auth modal if open
-            if (!currentUser) {
-                // Must be signed in to subscribe
-                currentTargetRole = roleType;
-                openAuthModal(roleType);
-                return;
+                    container.insertAdjacentHTML('beforeend', msgHtml);
+                    container.scrollTop = container.scrollHeight;
+                }, 8000); // Every 8 seconds
             }
 
-            document.getElementById('subscriptionModal').classList.remove('hidden');
-            document.getElementById('paymentOverlay').classList.add('hidden');
+            // Subscription Logic
+            function openSubscriptionModal(roleType) {
+                closeAuthModal(); // Close auth modal if open
+                if (!currentUser) {
+                    // Must be signed in to subscribe
+                    currentTargetRole = roleType;
+                    openAuthModal(roleType);
+                    return;
+                }
 
-            const pubPricing = document.getElementById('publisherPricing');
-            const memPricing = document.getElementById('memberPricing');
+                document.getElementById('subscriptionModal').classList.remove('hidden');
+                document.getElementById('paymentOverlay').classList.add('hidden');
 
-            if (roleType === 'publisher') {
-                document.getElementById('sub-modal-title').innerText = "Publisher Subscriptions";
-                document.getElementById('sub-modal-desc').innerText = "Reach thousands of local readers with our powerful tools.";
-                pubPricing.classList.remove('hidden');
-                pubPricing.classList.add('grid');
-                memPricing.classList.add('hidden');
-                memPricing.classList.remove('grid');
-            } else {
-                document.getElementById('sub-modal-title').innerText = "Siliguri Pro";
-                document.getElementById('sub-modal-desc').innerText = "Unlock exclusive deep-dives and support local journalism.";
-                pubPricing.classList.add('hidden');
-                pubPricing.classList.remove('grid');
-                memPricing.classList.remove('hidden');
-                memPricing.classList.add('grid');
+                const pubPricing = document.getElementById('publisherPricing');
+                const memPricing = document.getElementById('memberPricing');
+
+                if (roleType === 'publisher') {
+                    document.getElementById('sub-modal-title').innerText = "Publisher Subscriptions";
+                    document.getElementById('sub-modal-desc').innerText = "Reach thousands of local readers with our powerful tools.";
+                    pubPricing.classList.remove('hidden');
+                    pubPricing.classList.add('grid');
+                    memPricing.classList.add('hidden');
+                    memPricing.classList.remove('grid');
+                } else {
+                    document.getElementById('sub-modal-title').innerText = "Siliguri Pro";
+                    document.getElementById('sub-modal-desc').innerText = "Unlock exclusive deep-dives and support local journalism.";
+                    pubPricing.classList.add('hidden');
+                    pubPricing.classList.remove('grid');
+                    memPricing.classList.remove('hidden');
+                    memPricing.classList.add('grid');
+                }
             }
-        }
 
-        function closeSubscriptionModal() {
-            // Check if they are a new user who HAS to pick a plan
-            if (currentUser && currentUser.email !== 'subhamdey.one@gmail.com') {
-                supabaseClient.from('subscriptions')
-                    .select('plan_tier')
-                    .eq('email', currentUser.email)
-                    .maybeSingle()
-                    .then(({ data }) => {
-                        if (!data) {
-                            // They still don't have a plan, so they can't close the modal easily.
-                            // If they try to bypass, log them out.
-                            handleSignOut();
-                        } else {
-                            document.getElementById('subscriptionModal').classList.add('hidden');
-                        }
-                    });
-            } else {
-                document.getElementById('subscriptionModal').classList.add('hidden');
+            function closeSubscriptionModal() {
+                // Check if they are a new user who HAS to pick a plan
+                if (currentUser && currentUser.email !== 'subhamdey.one@gmail.com') {
+                    supabaseClient.from('subscriptions')
+                        .select('plan_tier')
+                        .eq('email', currentUser.email)
+                        .maybeSingle()
+                        .then(({ data }) => {
+                            if (!data) {
+                                // They still don't have a plan, so they can't close the modal easily.
+                                // If they try to bypass, log them out.
+                                handleSignOut();
+                            } else {
+                                document.getElementById('subscriptionModal').classList.add('hidden');
+                            }
+                        });
+                } else {
+                    document.getElementById('subscriptionModal').classList.add('hidden');
+                }
             }
-        }
 
-        async function mockPayment(role, tier, cycle) {
-            if (!currentUser) return;
+            async function mockPayment(role, tier, cycle) {
+                if (!currentUser) return;
 
-            const overlay = document.getElementById('paymentOverlay');
-            const statusText = document.getElementById('paymentStatusText');
+                const overlay = document.getElementById('paymentOverlay');
+                const statusText = document.getElementById('paymentStatusText');
 
-            overlay.classList.remove('hidden');
+                overlay.classList.remove('hidden');
 
-            // Simulate Payment Flow
-            setTimeout(() => {
-                statusText.innerText = "Processing Payment...";
-                setTimeout(async () => {
-                    statusText.innerText = "Payment Successful! Updating profile...";
-
-                    try {
-                        // Calculate valid_until (now + 1 month or 1 year depending on cycle)
-                        const validUntil = new Date();
-                        if (cycle === 'annual') {
-                            validUntil.setFullYear(validUntil.getFullYear() + 1);
-                        } else {
-                            validUntil.setMonth(validUntil.getMonth() + 1);
-                        }
-
-                        // Upsert Subscription to DB
-                        const { error } = await supabaseClient
-                            .from('subscriptions')
-                            .upsert({
-                                email: currentUser.email,
-                                role: role,
-                                plan_tier: tier,
-                                billing_cycle: cycle,
-                                status: 'active',
-                                valid_until: validUntil.toISOString()
-                            });
-
-                        if (error) throw error;
-
-                        setTimeout(() => {
-                            // Force close here without the check since we just wrote the record
-                            document.getElementById('subscriptionModal').classList.add('hidden');
-                            window.location.reload(); // Reload to refresh permissions & UI everywhere
-                        }, 1000);
-
-                    } catch (e) {
-                        console.error("Subscription Error:", e);
-                        statusText.innerText = "Error updating subscription!";
-                        statusText.classList.add('text-red-500');
-                    }
-                }, 1500);
-            }, 1000);
-        }
-
-        // Handle direct upgrade requests from URL
-        function checkUrlFlags() {
-            const params = new URLSearchParams(window.location.search);
-            if (params.get('openUpgrade')) {
-                const role = params.get('openUpgrade');
-
-                // wait to ensure auth state is loaded first
+                // Simulate Payment Flow
                 setTimeout(() => {
-                    openSubscriptionModal(role);
-                    // remove param so it doesn't trigger on fresh reload
-                    window.history.replaceState({}, document.title, window.location.pathname);
-                }, 500);
-            }
-            if (params.get('openAuth')) {
-                setTimeout(() => { openAuthModal('member'); }, 500);
-            }
-        }
+                    statusText.innerText = "Processing Payment...";
+                    setTimeout(async () => {
+                        statusText.innerText = "Payment Successful! Updating profile...";
 
-        // Header scroll effect
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('mainHeader');
-            if (window.scrollY > 50) {
-                header.classList.add('glass-header', 'header-scrolled');
-                header.classList.remove('bg-brandYellow');
-            } else {
-                header.classList.remove('glass-header', 'header-scrolled');
-                header.classList.add('bg-brandYellow');
-            }
-        });
+                        try {
+                            // Calculate valid_until (now + 1 month or 1 year depending on cycle)
+                            const validUntil = new Date();
+                            if (cycle === 'annual') {
+                                validUntil.setFullYear(validUntil.getFullYear() + 1);
+                            } else {
+                                validUntil.setMonth(validUntil.getMonth() + 1);
+                            }
 
-        // Run on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            loadContent();
-            simulateLiveChat();
-        });
-    </script>
+                            // Upsert Subscription to DB
+                            const { error } = await supabaseClient
+                                .from('subscriptions')
+                                .upsert({
+                                    email: currentUser.email,
+                                    role: role,
+                                    plan_tier: tier,
+                                    billing_cycle: cycle,
+                                    status: 'active',
+                                    valid_until: validUntil.toISOString()
+                                });
+
+                            if (error) throw error;
+
+                            setTimeout(() => {
+                                // Force close here without the check since we just wrote the record
+                                document.getElementById('subscriptionModal').classList.add('hidden');
+                                window.location.reload(); // Reload to refresh permissions & UI everywhere
+                            }, 1000);
+
+                        } catch (e) {
+                            console.error("Subscription Error:", e);
+                            statusText.innerText = "Error updating subscription!";
+                            statusText.classList.add('text-red-500');
+                        }
+                    }, 1500);
+                }, 1000);
+            }
+
+            // Handle direct upgrade requests from URL
+            function checkUrlFlags() {
+                const params = new URLSearchParams(window.location.search);
+                if (params.get('openUpgrade')) {
+                    const role = params.get('openUpgrade');
+
+                    // wait to ensure auth state is loaded first
+                    setTimeout(() => {
+                        openSubscriptionModal(role);
+                        // remove param so it doesn't trigger on fresh reload
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                    }, 500);
+                }
+                if (params.get('openAuth')) {
+                    setTimeout(() => { openAuthModal('member'); }, 500);
+                }
+            }
+
+            // Header scroll effect
+            window.addEventListener('scroll', () => {
+                const header = document.getElementById('mainHeader');
+                if (window.scrollY > 50) {
+                    header.classList.add('glass-header', 'header-scrolled');
+                    header.classList.remove('bg-brandYellow');
+                } else {
+                    header.classList.remove('glass-header', 'header-scrolled');
+                    header.classList.add('bg-brandYellow');
+                }
+            });
+
+            // Run on page load
+            document.addEventListener('DOMContentLoaded', () => {
+                loadContent();
+                simulateLiveChat();
+            });
+        </script>
 </body>
 
 </html>
