@@ -101,7 +101,7 @@
                         </button>
                         <button onclick="openManageArticles()" id="manageArticlesBtn" style="display: none;"
                             class="w-full text-left px-5 py-3 border-b border-gray-100 hover:bg-brandYellow hover:text-black font-bold transition">
-                            Manage Articles
+                            Past Articles (Edit/Delete)
                         </button>
                         <!-- For Everyone (Logged In) -->
                         <button onclick="handleSignOut()" id="signOutBtn" style="display: none;"
@@ -406,8 +406,8 @@
 
                         <div>
                             <label for="articleImage" class="block text-sm font-bold text-gray-700">Cover Image <span
-                                    id="imageOptionalNote" class="font-normal text-xs text-gray-500 hidden">(Optional
-                                    when editing)</span></label>
+                                    id="imageOptionalNote" class="font-normal text-xs text-gray-500 hidden">(Upload a
+                                    new image to replace the current one, or leave empty to keep it)</span></label>
                             <input type="file" id="articleImage" accept="image/*" required
                                 class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
                         </div>
@@ -979,25 +979,24 @@
                     return;
                 }
 
-                let finalArticles = [];              // Temporary Fallback (if they haven't published anything yet)
-                let articlesToRender = dbArticles;
-                if (!isLoadMore && (!dbArticles || dbArticles.length === 0)) {
-                    console.warn("No articles found in Supabase. Using fallback data.json");
-                    const fallbackResponse = await fetch('data/data.json');
-                    const fallbackData = await fallbackResponse.json();
-
-                    // Normalize fallback data to match Supabase structure
-                    articlesToRender = [];
-                    if (fallbackData.mainFeature) articlesToRender.push(fallbackData.mainFeature);
-                    if (fallbackData.articles) articlesToRender.push(...fallbackData.articles);
+                if (!dbArticles || dbArticles.length === 0) {
+                    if (!isLoadMore) {
+                        document.getElementById('mainFeatureContainer').innerHTML = `
+                            <div class="col-span-full py-20 text-center">
+                                <span class="text-4xl block mb-4">📭</span>
+                                <h3 class="text-2xl font-bold text-gray-800">No stories found.</h3>
+                                ${currentCategoryFilter ? `<p class="text-gray-500 mt-2">There are no articles published in "${currentCategoryFilter}" yet.</p>` : '<p class="text-gray-500 mt-2">Publishers haven\'t posted any news yet.</p>'}
+                            </div>
+                        `;
+                    }
+                    return;
                 }
-
-                if (!articlesToRender || articlesToRender.length === 0) return;
 
                 const subContainer = document.getElementById('subStoriesContainer');
                 let html = '';
 
                 let startIndex = 0;
+                let articlesToRender = dbArticles;
                 // 1. Render Main Feature only on first load
                 if (!isLoadMore && articlesToRender.length > 0) {
                     const mf = articlesToRender[0];
