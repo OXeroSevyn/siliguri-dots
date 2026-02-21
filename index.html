@@ -66,6 +66,14 @@
                     class="bg-white text-black font-mono text-[11px] font-bold tracking-widest uppercase px-3 py-2 border border-transparent hover:border-black transition whitespace-nowrap">
                     Become a Member
                 </button>
+                <button onclick="handleSignOut()" id="signOutBtn" style="display: none;"
+                    class="bg-transparent text-black font-mono text-[11px] font-bold tracking-widest uppercase px-3 py-2 border border-black hover:bg-black hover:text-white transition whitespace-nowrap">
+                    Sign Out
+                </button>
+                <button onclick="openPublisherDashboard()" id="publisherDashBtn" style="display: none;"
+                    class="bg-blue-600 text-white font-mono text-[11px] font-bold tracking-widest uppercase px-3 py-2 hover:bg-blue-700 transition whitespace-nowrap">
+                    Publish
+                </button>
                 <button
                     class="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-gray-800 transition shadow-lg shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -279,6 +287,88 @@
         </div>
     </div>
 
+    <!-- Publisher Dashboard Modal -->
+    <div id="publisherModal" class="hidden fixed inset-0 z-[70] overflow-y-auto" aria-labelledby="modal-title"
+        role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <!-- Background overlay -->
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
+                onclick="closePublisherDashboard()"></div>
+
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <!-- Modal Panel -->
+            <div
+                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl w-full border-2 border-black relative">
+                <div class="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <h3 class="text-2xl leading-6 font-extrabold text-gray-900 mb-2" id="publisher-title">
+                        Publisher Dashboard
+                    </h3>
+                    <p class="text-sm text-gray-500 mb-6">Upload an article to the Siliguri network.</p>
+
+                    <form id="publisherForm" class="space-y-4" onsubmit="handlePublishSubmit(event)">
+                        <div>
+                            <label for="articleTitle" class="block text-sm font-bold text-gray-700">Headline</label>
+                            <input type="text" id="articleTitle" required
+                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-black focus:border-black sm:text-sm">
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="w-1/2">
+                                <label for="articleCategory"
+                                    class="block text-sm font-bold text-gray-700">Category</label>
+                                <select id="articleCategory"
+                                    class="mt-1 block w-full bg-white border border-gray-300 rounded-md py-2 px-3">
+                                    <option value="City News">City News</option>
+                                    <option value="Tea Estates">Tea Estates</option>
+                                    <option value="Culture">Culture</option>
+                                    <option value="Food">Food</option>
+                                </select>
+                            </div>
+                            <div class="w-1/2">
+                                <label for="articleType" class="block text-sm font-bold text-gray-700">Type</label>
+                                <select id="articleType"
+                                    class="mt-1 block w-full bg-white border border-gray-300 rounded-md py-2 px-3">
+                                    <option value="standard">Standard Article</option>
+                                    <option value="explainer">Explainer</option>
+                                    <option value="video">Video Feature</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="articleExcerpt" class="block text-sm font-bold text-gray-700">Excerpt (Short
+                                description)</label>
+                            <textarea id="articleExcerpt" rows="2"
+                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"></textarea>
+                        </div>
+
+                        <div>
+                            <label for="articleImage" class="block text-sm font-bold text-gray-700">Cover Image</label>
+                            <input type="file" id="articleImage" accept="image/*" required
+                                class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                        </div>
+
+                        <div id="publisherErrorMsg" class="hidden text-red-600 text-sm font-bold"></div>
+                        <div id="publisherSuccessMsg" class="hidden text-green-600 text-sm font-bold"></div>
+
+                        <button type="submit" id="publisherSubmitBtn"
+                            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 mt-4">
+                            Publish Article
+                        </button>
+                    </form>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-200">
+                    <button type="button" onclick="closePublisherDashboard()"
+                        class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:ml-3 sm:w-auto sm:text-sm">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Supabase Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -450,6 +540,95 @@
                 checkUserSession();
             }
         });
+
+        // Publisher Dashboard Logic
+        function openPublisherDashboard() {
+            document.getElementById('publisherModal').classList.remove('hidden');
+        }
+
+        function closePublisherDashboard() {
+            document.getElementById('publisherModal').classList.add('hidden');
+            document.getElementById('publisherForm').reset();
+            document.getElementById('publisherErrorMsg').classList.add('hidden');
+            document.getElementById('publisherSuccessMsg').classList.add('hidden');
+        }
+
+        async function handlePublishSubmit(e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('publisherSubmitBtn');
+            const errorMsg = document.getElementById('publisherErrorMsg');
+            const successMsg = document.getElementById('publisherSuccessMsg');
+
+            errorMsg.classList.add('hidden');
+            successMsg.classList.add('hidden');
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Uploading...";
+
+            try {
+                if (!currentUser) throw new Error("You must be logged in to publish.");
+
+                const title = document.getElementById('articleTitle').value;
+                const category = document.getElementById('articleCategory').value;
+                const type = document.getElementById('articleType').value;
+                const excerpt = document.getElementById('articleExcerpt').value;
+                const imageFile = document.getElementById('articleImage').files[0];
+
+                if (!imageFile) throw new Error("Please select an image.");
+
+                // 1. Upload Image to Supabase Storage
+                // Generates a unique filename
+                const fileExt = imageFile.name.split('.').pop();
+                const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
+                const filePath = `article-images/${fileName}`;
+
+                const { error: uploadError } = await supabaseClient.storage
+                    .from('images') // 'images' bucket must be created in Supabase
+                    .upload(filePath, imageFile);
+
+                if (uploadError) throw uploadError;
+
+                // Getting the public URL
+                const { data: publicUrlData } = supabaseClient.storage
+                    .from('images')
+                    .getPublicUrl(filePath);
+
+                const imageUrl = publicUrlData.publicUrl;
+
+                // 2. Insert Article into Supabase Database
+                const { error: dbError } = await supabaseClient
+                    .from('articles') // 'articles' table must exist in Supabase
+                    .insert([
+                        {
+                            title: title,
+                            category: category,
+                            type: type,
+                            excerpt: excerpt,
+                            image_url: imageUrl,
+                            author_email: currentUser.email,
+                            author_name: currentUser.email.split('@')[0], // Simplified author name
+                        }
+                    ]);
+
+                if (dbError) throw dbError;
+
+                successMsg.innerText = "Article published successfully!";
+                successMsg.classList.remove('hidden');
+
+                setTimeout(() => {
+                    closePublisherDashboard();
+                    // Optionally call loadContent() here to refresh the homepage
+                    loadContent();
+                }, 1500);
+
+            } catch (err) {
+                errorMsg.innerText = err.message || "An error occurred while publishing.";
+                errorMsg.classList.remove('hidden');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Publish Article";
+            }
+        }
     </script>
 
     <!-- Fetch & Render Scripts -->
