@@ -406,9 +406,9 @@
 
                         <div>
                             <label for="articleImage" class="block text-sm font-bold text-gray-700">Cover Image <span
-                                    id="imageOptionalNote" class="font-normal text-xs text-gray-500 hidden">(Upload a
-                                    new image to replace the current one, or leave empty to keep it)</span></label>
-                            <input type="file" id="articleImage" accept="image/*" required
+                                    id="imageOptionalNote" class="font-normal text-xs text-gray-500">(Optional: Upload
+                                    an image for your article)</span></label>
+                            <input type="file" id="articleImage" accept="image/*"
                                 class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
                         </div>
 
@@ -659,6 +659,7 @@
 
             const signOutBtn = document.getElementById('signOutBtn');
             const publisherDashBtn = document.getElementById('publisherDashBtn');
+            const manageArtBtn = document.getElementById('manageArticlesBtn');
             const dropAuthRow = document.getElementById('dropAuthRow');
 
             if (currentUser) {
@@ -680,11 +681,13 @@
                 // Show dashboard If Super Publisher OR standard Publisher
                 if (isSuperPublisher || role === 'publisher') {
                     publisherDashBtn.style.display = 'block';
+                    manageArtBtn.style.display = 'block';
                     if (isSuperPublisher) {
                         publisherDashBtn.innerText = "Super Admin / Publish";
                     }
                 } else {
                     publisherDashBtn.style.display = 'none';
+                    manageArtBtn.style.display = 'none';
                 }
             } else {
                 // User is signed out
@@ -696,6 +699,7 @@
 
                 signOutBtn.style.display = 'none';
                 publisherDashBtn.style.display = 'none';
+                manageArtBtn.style.display = 'none';
                 dropAuthRow.style.display = 'block';
             }
         }
@@ -725,16 +729,12 @@
                 document.getElementById('articleType').value = articleToEdit.type || 'standard';
                 document.getElementById('articleExcerpt').value = articleToEdit.excerpt || '';
                 quill.root.innerHTML = articleToEdit.content || '';
-                document.getElementById('articleImage').required = false;
-                document.getElementById('imageOptionalNote').classList.remove('hidden');
             } else {
                 document.getElementById('publisher-title').innerText = "Publisher Dashboard";
                 document.getElementById('publisherSubmitBtn').innerText = "Publish Article";
                 document.getElementById('editingArticleId').value = "";
                 document.getElementById('publisherForm').reset();
                 quill.root.innerHTML = '';
-                document.getElementById('articleImage').required = true;
-                document.getElementById('imageOptionalNote').classList.add('hidden');
             }
         }
 
@@ -769,8 +769,6 @@
                 const content = quill.root.innerHTML;
                 const imageFile = document.getElementById('articleImage').files[0];
                 const editingId = document.getElementById('editingArticleId').value;
-
-                if (!imageFile && !editingId) throw new Error("Please select an image.");
 
                 let imageUrl = null;
 
@@ -1003,14 +1001,14 @@
                     displayedArticleIds.add(mf.id);
                     startIndex = 1;
 
-                    const mgImage = mf.image_url || mf.image;
+                    const mfImage = mf.image_url || mf.image || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=1000&auto=format&fit=crop';
                     const mfAuthor = mf.author_name || mf.author;
                     const mfDate = mf.created_at ? new Date(mf.created_at).toLocaleDateString() : (mf.date || 'Today');
 
                     document.getElementById('mainFeatureContainer').innerHTML = `
                         <a href="article.html?id=${mf.id}" class="block w-full">
                             <div class="aspect-video w-full bg-gray-200 overflow-hidden relative mb-4">
-                                <img src="${mgImage}" alt="${mf.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                                <img src="${mfImage}" alt="${mf.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
                                 <div class="absolute top-4 left-4 bg-brandYellow text-black font-mono text-xs font-bold px-2 py-1 uppercase tracking-wider">
                                     ${mf.category}
                                 </div>
@@ -1033,7 +1031,7 @@
                     if (displayedArticleIds.has(article.id)) return;
                     displayedArticleIds.add(article.id);
 
-                    const img = article.image_url || article.image;
+                    const img = article.image_url || article.image || 'https://images.unsplash.com/photo-1546422904-90eab23c3d7e?q=80&w=800&auto=format&fit=crop';
                     const cat = article.category || 'News';
                     const title = article.title;
                     const excerpt = article.excerpt || '';

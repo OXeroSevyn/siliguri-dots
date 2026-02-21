@@ -198,7 +198,7 @@
             container.classList.remove('hidden');
 
             const contentHTML = article.content || (article.excerpt ? `<p>${article.excerpt}</p>` : '');
-            const imgSrc = article.image_url || article.image;
+            const imgSrc = article.image_url || article.image || 'https://images.unsplash.com/photo-1546422904-90eab23c3d7e?q=80&w=800&auto=format&fit=crop';
             const author = article.author_name || article.author || 'Editorial';
             const date = article.created_at ? new Date(article.created_at).toLocaleDateString() : (article.date || 'Today');
 
@@ -244,7 +244,7 @@
 
                 let trendingHtml = '<div class="mt-16 text-left"><h3 class="font-bold text-2xl mb-6 text-black border-b-2 border-brandYellow pb-2 inline-block">Trending Stories</h3><div class="grid grid-cols-1 sm:grid-cols-3 gap-6">';
                 trending.forEach(a => {
-                    const img = a.image_url || a.image;
+                    const img = a.image_url || a.image || 'https://images.unsplash.com/photo-1546422904-90eab23c3d7e?q=80&w=800&auto=format&fit=crop';
                     trendingHtml += `<a href="article.html?id=${a.id}" class="group block"><img src="${img}" class="w-full aspect-[3/2] object-cover mb-3 group-hover:opacity-80 transition rounded"><h4 class="font-bold text-lg leading-tight group-hover:text-blue-700">${a.title}</h4></a>`;
                 });
                 trendingHtml += '</div></div>';
