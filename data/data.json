@@ -1,53 +1,75 @@
 {
     "mainFeature": {
-        "id": "1",
-        "title": "Traffic woes at Darjeeling More: Will the new elevated corridor finally solve the gridlock?",
-        "excerpt": "As the gateway to the Northeast struggles with mounting vehicular pressure, local authorities have proposed a massive infrastructure overhaul. Here is what residents need to know.",
-        "author": "Anirban Roy",
-        "date": "3 hours ago",
-        "category": "Infrastructure",
-        "image": "assets/images/placeholder-main.svg"
+        "id": "fallback_main_1",
+        "title": "Major Highway Expansion Promises Relief for Subhash Pally Traffic",
+        "category": "City News",
+        "type": "standard",
+        "author": "Rohan Mitra",
+        "date": "Aug 14, 2026",
+        "excerpt": "A newly approved bypass project aims to divert heavy transport vehicles away from the city core, potentially reducing commute times by 40% for residents of Subhash Pally and Milan Pally.",
+        "image": "https://images.unsplash.com/photo-1544621006-253381e4b9bc?q=80&w=1470&auto=format&fit=crop",
+        "content": "<h2>Traffic Woes Finally Addressed</h2><p>For years, the residents of Siliguri's central neighborhoods have complained about the relentless flow of semi-trucks rumbling down narrow residential streets. The new 14km bypass, funded jointly by the state and central governments, aims to solve this long-standing issue.</p><p>Construction is set to begin next month, with an aggressive timeline aiming for completion before the monsoons next year.</p>"
     },
     "articles": [
         {
-            "id": "1771661063428",
-            "title": "The Game is changing! Siliguri",
-            "category": "Explainer",
-            "excerpt": "HALO might release a new hello!",
-            "author": "Subham",
-            "date": "Just now",
-            "type": "standard",
-            "image": "assets/images/1771661063421-480643819.jpeg"
-        },
-        {
-            "id": "2",
-            "title": "The ultimate guide to finding authentic Khoka Illish in Bidhan Market this monsoon.",
-            "excerpt": "Our food critics, including local enthusiast Suparna, share their top secret vendors for the freshest catch.",
+            "id": "fallback_sub_1",
+            "title": "The Monsoon Edit: 5 Must-Visit Cafes in Pradhan Nagar",
             "category": "Food",
-            "image": "assets/images/placeholder-thumb.svg",
-            "type": "standard"
+            "type": "explainer",
+            "author": "Anjali Sen",
+            "date": "Aug 13, 2026",
+            "excerpt": "Rainy evenings call for perfect roasts and cozy corners. We hand-picked the best new aesthetic spots in town.",
+            "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1287&auto=format&fit=crop"
         },
         {
-            "id": "3",
-            "title": "Why are tea estate wages still a burning issue ahead of the elections?",
-            "category": "Explainer",
-            "image": "assets/images/placeholder-thumb.svg",
-            "type": "explainer"
+            "id": "fallback_sub_2",
+            "title": "Inside the Booming Stand-Up Comedy Culture Hiding in Matigara",
+            "category": "Culture",
+            "type": "video",
+            "author": "Vikram Das",
+            "date": "Aug 12, 2026",
+            "excerpt": "Watch: How a small group of local comics turned a warehouse into Siliguri's premier laughter club.",
+            "image": "https://images.unsplash.com/photo-1585699324551-f6c309eedeca?q=80&w=1470&auto=format&fit=crop"
         },
         {
-            "id": "4",
-            "title": "Sevoke Road's new weekend initiative makes it a haven for pet walkers.",
-            "excerpt": "With restricted Sunday traffic, local dogs are claiming the streets.",
-            "category": "Community",
-            "image": "assets/images/placeholder-thumb.svg",
-            "type": "standard"
+            "id": "fallback_sub_3",
+            "title": "Makaibari Estate Announces First 'Tour & Tasting' Weekend",
+            "category": "Tea Estates",
+            "type": "standard",
+            "author": "S. Banerjee",
+            "date": "Aug 10, 2026",
+            "excerpt": "A rare opportunity for locals to experience the heritage estate processing right at the source.",
+            "image": "https://images.unsplash.com/photo-1579621970222-38e5eed89437?q=80&w=1470&auto=format&fit=crop"
         },
         {
-            "id": "5",
-            "title": "Inside the booming startup culture hiding in Matigara's IT parks.",
-            "category": "Watch 🎥",
-            "image": "assets/images/placeholder-thumb.svg",
-            "type": "video"
+            "id": "fallback_sub_4",
+            "title": "Startups in Siliguri: Tech Hub Opening in Sevoke Road",
+            "category": "City News",
+            "type": "standard",
+            "author": "N. Sharma",
+            "date": "Aug 09, 2026",
+            "excerpt": "The new 20,000 sq ft incubator promises high-speed internet and mentorship for local tech founders.",
+            "image": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=1470&auto=format&fit=crop"
+        },
+        {
+            "id": "fallback_sub_5",
+            "title": "Explained: The Proposed Heritage Walk in Kurseong",
+            "category": "Culture",
+            "type": "explainer",
+            "author": "Amit Rai",
+            "date": "Aug 08, 2026",
+            "excerpt": "What the new tourism circuit means for local businesses and historical preservation.",
+            "image": "https://images.unsplash.com/photo-1594916726831-7ad801c8eb1e?q=80&w=1331&auto=format&fit=crop"
+        },
+        {
+            "id": "fallback_sub_6",
+            "title": "Local Musician's Single Hits 1 Million Streams Spotify",
+            "category": "Culture",
+            "type": "standard",
+            "author": "Vikram Das",
+            "date": "Aug 07, 2026",
+            "excerpt": "How a bedroom setup in Hakim Para produced the biggest indie hit of the summer.",
+            "image": "https://images.unsplash.com/photo-1516280440502-6c39b85c276a?q=80&w=1470&auto=format&fit=crop"
         }
     ]
 }

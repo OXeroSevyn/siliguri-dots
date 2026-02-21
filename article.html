@@ -26,7 +26,7 @@
         .ql-editor {
             padding: 0;
             min-height: auto;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Georgia', serif;
         }
 
         .ql-editor h1,
@@ -50,8 +50,8 @@
             margin-bottom: 1.25rem;
             font-size: 1.125rem;
             line-height: 1.8;
-            color: #374151;
-            letter-spacing: -0.01em;
+            color: #111827;
+            /* Darker for better contrast */
         }
 
         .ql-editor a {
@@ -96,11 +96,6 @@
 </head>
 
 <body class="bg-gray-50 text-gray-900 font-sans antialiased">
-    <!-- Reading Progress Bar -->
-    <div id="progressBarContainer" class="fixed top-0 left-0 w-full h-[3px] z-[100] bg-transparent">
-        <div id="progressBar" class="h-full bg-blue-600 w-0 transition-all duration-75"></div>
-    </div>
-
     <!-- HEADER OVERLAY (Simplified for Reader) -->
     <header id="mainHeader"
         class="bg-brandYellow sticky top-0 w-full h-[80px] md:h-[120px] flex flex-col justify-center border-b border-black z-[80] transition-all duration-300">
@@ -108,6 +103,10 @@
             <a href="index.html" class="font-serif italic text-3xl font-bold hover:opacity-80 transition">Siliguri<span
                     class="text-black">.</span></a>
             <a href="index.html" class="font-mono text-sm font-bold uppercase hover:underline">Back to Stories</a>
+        </div>
+        <!-- Reading Progress Bar attached to bottom of header -->
+        <div id="progressBarContainer" class="absolute bottom-0 left-0 w-full h-[4px] z-[100] bg-transparent">
+            <div id="progressBar" class="h-full bg-blue-600 w-0 transition-all duration-75"></div>
         </div>
     </header>
 
@@ -122,8 +121,8 @@
             <!-- Rendered via JS -->
         </article>
 
-        <div id="errorIndicator" class="hidden text-center py-20 font-bold font-mono text-lg text-red-600">
-            Story not found. <a href="index.html" class="underline hover:text-red-800">Return home</a>.
+        <div id="errorIndicator" class="hidden text-center py-20">
+            <!-- Rendered via JS -->
         </div>
     </main>
 
@@ -234,8 +233,34 @@
             document.title = article.title + ' | Siliguri News & Community';
         }
 
-        function showError() {
+        async function showError() {
             document.getElementById('loadingIndicator').classList.add('hidden');
+
+            try {
+                // Fetch trending to show
+                const fallbackResponse = await fetch('data/data.json');
+                const fallbackData = await fallbackResponse.json();
+                const trending = fallbackData.articles.slice(0, 3);
+
+                let trendingHtml = '<div class="mt-16 text-left"><h3 class="font-bold text-2xl mb-6 text-black border-b-2 border-brandYellow pb-2 inline-block">Trending Stories</h3><div class="grid grid-cols-1 sm:grid-cols-3 gap-6">';
+                trending.forEach(a => {
+                    const img = a.image_url || a.image;
+                    trendingHtml += `<a href="article.html?id=${a.id}" class="group block"><img src="${img}" class="w-full aspect-[3/2] object-cover mb-3 group-hover:opacity-80 transition rounded"><h4 class="font-bold text-lg leading-tight group-hover:text-blue-700">${a.title}</h4></a>`;
+                });
+                trendingHtml += '</div></div>';
+
+                document.getElementById('errorIndicator').innerHTML = `
+                    <div class="mb-4">
+                        <span class="text-6xl block mb-4">📰</span>
+                        <h2 class="text-3xl font-extrabold text-gray-900">Story not found.</h2>
+                        <p class="text-gray-600 mt-2 text-lg">The article you're looking for might have been removed or the link is broken. <a href="index.html" class="text-blue-600 font-bold hover:underline">Return to homepage</a>.</p>
+                    </div>
+                    ${trendingHtml}
+                `;
+            } catch (err) {
+                document.getElementById('errorIndicator').innerHTML = '<h2 class="text-2xl font-bold text-gray-900">Story not found.</h2><a href="index.html" class="text-blue-600 hover:underline">Return home</a>.';
+            }
+
             document.getElementById('errorIndicator').classList.remove('hidden');
         }
 

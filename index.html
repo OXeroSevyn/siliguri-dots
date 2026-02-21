@@ -33,13 +33,16 @@
 
             <!-- Left Navigation (Vertical lines) -->
             <nav class="hidden lg:flex items-center text-[15px] font-sans text-black">
-                <a href="#" class="px-5 border-l border-black hover:underline decoration-2 underline-offset-4">City
+                <a href="#" onclick="filterCategory('City News'); return false;"
+                    class="nav-link px-5 border-l border-black hover:underline decoration-2 underline-offset-4">City
                     News</a>
-                <a href="#" class="px-5 border-l border-black hover:underline decoration-2 underline-offset-4">Tea
+                <a href="#" onclick="filterCategory('Tea Estates'); return false;"
+                    class="nav-link px-5 border-l border-black hover:underline decoration-2 underline-offset-4">Tea
                     Estates</a>
-                <a href="#"
-                    class="px-5 border-l border-black hover:underline decoration-2 underline-offset-4">Culture</a>
-                <a href="#" class="px-5 border-l border-black hover:underline decoration-2 underline-offset-4">Food</a>
+                <a href="#" onclick="filterCategory('Culture'); return false;"
+                    class="nav-link px-5 border-l border-black hover:underline decoration-2 underline-offset-4">Culture</a>
+                <a href="#" onclick="filterCategory('Food'); return false;"
+                    class="nav-link px-5 border-l border-black hover:underline decoration-2 underline-offset-4">Food</a>
                 <a href="#"
                     class="px-5 border-l border-black hover:underline decoration-2 underline-offset-4 font-bold flex items-center gap-1">
                     Listen
@@ -179,7 +182,8 @@
                     </div>
 
                     <!-- Chat Container -->
-                    <div class="flex flex-col gap-4 h-[500px] overflow-y-auto custom-scrollbar pb-4 pr-2">
+                    <div id="chatContainer"
+                        class="flex flex-col gap-4 h-[500px] overflow-y-auto custom-scrollbar pb-4 pr-2">
 
                         <!-- Chat Message -->
                         <div class="bg-white p-3 border border-gray-200 rounded shadow-sm">
@@ -915,6 +919,26 @@
 
     <!-- Fetch & Render Scripts -->
     <script>
+        let currentCategoryFilter = null;
+        function filterCategory(category) {
+            if (currentCategoryFilter === category) {
+                currentCategoryFilter = null;
+            } else {
+                currentCategoryFilter = category;
+            }
+
+            // Highlight selected nav link 
+            document.querySelectorAll('.nav-link').forEach(el => {
+                if (el.innerText.trim() === currentCategoryFilter) {
+                    el.classList.add('font-bold', 'text-blue-700');
+                } else {
+                    el.classList.remove('font-bold', 'text-blue-700');
+                }
+            });
+
+            loadContent(false);
+        }
+
         let displayedArticleIds = new Set();
         async function loadContent(isLoadMore = false) {
             const btnText = document.querySelector('#loadMoreBtn span');
@@ -935,23 +959,27 @@
                     document.getElementById('subStoriesContainer').innerHTML = '';
                     document.getElementById('loadMoreContainer').classList.add('hidden');
                 }
-
                 const start = currentPage * articlesPerPage;
                 const end = start + articlesPerPage - 1;
 
                 // Fetch directly from Supabase Database
-                const { data: dbArticles, error, count } = await supabaseClient
+                let query = supabaseClient
                     .from('articles')
                     .select('*', { count: 'exact' })
-                    .order('created_at', { ascending: false })
-                    .range(start, end);
+                    .order('created_at', { ascending: false });
+
+                if (currentCategoryFilter) {
+                    query = query.eq('category', currentCategoryFilter);
+                }
+
+                const { data: dbArticles, error, count } = await query.range(start, end);
 
                 if (error) {
                     console.error("Database fetch error:", error);
                     return;
                 }
 
-                // Temporary Fallback (if they haven't published anything yet)
+                let finalArticles = [];              // Temporary Fallback (if they haven't published anything yet)
                 let articlesToRender = dbArticles;
                 if (!isLoadMore && (!dbArticles || dbArticles.length === 0)) {
                     console.warn("No articles found in Supabase. Using fallback data.json");
@@ -1085,6 +1113,35 @@
             }
         }
 
+        // Simulated Live Chat
+        const chatMessages = [
+            { user: "FoodieJalpaiguri", msg: "Has anyone tried the new momo stall near the station? The line was crazy today!" },
+            { user: "WeatherWatcher", msg: "Looks like heavy rain starting at 4 PM. Grab your umbrellas if you're out." },
+            { user: "Student_NBU", msg: "Does anyone have notes for the 3rd semester economics paper?" },
+            { user: "TravelBug", msg: "Planning a weekend trip to Mirik. Are the roads clear after yesterday's landslide?" },
+            { user: "Rajesh_88", msg: "Traffic at Venus More is bumper to bumper right now. Avoid if possible." }
+        ];
+
+        function simulateLiveChat() {
+            const container = document.getElementById('chatContainer');
+            if (!container) return;
+
+            setInterval(() => {
+                const randomMsg = chatMessages[Math.floor(Math.random() * chatMessages.length)];
+                const msgHtml = `
+                    <div class="bg-white p-3 border border-gray-200 rounded shadow-sm animate-fade-in-up">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="font-bold text-sm text-blue-700">${randomMsg.user}</span>
+                            <span class="text-[10px] text-gray-400">Just now</span>
+                        </div>
+                        <p class="text-sm text-gray-700">${randomMsg.msg}</p>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', msgHtml);
+                container.scrollTop = container.scrollHeight;
+            }, 8000); // Every 8 seconds
+        }
+
         // Header scroll effect
         window.addEventListener('scroll', () => {
             const header = document.getElementById('mainHeader');
@@ -1098,7 +1155,10 @@
         });
 
         // Run on page load
-        document.addEventListener('DOMContentLoaded', loadContent);
+        document.addEventListener('DOMContentLoaded', () => {
+            loadContent();
+            simulateLiveChat();
+        });
     </script>
 </body>
 
