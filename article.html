@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article | Siliguri News & Community</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/js/tailwind-config.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@400;500;700;800;900&family=Space+Mono:wght@700&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Quill.js for Rich Text Formatting -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+    <style>
+        /* Minimal custom styling for quill injected content */
+        .ql-editor {
+            padding: 0;
+            min-height: auto;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .ql-editor h1,
+        .ql-editor h2,
+        .ql-editor h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: bold;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+
+        .ql-editor h1 {
+            font-size: 2.25rem;
+        }
+
+        .ql-editor h2 {
+            font-size: 1.875rem;
+        }
+
+        .ql-editor p {
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+            line-height: 1.75;
+            color: #374151;
+        }
+
+        .ql-editor a {
+            color: #2563EB;
+            text-decoration: underline;
+        }
+
+        .ql-editor img {
+            max-width: 100%;
+            border-radius: 0.5rem;
+        }
+
+        .ql-editor ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .ql-editor ol {
+            list-style-type: decimal;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .ql-editor blockquote {
+            border-left: 4px solid #FDE047;
+            padding-left: 1rem;
+            font-style: italic;
+            color: #4B5563;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body class="bg-white text-gray-900 font-sans antialiased">
+
+    <!-- HEADER OVERLAY (Simplified for Reader) -->
+    <header
+        class="bg-brandYellow relative w-full h-[80px] md:h-[120px] flex flex-col justify-center border-b border-black">
+        <div class="w-full px-4 md:px-10 flex justify-between items-center z-[60] relative">
+            <a href="index.html" class="font-serif italic text-3xl font-bold hover:opacity-80 transition">Siliguri<span
+                    class="text-black">.</span></a>
+            <a href="index.html" class="font-mono text-sm font-bold uppercase hover:underline">Back to Stories</a>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pb-20 min-h-[60vh]">
+        <div id="loadingIndicator" class="text-center py-20 font-bold font-mono text-lg animate-pulse">
+            Loading story...
+        </div>
+
+        <article id="articleContent" class="hidden">
+            <!-- Rendered via JS -->
+        </article>
+
+        <div id="errorIndicator" class="hidden text-center py-20 font-bold font-mono text-lg text-red-600">
+            Story not found. <a href="index.html" class="underline hover:text-red-800">Return home</a>.
+        </div>
+    </main>
+
+    <!-- Simple Footer -->
+    <footer class="bg-black text-white py-12 border-t-[16px] border-brandYellow">
+        <div
+            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <h2 class="font-serif italic text-5xl md:text-6xl text-brandYellow">Siliguri.</h2>
+            <div class="flex gap-6 font-mono text-sm">
+                <a href="#" class="hover:text-brandYellow">About</a>
+                <a href="#" class="hover:text-brandYellow">Contact</a>
+                <a href="#" class="hover:text-brandYellow">Privacy</a>
+            </div>
+            <p class="text-gray-400 text-xs">© 2026 Siliguri News Network. Siliguri, WB.</p>
+        </div>
+    </footer>
+
+    <!-- Supabase Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Fetch Script -->
+    <script>
+        const supabaseUrl = 'https://dssxoikkhszevavriutc.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzc3hvaWtraHN6ZXZhdnJpdXRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2NjA3NDEsImV4cCI6MjA4NzIzNjc0MX0.SJx4tz808lDKuiNE3lXY4kAT_ikwTTxNlacbhYpUvZw';
+        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function initArticle() {
+            const params = new URLSearchParams(window.location.search);
+            const articleId = params.get('id');
+
+            if (!articleId) {
+                showError();
+                return;
+            }
+
+            try {
+                // Try fetching from Supabase
+                const { data, error } = await supabaseClient
+                    .from('articles')
+                    .select('*')
+                    .eq('id', articleId)
+                    .single();
+
+                if (data && !error) {
+                    renderArticle(data);
+                } else {
+                    // Fallback to local
+                    const fallbackResponse = await fetch('data/data.json');
+                    const fallbackData = await fallbackResponse.json();
+
+                    let found = null;
+                    if (fallbackData.mainFeature && fallbackData.mainFeature.id === articleId) {
+                        found = fallbackData.mainFeature;
+                    } else if (fallbackData.articles) {
+                        found = fallbackData.articles.find(a => a.id.toString() === articleId.toString());
+                    }
+
+                    if (found) {
+                        renderArticle(found);
+                    } else {
+                        showError();
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+                showError();
+            }
+        }
+
+        function renderArticle(article) {
+            document.getElementById('loadingIndicator').classList.add('hidden');
+            const container = document.getElementById('articleContent');
+            container.classList.remove('hidden');
+
+            const contentHTML = article.content || (article.excerpt ?\`<p>\${article.excerpt}</p>\` : '');
+            const imgSrc = article.image_url || article.image;
+            const author = article.author_name || article.author || 'Editorial';
+            const date = article.created_at ? new Date(article.created_at).toLocaleDateString() : (article.date || 'Today');
+
+            // Format article using standard typography combined with Quill's .ql-editor class
+            container.innerHTML = \`
+                <div class="mb-6">
+                    <span class="font-mono text-xs font-bold uppercase tracking-widest text-brandYellow bg-black px-2 py-1">\${article.category || 'News'}</span>
+                </div>
+                <h1 class="font-serif font-bold text-4xl md:text-5xl lg:text-6xl leading-tight mb-6">\${article.title}</h1>
+                
+                <div class="flex items-center gap-4 mb-8 border-y border-gray-200 py-4">
+                    <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center font-bold text-gray-500 uppercase">
+                        \${author.charAt(0)}
+                    </div>
+                    <div>
+                        <div class="font-bold text-gray-900">\${author}</div>
+                        <div class="text-xs text-gray-500 font-mono tracking-wide uppercase">\${date}</div>
+                    </div>
+                </div>
+
+                \${imgSrc ? \`
+                <div class="w-full mb-10 overflow-hidden shadow-lg border border-gray-100 rounded-lg">
+                    <img src="\${imgSrc}" alt="\${article.title}" class="w-full object-cover">
+                </div>
+                \` : ''}
+
+                <div class="ql-editor prose prose-lg max-w-none">
+                    \${contentHTML}
+                </div>
+            \`;
+            
+            document.title = article.title + ' | Siliguri News & Community';
+        }
+
+        function showError() {
+            document.getElementById('loadingIndicator').classList.add('hidden');
+            document.getElementById('errorIndicator').classList.remove('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', initArticle);
+    </script>
+</body>
+
+</html>
